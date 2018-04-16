@@ -8,6 +8,11 @@ use mle86\RequestAuthentication\Exception\UnknownClientIdException;
 /**
  * A key repository can look up client API secrets
  * by their client identification.
+ *
+ * They are needed by {@see AuthenticationMethod::verify()}
+ * to look up the correct client API secret
+ * for the client identification string
+ * contained within the request.
  */
 abstract class KeyRepository
     implements \ArrayAccess
