@@ -171,6 +171,12 @@ class RequestInfo
         return $this->request_headers;
     }
 
+    public function hasHeader(string $header_name): bool
+    {
+        $lower_header_name = strtolower($header_name);
+        return array_key_exists($lower_header_name, $this->request_headers);
+    }
+
     public function getHeaderValue(string $header_name): ?string
     {
         if ($header_name === '') {
