@@ -13,6 +13,7 @@ trait AuthenticationMethodTests
     use AuthenticationMethodTestHelpers;
     use AuthenticationMethodTestDefaults;
     use AuthenticationMethodTestProviders;
+    use AssertException;
 
 
     abstract public function testGetInstance(): AuthenticationMethod;

@@ -6,7 +6,6 @@ use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
 use mle86\RequestAuthentication\DTO\RequestInfo;
 use mle86\RequestAuthentication\KeyRepository\ArrayRepository;
 use mle86\RequestAuthentication\KeyRepository\KeyRepository;
-use PHPUnit\Framework\AssertionFailedError;
 use Psr\Http\Message\RequestInterface;
 
 
@@ -67,35 +66,6 @@ trait AuthenticationMethodTestHelpers
             self::sampleClientId() => self::sampleClientKey(),
             self::otherClientId()  => self::otherClientKey(),
         ] + $this->customKeyRepositoryEntries());
-    }
-
-    /**
-     * Executes the callback (without any arguments)
-     * and expects it to throw an exception whose type is $exception_class or a subclass of that.
-     *
-     * @param string $exception_class  The expected exception FQCN.
-     * @param callable $callback  The callback to invoke.
-     * @param string $message  The assertion error message.
-     */
-    protected function assertException(string $exception_class, callable $callback, string $message = ''): void
-    {
-        $ex = null;
-
-        try {
-            $callback();
-        } catch (\Throwable $ex) {
-            // continue
-        }
-
-        $message = "Callback should have thrown a {$exception_class}!" .
-            (($message !== '') ? "\n" . $message : '');
-
-        $this->assertNotNull($ex, $message);
-
-        if (!is_a($ex, $exception_class)) {
-            // Would have used assertInstanceOf, but then we won't see the actual exception!
-            throw new AssertionFailedError($message, 0, $ex);
-        }
     }
 
 }
