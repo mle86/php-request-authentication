@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace mle86\RequestAuthentication\Tests\Helper;
 
 use mle86\RequestAuthentication\Exception\ImmutableDataException;
