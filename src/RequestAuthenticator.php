@@ -36,6 +36,9 @@ class RequestAuthenticator
      * Takes a PSR-7 RequestInterface instance
      * and returns a new RequestInterface instance with added authentication data.
      *
+     * SIDE EFFECT: This will cause a {@see StreamInterface::rewind()} call
+     *  on {@see RequestInterface::getBody()}.
+     *
      * @param RequestInterface $request  The request to authenticate. The instance will not be modified.
      * @return RequestInterface  Contains added authentication data.
      *                           PSR-7 promises that {@see MessageInterface::withHeader} will not alter the original instance.

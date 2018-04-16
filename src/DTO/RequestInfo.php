@@ -115,6 +115,15 @@ class RequestInfo
         );
     }
 
+    /**
+     * Builds a {@see RequestInfo} instance from a PSR-7 {@see RequestInterface}.
+     *
+     * SIDE EFFECT: This will cause a {@see StreamInterface::rewind()} call
+     *  on {@see RequestInterface::getBody()}.
+     *
+     * @param RequestInterface $request
+     * @return RequestInfo
+     */
     public static function fromPsr7(RequestInterface $request): self
     {
         $uri = $request->getUri();
@@ -125,12 +134,16 @@ class RequestInfo
             $path .= '?' . $query;
         }
 
+        $request->getBody()->rewind();
+        $body = $request->getBody()->getContents();
+        $request->getBody()->rewind();
+
         return new self(
             $request->getMethod(),
             $uri->getScheme(),
             $uri->getAuthority(),
             $path,
-            $request->getBody()->getContents(),
+            $body,
             $request->getHeaders()
         );
     }

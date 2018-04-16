@@ -35,6 +35,9 @@ class RequestVerifier
      * Takes a PSR-7 RequestInterface instance
      * and checks the contained authentication token data.
      *
+     * SIDE EFFECT: This will cause a {@see StreamInterface::rewind()} call
+     *  on {@see RequestInterface::getBody()}.
+     *
      * @param RequestInterface $request  The request to verify. The instance won't be modified.
      * @return void  on success.
      * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
