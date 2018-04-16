@@ -6,8 +6,7 @@ namespace mle86\RequestAuthentication\Exception;
  * in case of an unknown client ID.
  */
 class UnknownClientIdException
-    extends \OutOfBoundsException
-    implements RequestAuthenticationException
+    extends InvalidAuthenticationException
 {
 
 }
