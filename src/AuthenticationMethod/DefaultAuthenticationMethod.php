@@ -1,6 +1,7 @@
 <?php
 namespace mle86\RequestAuthentication\AuthenticationMethod;
 
+use mle86\RequestAuthentication\AuthenticationMethod\Feature\DefaultDataTrait;
 use mle86\RequestAuthentication\AuthenticationMethod\Feature\HexRequestIDTrait;
 use mle86\RequestAuthentication\AuthenticationMethod\Feature\UsesRequestID;
 use mle86\RequestAuthentication\DTO\RequestInfo;
@@ -15,7 +16,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *
  *  - Valid requests contain a `X-API-Client` HTTP header
  *    containing the client ID.
-
+ *
  *  - Valid requests contain a `X-API-Token` HTTP header
  *    containing a SHA256 HMAC hash
  *    of the request body,
@@ -23,6 +24,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *    the `Content-Type` header,
  *    and the used client ID.
  *    The client secret is used as the HMAC key.
+ *    (See {@see calculateToken} and {@see DefaultDataTrait::signableRequestData} for more info.)
  *
  *  - Valid requests contain a `X-Request-ID` HTTP header
  *    containing a hexadecimal value (length: 32…100),
@@ -48,6 +50,7 @@ class DefaultAuthenticationMethod
     implements AuthenticationMethod, UsesRequestID
 {
     use HexRequestIDTrait;
+    use DefaultDataTrait;
 
     const DEFAULT_CLIENT_ID_HEADER  = 'X-API-Client';
     const DEFAULT_AUTH_TOKEN_HEADER = 'X-API-Token';
@@ -74,19 +77,8 @@ class DefaultAuthenticationMethod
 
     private static function calculateToken(RequestInfo $request, string $api_secret_key, array $extra_headers = []): string
     {
-        $hdr = function(string $header_name) use($request, $extra_headers): string {
-            return
-                $extra_headers[$header_name] ??
-                $request->getHeaderValue($header_name) ??
-                '';
-        };
-
-        $data =
-            "{$request->getHttpMethod()} {$request->getUri()}" . "\n" .
-            $hdr('Content-Type') . "\n" .
-            $hdr(self::DEFAULT_CLIENT_ID_HEADER) . "\n" .
-            $hdr(self::DEFAULT_REQUEST_ID_HEADER) . "\n" .
-            $request->getRequestBody();
+        $use_headers = [self::DEFAULT_CLIENT_ID_HEADER, self::DEFAULT_REQUEST_ID_HEADER];
+        $data = self::signableRequestData($request, $use_headers, $extra_headers);
 
         $token = hash_hmac(self::TOKEN_ALGO, $data, $api_secret_key);
         if ($token === '' || $token === null || $token === false || $token === '*') {
