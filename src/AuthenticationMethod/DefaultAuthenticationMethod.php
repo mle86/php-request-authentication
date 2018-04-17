@@ -1,6 +1,7 @@
 <?php
 namespace mle86\RequestAuthentication\AuthenticationMethod;
 
+use mle86\RequestAuthentication\AuthenticationMethod\Feature\HexRequestIDTrait;
 use mle86\RequestAuthentication\DTO\RequestInfo;
 use mle86\RequestAuthentication\Exception\HashErrorException;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
@@ -45,6 +46,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
 class DefaultAuthenticationMethod
     implements AuthenticationMethod
 {
+    use HexRequestIDTrait;
 
     const DEFAULT_CLIENT_ID_HEADER  = 'X-API-Client';
     const DEFAULT_AUTH_TOKEN_HEADER = 'X-API-Token';
@@ -105,13 +107,7 @@ class DefaultAuthenticationMethod
         $request_id = $request->getNonemptyHeaderValue(self::DEFAULT_REQUEST_ID_HEADER);
         $auth_token = $request->getNonemptyHeaderValue(self::DEFAULT_AUTH_TOKEN_HEADER);
 
-        $request_id_len = strlen($request_id);
-        if ($request_id_len < self::REQUEST_ID_MIN_LEN || $request_id_len > self::REQUEST_ID_MAX_LEN) {
-            throw new InvalidAuthenticationException('request id has invalid length');
-        }
-        if (!ctype_xdigit($request_id)) {
-            throw new InvalidAuthenticationException('request id invalid');
-        }
+        self::validateRequestId($request_id);
 
         $client_key = $keys[$client_id];
         $expected_token = self::calculateToken($request, $client_key);
