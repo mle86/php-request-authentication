@@ -52,10 +52,11 @@ class DefaultAuthenticationMethod
     const DEFAULT_AUTH_TOKEN_HEADER = 'X-API-Token';
     const DEFAULT_REQUEST_ID_HEADER = 'X-Request-ID';
 
-    const REQUEST_ID_RANDOM_BYTES = 10;
-    const REQUEST_ID_HASH_ALGO    = 'sha256';
     const REQUEST_ID_MIN_LEN      = 32;
     const REQUEST_ID_MAX_LEN      = 100;
+
+    const REQUEST_ID_RANDOM_BYTES          = 10;
+    const REQUEST_ID_HASH_ALGO             = 'sha256';
     const ADD_REQUEST_ID_HEADER_IF_MISSING = true;
 
     const TOKEN_ALGO = 'sha256';
@@ -67,8 +68,7 @@ class DefaultAuthenticationMethod
         ];
 
         if (self::ADD_REQUEST_ID_HEADER_IF_MISSING && !$request->hasHeader(self::DEFAULT_REQUEST_ID_HEADER)) {
-            $nonce_header = hash(self::REQUEST_ID_HASH_ALGO, random_bytes(self::REQUEST_ID_RANDOM_BYTES));
-            $output_headers[self::DEFAULT_REQUEST_ID_HEADER] = $nonce_header;
+            $output_headers[self::DEFAULT_REQUEST_ID_HEADER] = self::generateRequestId();
         }
 
         $output_headers[self::DEFAULT_AUTH_TOKEN_HEADER] =
