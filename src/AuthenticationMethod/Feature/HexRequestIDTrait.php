@@ -22,7 +22,7 @@ trait HexRequestIDTrait
         }
     }
 
-    public static function generateRequestId(): string
+    public function generateRequestId(): string
     {
         return hash(self::REQUEST_ID_HASH_ALGO, random_bytes(self::REQUEST_ID_RANDOM_BYTES));
     }

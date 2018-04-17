@@ -2,6 +2,7 @@
 namespace mle86\RequestAuthentication\AuthenticationMethod;
 
 use mle86\RequestAuthentication\AuthenticationMethod\Feature\HexRequestIDTrait;
+use mle86\RequestAuthentication\AuthenticationMethod\Feature\UsesRequestID;
 use mle86\RequestAuthentication\DTO\RequestInfo;
 use mle86\RequestAuthentication\Exception\HashErrorException;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
@@ -44,19 +45,13 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *     - check if the `X-Request-ID` header value is actually unique.
  */
 class DefaultAuthenticationMethod
-    implements AuthenticationMethod
+    implements AuthenticationMethod, UsesRequestID
 {
     use HexRequestIDTrait;
 
     const DEFAULT_CLIENT_ID_HEADER  = 'X-API-Client';
     const DEFAULT_AUTH_TOKEN_HEADER = 'X-API-Token';
-    const DEFAULT_REQUEST_ID_HEADER = 'X-Request-ID';
 
-    const REQUEST_ID_MIN_LEN      = 32;
-    const REQUEST_ID_MAX_LEN      = 100;
-
-    const REQUEST_ID_RANDOM_BYTES          = 10;
-    const REQUEST_ID_HASH_ALGO             = 'sha256';
     const ADD_REQUEST_ID_HEADER_IF_MISSING = true;
 
     const TOKEN_ALGO = 'sha256';
@@ -68,7 +63,7 @@ class DefaultAuthenticationMethod
         ];
 
         if (self::ADD_REQUEST_ID_HEADER_IF_MISSING && !$request->hasHeader(self::DEFAULT_REQUEST_ID_HEADER)) {
-            $output_headers[self::DEFAULT_REQUEST_ID_HEADER] = self::generateRequestId();
+            $output_headers[self::DEFAULT_REQUEST_ID_HEADER] = $this->generateRequestId();
         }
 
         $output_headers[self::DEFAULT_AUTH_TOKEN_HEADER] =
