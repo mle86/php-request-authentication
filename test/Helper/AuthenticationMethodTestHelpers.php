@@ -55,17 +55,17 @@ trait AuthenticationMethodTestHelpers
      * Don't forget to include those two keys in your custom repository if you override this,
      * or {@see testSampleRequest} and {@see testMismatchOnDifferentInput} won't work correctly!
      *
-     * If you just want to add some custom entries to the repository for your test class,
+     * If you just want to add some custom entries to the repository for your test class or alter some of the default entries,
      * override {@see customKeyRepositoryEntries} instead.
      *
      * @return KeyRepository
      */
     protected function getTestingKeyRepository(): KeyRepository
     {
-        return new ArrayRepository([
+        return new ArrayRepository($this->customKeyRepositoryEntries() + [
             self::sampleClientId() => self::sampleClientKey(),
             self::otherClientId()  => self::otherClientKey(),
-        ] + $this->customKeyRepositoryEntries());
+        ]);
     }
 
 }
