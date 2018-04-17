@@ -7,20 +7,14 @@ use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
 use mle86\RequestAuthentication\Exception\MissingAuthenticationHeaderException;
 use mle86\RequestAuthentication\Tests\Helper\AuthenticationMethodTests;
 use mle86\RequestAuthentication\Tests\Helper\RemoveHeaderMarker;
+use mle86\RequestAuthentication\Tests\Helper\RunID;
 use PHPUnit\Framework\TestCase;
 
 class DefaultAuthenticationMethodTest
     extends TestCase
 {
     use AuthenticationMethodTests;
-
-    private static $runId;
-    private static function runId(): string
-    {
-        return (self::$runId ?? (self::$runId =
-            hash('sha256', random_bytes(6))
-        ));
-    }
+    use RunID;
 
     public function testGetInstance(): AuthenticationMethod
     {
