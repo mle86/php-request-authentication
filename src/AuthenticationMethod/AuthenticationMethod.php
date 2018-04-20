@@ -23,6 +23,9 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *    an inbound request's authentication token
  *    can be tested against the rest of the request data (including the client ID)
  *    and the locally-known list of acceptable client IDs and their API secrets.
+ *
+ * There's also a {@see getClientId()} method that just extracts the API client identification from a request
+ * in case you need it for authorization checking/rate limiting/logging.
  */
 interface AuthenticationMethod
 {
@@ -42,7 +45,7 @@ interface AuthenticationMethod
     /**
      * Verifies one request's authentication token.
      *
-     * This method extracts the client identification string from the request,
+     * This method extracts the client identification string from the request (using {@see getClientId}),
      * gets that client's key from the KeyRepository,
      * and verifies the request's authentication token
      * against that key and the request data.
@@ -55,5 +58,17 @@ interface AuthenticationMethod
      * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
      */
     public function verify(RequestInfo $request, KeyRepository $keys): void;
+
+    /**
+     * Extracts the API client identification from an inbound request.
+     *
+     * NB: This method does NOT {@see verify} the request, it simply extracts the client identification.
+     *  (The only validation it does is ensuring that the client identification header exists and is non-empty.)
+     *
+     * @param RequestInfo $requestInfo
+     * @return string
+     * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
+     */
+    public function getClientId(RequestInfo $requestInfo): string;
 
 }

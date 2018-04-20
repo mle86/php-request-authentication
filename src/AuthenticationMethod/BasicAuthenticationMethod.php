@@ -31,6 +31,26 @@ class BasicAuthenticationMethod
 
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
+        [$username, $password] = $this->extractAuthenticationData($request);
+
+        $known_password = $keys[$username];
+
+        if (!hash_equals($known_password, $password)) {
+            throw new InvalidAuthenticationException('auth password mismatch');
+        }
+    }
+
+    public function getClientId(RequestInfo $request): string
+    {
+        return $this->extractAuthenticationData($request)[0];
+    }
+
+    /**
+     * @param RequestInfo $request
+     * @return string[]  [$username, $password]
+     */
+    private function extractAuthenticationData(RequestInfo $request): array
+    {
         $header = $request->getNonemptyHeaderValue(self::HEADER);
 
         if (strtolower(substr($header, 0,6)) !== 'basic ') {
@@ -46,13 +66,9 @@ class BasicAuthenticationMethod
         if (strpos($decoded, ':') === false) {
             throw new InvalidAuthenticationException('invalid ' . self::HEADER . ' header payload');
         }
+
         [$username, $password] = explode(':', $decoded, 2);
-
-        $known_password = $keys[$username];
-
-        if (!hash_equals($known_password, $password)) {
-            throw new InvalidAuthenticationException('auth password mismatch');
-        }
+        return [$username, $password];
     }
 
 }

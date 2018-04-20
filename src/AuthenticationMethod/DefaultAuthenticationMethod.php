@@ -90,7 +90,7 @@ class DefaultAuthenticationMethod
 
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
-        $client_id  = $request->getNonemptyHeaderValue(self::DEFAULT_CLIENT_ID_HEADER);
+        $client_id  = $this->getClientId($request);
         $request_id = $request->getNonemptyHeaderValue(self::DEFAULT_REQUEST_ID_HEADER);
         $auth_token = $request->getNonemptyHeaderValue(self::DEFAULT_AUTH_TOKEN_HEADER);
 
@@ -102,6 +102,11 @@ class DefaultAuthenticationMethod
         if (!hash_equals($expected_token, $auth_token)) {
             throw new InvalidAuthenticationException('auth token mismatch');
         }
+    }
+
+    public function getClientId(RequestInfo $request): string
+    {
+        return $request->getNonemptyHeaderValue(self::DEFAULT_CLIENT_ID_HEADER);
     }
 
 }
