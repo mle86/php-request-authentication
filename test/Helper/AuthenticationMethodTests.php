@@ -48,6 +48,34 @@ trait AuthenticationMethodTests
     }
 
     /**
+     * @depends testGetInstance
+     * @depends testSampleRequest
+     */
+    public function testClientIdGetter(AuthenticationMethod $method, array $add_headers): void
+    {
+        if (!$this->methodOutputIncludesClientId()) {
+            // cannot test with this method implementation
+            return;
+        }
+
+        $original_request = $this->buildRequest();
+        $original_ri      = RequestInfo::fromPsr7($original_request);
+
+        // The original request contains no authentication data, so getClientId should fail:
+        $this->assertException(MissingAuthenticationHeaderException::class, function() use($original_request, $method) {
+            $this->checkValidResult($original_request, [], $method);
+        });
+
+        $authenticated_request = $this->applyHeaders($original_request, $add_headers);
+        $authenticated_ri      = RequestInfo::fromPsr7($authenticated_request);
+
+        // After adding all the headers, the client ID should be contained within the updated request:
+        $this->assertSame(
+            self::sampleClientId(),
+            $method->getClientId($authenticated_ri));
+    }
+
+    /**
      * @dataProvider requestsFromDifferentInput
      * @depends testGetInstance
      * @depends testSampleRequest
@@ -106,6 +134,14 @@ trait AuthenticationMethodTests
         $client_id  = $override_client['id']  ?? self::sampleClientId();
         $client_key = $override_client['key'] ?? self::sampleClientKey();
         $different_add_headers = $method->authenticate($ri, $client_id, $client_key);
+
+        // Make sure the changed client ID is contained in the output:
+        if ($this->methodOutputIncludesClientId()) {
+            $different_ri = RequestInfo::fromPsr7($this->applyHeaders($request, $different_add_headers));
+            $this->assertSame(
+                $client_id,
+                $method->getClientId($different_ri));
+        }
 
         // Make sure the resulting headers (including the signature) differ from the very first sample request:
         $this->assertNotEquals($original_add_headers, $different_add_headers,

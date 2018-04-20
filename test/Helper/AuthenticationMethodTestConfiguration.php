@@ -23,6 +23,22 @@ trait AuthenticationMethodTestConfiguration
     }
 
     /**
+     * By default, the output of {@see AuthenticationMethod::authenticate()}
+     * should include the client identification in some form --
+     * it's what the {@see AuthenticationMethod::getClientId} exists for.
+     *
+     * If your test class is testing an obscure method implementation where this is _not_ true,
+     * override this method and let it return false.
+     * This will skip the {@see AuthenticationMethodTests::testClientIdGetter()} test entirely.
+     *
+     * @return bool
+     */
+    protected function methodOutputIncludesClientId(): bool
+    {
+        return true;
+    }
+
+    /**
      * Override this method if you want to add custom client IDs/keys
      * to the default {@see getTestingKeyRepository}.
      *
