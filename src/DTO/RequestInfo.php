@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Encapsulates all relevant information about one HTTP request.
+ *
+ * These objects are consumed internally by the {@see AuthenticationMethod} implementations.
+ * They are built by the {@see RequestAuthenticator} and {@see RequestVerifier} wrapper classes.
  */
 class RequestInfo
 {
@@ -190,6 +193,15 @@ class RequestInfo
         return array_key_exists($lower_header_name, $this->request_headers);
     }
 
+    /**
+     * Returns a header value from the request.
+     *
+     * @param string $header_name  The name of the header(s) to return. Case-insensitive.
+     * @return null|string
+     *   - If the header exists but its value is an empty string, `null` is returned instead.
+     *   - If the header exists multiple times, its values will be joined with {@see RequestInfo::REPEATED_HEADERS_JOIN}.
+     * @throws MissingAuthenticationHeaderException  if the header does not exist.
+     */
     public function getHeaderValue(string $header_name): ?string
     {
         if ($header_name === '') {
@@ -208,6 +220,18 @@ class RequestInfo
         return $this->request_headers[$lower_header_name];
     }
 
+    /**
+     * Returns a header value from the request.
+     *
+     * Like {@see getHeaderValue()}, but will never return `null` or the empty string –
+     * it'll throw a {@see MissingAuthenticationHeaderException} instead.
+     *
+     * @param string $header_name  The name of the header(s) to return. Case-insensitive.
+     * @return string
+     *   - If the header exists multiple times, its values will be joined with {@see RequestInfo::REPEATED_HEADERS_JOIN}.
+     * @throws MissingAuthenticationHeaderException  if the header does not exist.
+     * @throws MissingAuthenticationHeaderException  if the header exists but its value is the empty string.
+     */
     public function getNonemptyHeaderValue(string $header_name): string
     {
         $header = $this->getHeaderValue($header_name);

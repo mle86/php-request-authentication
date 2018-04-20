@@ -9,7 +9,7 @@ namespace mle86\RequestAuthentication\KeyRepository;
  *   `[clientId => clientKey, …]`.
  *
  * - Client IDs must be non-zero integers or non-empty strings.
- * - Client keys must not non-empty strings.
+ * - Client keys must be non-empty strings.
  */
 class ArrayRepository
     extends KeyRepository

@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  *  - Can be used to verify authentication data in any PSR-7 {@see RequestInterface}
  *    with the {@see verify()} method.
  *  - Can be used to verify authentication data in any Symfony HttpFoundation {@see Request}
- *    with the {@see authenticateSymfonyRequest()} method.
+ *    with the {@see verifySymfonyRequest()} method.
  */
 class RequestVerifier
 {
@@ -74,7 +74,7 @@ class RequestVerifier
      * If any requests have no or incorrect authentication data,
      * a {@see MissingAuthenticationHeaderException}/{@see InvalidAuthenticationException} exception will be raised.
      *
-     * @see HandlerStack::push()  can be used to add this RequestAuthenticator instance to a middleware handler stack.
+     * @see HandlerStack::push()  can be used to add this RequestVerifier instance to a middleware handler stack.
      *
      * @param callable $handler
      * @return \Closure

@@ -15,7 +15,7 @@ use mle86\RequestAuthentication\Exception\UnknownClientIdException;
  * for the client identification string
  * contained within the request.
  *
- * A basic implementation is the {@see ArrayRepository} which simply wraps a `[clientId => clientSecret…]` array.
+ * A basic implementation is the {@see ArrayRepository} which simply wraps a `[clientId => clientSecret, …]` array.
  * More complex implementations may look up the client secret in a database or some other external system.
  */
 abstract class KeyRepository
