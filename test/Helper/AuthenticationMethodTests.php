@@ -19,6 +19,13 @@ trait AuthenticationMethodTests
     abstract public function testGetInstance(): AuthenticationMethod;
 
     /**
+     * Builds a sample request for {@see sampleClientId} authenticated with {@see sampleClientKey}.
+     *
+     * It also ensures that the generated request passes {@see AuthenticationMethod::verify()}
+     * (via {@see checkValidResult}).
+     *
+     * @return array  It returns the extra headers returned by {@see AuthenticationMethod::authenticate()}.
+     *
      * @depends testGetInstance
      */
     public function testSampleRequest(AuthenticationMethod $method): array
@@ -75,6 +82,17 @@ trait AuthenticationMethodTests
     }
 
     /**
+     * Changes the client key and re-calculates authentication data for the sample request.
+     *
+     * The result is expected to be different from {@see testSampleRequest}'s output
+     * (it should contain a different signature/token/secret).
+     *
+     * (This is tried several times with various different client keys.
+     *  The test method expects to see different output every time.
+     *  This would be of course true by default if the AuthenticationMethod added something random to the request
+     *  like a request ID or a timestamp, so make sure your method implementation does not do that in the context
+     *  of this test method.)
+     *
      * @dataProvider differentClientData
      * @dataProvider customDifferentClientData
      * @depends testGetInstance
@@ -103,6 +121,13 @@ trait AuthenticationMethodTests
     }
 
     /**
+     * Sets the method's known authentication headers to some "missing" value (NULL or the empty string) one by one,
+     * then calls {@see AuthenticationMethod::verify} (via {@see checkValidResult})
+     * and expects an {@see InvalidAuthenticationException}.
+     *
+     * Finally, it sets _all_ known authentication headers to some "missing" value
+     * and tries again.
+     *
      * @dataProvider missingAuthenticationHeaderValues
      * @depends testGetInstance
      * @depends testSampleRequest
@@ -148,6 +173,13 @@ trait AuthenticationMethodTests
     }
 
     /**
+     * Sets the method's known authentication headers to some invalid value (such as `"*"`) one by one,
+     * then calls {@see AuthenticationMethod::verify} (via {@see checkValidResult})
+     * and expects an {@see InvalidAuthenticationException}.
+     *
+     * Finally, it sets _all_ known authentication headers to some invalid value
+     * and tries again.
+     *
      * @dataProvider invalidAuthenticationHeaderValues
      * @dataProvider customInvalidAuthenticationHeaderValues
      * @depends testGetInstance
