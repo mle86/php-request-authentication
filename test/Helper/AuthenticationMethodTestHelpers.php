@@ -38,14 +38,29 @@ trait AuthenticationMethodTestHelpers
      */
     protected function checkValidResult(RequestInterface $request, array $add_headers, AuthenticationMethod $method): void
     {
+        $authenticated_request = $this->applyHeaders($request, $add_headers);
+        $authenticated_ri      = RequestInfo::fromPsr7($authenticated_request);
+
+        $method->verify($authenticated_ri, $this->getTestingKeyRepository());
+    }
+
+    /**
+     * Takes an array of added headers (as returned by {@see AuthenticationMethod::authenticate}
+     * and adds them to an existing PSR-7 request.
+     *
+     * @param RequestInterface $request
+     * @param array $add_headers  [headerName => headerValue, …]
+     * @return RequestInterface  Returns in instance with added headers. (It will never return the same instance.)
+     */
+    protected function applyHeaders(RequestInterface $request, array $add_headers): RequestInterface
+    {
         $authenticated_request = clone $request;
+
         foreach ($add_headers as $name => $value) {
             $authenticated_request = $authenticated_request->withHeader($name, $value);
         }
 
-        $authenticated_ri = RequestInfo::fromPsr7($authenticated_request);
-
-        $method->verify($authenticated_ri, $this->getTestingKeyRepository());
+        return $authenticated_request;
     }
 
     /**
