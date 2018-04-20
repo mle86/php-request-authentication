@@ -16,7 +16,7 @@ class RequestInfo
 {
 
     private $http_method;   // GET
-    private $http_proto;    // https
+    private $http_scheme;   // https
     private $http_host;     // www.domain.test:8080
     private $http_path;     // /foo/bar?123
     private $request_body;  // input1=value1&input2=value2
@@ -28,7 +28,7 @@ class RequestInfo
      * RequestInfo constructor.
      *
      * @param string $http_method  HTTP method verb, in uppercase letters (e.g. "GET").
-     * @param string $http_proto  HTTP procotol (e.g. "https").
+     * @param string $http_scheme  Request scheme (e.g. "https").
      * @param string $http_host  HTTP host, including port if non-default (e.g. "www.domain.test" or "www2.domain.test:8080").
      * @param string $http_path  Full HTTP path including query string (e.g.  "/info.html" or "/").
      * @param string $request_body  Raw request body contents.
@@ -37,7 +37,7 @@ class RequestInfo
      */
     public function __construct(
         string $http_method,
-        string $http_proto,
+        string $http_scheme,
         string $http_host,
         string $http_path = '/',
         string $request_body = '',
@@ -45,7 +45,7 @@ class RequestInfo
     )
     {
         $this->http_method     = $http_method;
-        $this->http_proto      = $http_proto;
+        $this->http_scheme     = $http_scheme;
         $this->http_host       = $http_host;
         $this->http_path       = $http_path;
         $this->request_body    = $request_body;
@@ -68,11 +68,11 @@ class RequestInfo
 
     public static function fromGlobals(): self
     {
-        $proto = strtolower($_SERVER['REQUEST_SCHEME']);
+        $scheme = strtolower($_SERVER['REQUEST_SCHEME']);
 
         $host = $_SERVER['SERVER_NAME'];
         $port = (int)$_SERVER['SERVER_PORT'];
-        if (($proto === 'http' && $port !== 80) || ($proto === 'https' && $port !== 443)) {
+        if (($scheme === 'http' && $port !== 80) || ($scheme === 'https' && $port !== 443)) {
             $host .= ':' . $port;
         }
 
@@ -98,7 +98,7 @@ class RequestInfo
 
         return new self(
             strtoupper($_SERVER['REQUEST_METHOD']),
-            $proto,
+            $scheme,
             $host,
             $_SERVER['REQUEST_URI'],
             $request_body,
@@ -157,9 +157,9 @@ class RequestInfo
         return $this->http_method;
     }
 
-    public function getHttpProtocol(): string
+    public function getHttpScheme(): string
     {
-        return $this->http_proto;
+        return $this->http_scheme;
     }
 
     public function getHttpHost(): string
@@ -174,7 +174,7 @@ class RequestInfo
 
     public function getUri(): string
     {
-        return $this->http_proto . '://' . $this->http_host . $this->http_path;
+        return $this->http_scheme . '://' . $this->http_host . $this->http_path;
     }
 
     public function getRequestBody(): string
