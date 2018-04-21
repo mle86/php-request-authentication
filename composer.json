@@ -28,7 +28,8 @@
     "phpunit/phpunit": "^6.5",
     "roave/security-advisories": "dev-master",
     "guzzlehttp/guzzle": "^6.3",
-    "symfony/http-foundation": "^4.0"
+    "symfony/http-foundation": "^4.0",
+    "paragonie/halite": "^4.4"
   },
 
   "require": {
@@ -39,7 +40,8 @@
 
   "suggest": {
     "symfony/http-foundation": "The library can process HttpFoundation's Request and Response interfaces.",
-    "guzzlehttp/guzzle": "The library can be used as a GuzzleHttp middleware"
+    "guzzlehttp/guzzle": "The library can be used as a GuzzleHttp middleware.",
+    "paragonie/halite": "The library includes the PublicKeyMethod class which uses the Halite library."
   },
 
   "scripts": {
