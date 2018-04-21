@@ -52,3 +52,11 @@ for basic hash authentication.
 
 * <code><b>\_\_construct</b> ()</code>
 
+
+## Extra Methods
+
+* <code><b>generateRequestId</b> (): string</code>  
+    Generates a random hex request ID.
+    This is used in `authenticate()` to auto-generate the `X-Request-ID` header value
+    if the request does not have one yet.
+
