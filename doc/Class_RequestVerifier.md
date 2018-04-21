@@ -26,14 +26,20 @@ Wraps an [AuthenticationMethod] instance to verify inbound request authenticatio
 
 * **Constructor:** <code>\_\_construct ([AuthenticationMethod] $method, [KeyRepository] $keys)</code>
 
-* <code><b>verify</b> (Psr\Http\Message\RequestInterface $request): void</code>  
+* <code><b>verify</b> (Psr\Http\Message\RequestInterface $request): string</code>  
     Takes a PSR-7 RequestInterface instance
     and checks the contained authentication token data.
     _Side Effect:_ This will cause a `StreamInterface::rewind()` call on `RequestInterface::getBody()`.  
 
-* <code><b>verifySymfonyRequest</b> (Symfony\Component\HttpFoundation\Request $request): void</code>  
+* <code><b>verifySymfonyRequest</b> (Symfony\Component\HttpFoundation\Request $request): string</code>  
     Takes a Symfony HttpFounddation Request instance
     and checks the contained authentication token data.
+
+**Return values:**
+
+On success, all verification methods
+return the client identification string
+as returned by <code>[AuthenticationMethod]::getClientId()</code>.
 
 **Exceptions:**
 

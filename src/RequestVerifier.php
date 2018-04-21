@@ -39,15 +39,17 @@ class RequestVerifier
      *  on {@see RequestInterface::getBody()}.
      *
      * @param RequestInterface $request  The request to verify. The instance won't be modified.
-     * @return void  on success.
+     * @return string  Returns the client identification string (from {@see AuthenticationMethod::getClientId()}) on success.
      * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
      * @throws InvalidAuthenticationException  on incorrect authentication header(s).
      * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
      */
-    public function verify(RequestInterface $request): void
+    public function verify(RequestInterface $request): string
     {
         $ri = RequestInfo::fromPsr7($request);
+        $id = $this->method->getClientId($ri);
         $this->method->verify($ri, $this->keys);
+        return $id;
     }
 
     /**
@@ -55,15 +57,17 @@ class RequestVerifier
      * and checks the contained authentication token data.
      *
      * @param Request $request  The request to verify. The instance won't be modified.
-     * @return void  on success.
+     * @return string  Returns the client identification string (from {@see AuthenticationMethod::getClientId()}) on success.
      * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
      * @throws InvalidAuthenticationException  on incorrect authentication header(s).
      * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
      */
-    public function verifySymfonyRequest(Request $request): void
+    public function verifySymfonyRequest(Request $request): string
     {
         $ri = RequestInfo::fromSymfonyRequest($request);
+        $id = $this->method->getClientId($ri);
         $this->method->verify($ri, $this->keys);
+        return $id;
     }
 
     /**
