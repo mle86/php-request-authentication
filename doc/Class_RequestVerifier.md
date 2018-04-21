@@ -35,7 +35,9 @@ Wraps an [AuthenticationMethod] instance to verify inbound request authenticatio
     Takes a Symfony HttpFounddation Request instance
     and checks the contained authentication token data.
 
-All `verify…()` methods throw a [MissingAuthenticationHeaderException][Exceptions] on missing or empty authentication header(s).  
-All `verify…()` methods throw a [InvalidAuthenticationException][Exceptions] on incorrect authentication header(s).  
-All `verify…()` methods throw a [CryptoErrorException][Exceptions] if there was a problem with a low-level cryptographic function.
+**Exceptions:**
+
+* All verification methods throw a [MissingAuthenticationHeaderException][Exceptions] on missing or empty authentication header(s).
+* All verification methods throw a [InvalidAuthenticationException][Exceptions] on incorrect authentication header(s).
+* All verification methods throw a [CryptoErrorException][Exceptions] if there was a problem with a low-level cryptographic function.
 
