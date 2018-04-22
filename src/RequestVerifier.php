@@ -47,9 +47,8 @@ class RequestVerifier
     public function verify(RequestInterface $request): string
     {
         $ri = RequestInfo::fromPsr7($request);
-        $id = $this->method->getClientId($ri);
         $this->method->verify($ri, $this->keys);
-        return $id;
+        return $this->method->getClientId($ri);
     }
 
     /**
