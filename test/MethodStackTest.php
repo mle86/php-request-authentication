@@ -12,6 +12,7 @@ use mle86\RequestAuthentication\Tests\Helper\AuthenticationMethodTestHelpers;
 use mle86\RequestAuthentication\Tests\Helper\TestMethodA;
 use mle86\RequestAuthentication\Tests\Helper\TestMethodB;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
 
 class MethodStackTest
     extends TestCase
@@ -105,6 +106,43 @@ class MethodStackTest
             function() use($empty_request, $fail_headers, $ab) {
                 $this->checkValidResult($empty_request, $fail_headers, $ab);
             });
+    }
+
+    /**
+     * @depends testInstantiation
+     * @depends testVerify
+     */
+    public function testGetClientId(MethodStack $ab)
+    {
+        $base_request = $this->buildRequest();
+
+        $assertClientId = function(MethodStack $stack, array $add_headers, string $expectedClientId) use($base_request): void {
+            $authenticated_request = $this->applyHeaders($base_request, $add_headers);
+            $ri = RequestInfo::fromPsr7($authenticated_request);
+
+            // MethodStack::getClientId() promises correct results only if verify() is called before (with same request instance)
+            $stack->verify($ri, $this->getTestingKeyRepository());
+
+            $this->assertSame(
+                $expectedClientId,
+                $stack->getClientId($ri));
+        };
+
+        // Both method classes use the same client id header, but one of them adds a prefix to the value.
+        // To make sure the stack is giving us the correct result, we'll have another stack with the entries' order reversed:
+        $ba = new MethodStack([
+            $ab->getMethods()[1],
+            $ab->getMethods()[0],
+        ]);
+
+        $auth_a_headers = (new TestMethodA)->authenticate(RequestInfo::fromPsr7($base_request), 'C.A', 'CS');
+        $auth_b_headers = (new TestMethodB)->authenticate(RequestInfo::fromPsr7($base_request), 'C.B', 'CS');
+
+        $assertClientId($ab, $auth_a_headers, 'C.A');
+        $assertClientId($ba, $auth_a_headers, 'C.A');
+
+        $assertClientId($ab, $auth_b_headers, 'C.B');
+        $assertClientId($ba, $auth_b_headers, 'C.B');
     }
 
 }

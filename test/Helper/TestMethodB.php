@@ -17,6 +17,9 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  * It is very similar to {@see TestMethodA}
  * which uses the same headers
  * but expects the signature value to be even.
+ *
+ * Besides the odd signature number, there's another difference:
+ * it has a prefix in the client id header!
  */
 class TestMethodB
     implements AuthenticationMethod
@@ -25,10 +28,12 @@ class TestMethodB
     const SIGNATURE_HEADER = TestMethodA::SIGNATURE_HEADER;
     const CLIENT_HEADER    = TestMethodA::CLIENT_HEADER;
 
+    const CLIENT_PREFIX = 'PREFIX!';
+
     public function authenticate(RequestInfo $request, string $api_client_id, string $api_secret_key): array
     {
         return [
-            self::CLIENT_HEADER    => $api_client_id,
+            self::CLIENT_HEADER    => self::CLIENT_PREFIX . $api_client_id,
             self::SIGNATURE_HEADER => (2 * random_int(1, 1000)) + 1,
         ];
     }
@@ -49,6 +54,12 @@ class TestMethodB
 
     public function getClientId(RequestInfo $request): string
     {
-        return $request->getNonemptyHeaderValue(self::CLIENT_HEADER);
+        $header = $request->getNonemptyHeaderValue(self::CLIENT_HEADER);
+
+        if (substr($header, 0, strlen(self::CLIENT_PREFIX)) !== self::CLIENT_PREFIX) {
+            throw new InvalidAuthenticationException('client id header has incorrect prefix');
+        }
+
+        return substr($header, strlen(self::CLIENT_PREFIX));
     }
 }

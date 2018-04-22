@@ -26,6 +26,9 @@ class MethodStack
     /** @var AuthenticationMethod[] */
     private $methods;
 
+    private $last_request;
+    private $last_method;
+
     /**
      * @param AuthenticationMethod[]|string[]|iterable  A list of {@see AuthenticationMethod} instances or class names.
      *                                                  Class names will be instantiated (which requires them to have a
@@ -86,17 +89,20 @@ class MethodStack
      */
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
-        $this->applyStack(
+        $used_method = $this->applyStack(
             $this->methods,
             function(AuthenticationMethod $method) use($request, $keys) {
                 $method->verify($request, $keys);
             }
-        );
+        )[0];
+
+        $this->last_request = $request;
+        $this->last_method  = $used_method;
     }
 
     /**
      * Calls {@see AuthenticationMethod::getClientId()}
-     * on all method instances in the stack (in their original order)
+     * on all method instances in the stack
      * until one of them returns the client ID.
      *
      * All {@see InvalidAuthenticationException}s/{@see MissingAuthenticationHeaderException}s/{@see CryptoErrorException}s
@@ -105,12 +111,39 @@ class MethodStack
      * If none of the method instances accept the input,
      * an {@see InvalidAuthenticationException} is thrown.
      *
+     * NB: It is only safe to call this method if {@see verify()} has been called before _and_
+     *   if the last successful {@see verify()} call had the same request argument.
+     *   Otherwise, the wrong method may be chosen which might return an incorrect client id.
+     *   The {@see RequestVerifier} helper class does this correctly.
+     *
      * @param RequestInfo $request
      * @return string
      * @throws InvalidAuthenticationException  if none of the method instances in the stack accepted the request.
      */
     public function getClientId(RequestInfo $request): string
     {
+        /* This method is a bit tricky.
+         *
+         * While verify() looks at _all_ relevant headers,
+         * the getClientId() implementation typically looks at one header only
+         * and does minimal validation.
+         *
+         * So if there's different method classes with the same client id header name in the stack,
+         * we might easily get the result from the wrong class.
+         * This becomes a problem if the getClientId() does some more work with the header value
+         * such as extracting the username from an encoded header (e.g. Basic authentication)
+         * and does not throw an exception.
+         *
+         * This is why verify() remembers the last request and its associated method
+         * which we'll re-use here.
+         */
+
+        $methods = $this->methods;
+        if ($request === $this->last_request) {
+            // we already know the correct method for this request, try it first:
+            $methods = array_merge([$this->last_method], $methods);
+        }
+
         return $this->applyStack(
             $methods,
             function(AuthenticationMethod $method) use($request): string {
