@@ -65,10 +65,10 @@ interface AuthenticationMethod
      * NB: This method does NOT {@see verify} the request, it simply extracts the client identification.
      *  (The only validation it does is ensuring that the client identification header exists and is non-empty.)
      *
-     * @param RequestInfo $requestInfo
+     * @param RequestInfo $request
      * @return string
      * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
      */
-    public function getClientId(RequestInfo $requestInfo): string;
+    public function getClientId(RequestInfo $request): string;
 
 }

@@ -53,7 +53,7 @@ in case you need it for authorization checking/rate limiting/logging.
 	Throws a [InvalidAuthenticationException][Exceptions] on incorrect authentication header(s).  
 	Throws a [CryptoErrorException][Exceptions] if there was a problem with a low-level cryptographic function.
 
-* <code><b>getClientId</b> ([RequestInfo] $requestInfo): string</code>  
+* <code><b>getClientId</b> ([RequestInfo] $request): string</code>  
 	Extracts the API client identification from an inbound request.  
 	NB: This method does NOT `verify()` the request, it simply extracts the client identification.
 	(The only validation it does is ensuring that the client identification header exists and is non-empty.)
