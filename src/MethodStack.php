@@ -9,6 +9,16 @@ use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
 use mle86\RequestAuthentication\Exception\MissingAuthenticationHeaderException;
 use mle86\RequestAuthentication\KeyRepository\KeyRepository;
 
+/**
+ * Contains a list of other {@see AuthenticationMethod} instances
+ * which will be used to verify requests.
+ *
+ * This is useful if your API has several acceptable authentication methods
+ * and you want to support them all with a single {@see verify()} call.
+ *
+ * This class itself implements the {@see AuthenticationMethod} interface,
+ * so it can be used in place of single instances everywhere.
+ */
 class MethodStack
     implements AuthenticationMethod
 {
@@ -16,6 +26,12 @@ class MethodStack
     /** @var AuthenticationMethod[] */
     private $methods;
 
+    /**
+     * @param AuthenticationMethod[]|string[]|iterable  A list of {@see AuthenticationMethod} instances or class names.
+     *                                                  Class names will be instantiated (which requires them to have a
+     *                                                  public constructor without required arguments).
+     *                                                  The list may _not_ be empty.
+     */
     public function __construct(iterable $methods)
     {
         if ($methods === [] || empty($methods)) {
@@ -37,12 +53,37 @@ class MethodStack
         $this->methods = $methods;
     }
 
+    /**
+     * Proxy for {@see AuthenticationMethod::authenticate()}
+     * of the first method in the stack.
+     *
+     * @param RequestInfo $request
+     * @param string $api_client_id
+     * @param string $api_secret_key
+     * @return array
+     * @throws CryptoErrorException
+     */
     public function authenticate(RequestInfo $request, string $api_client_id, string $api_secret_key): array
     {
         $method = reset($this->methods);
         return $method->authenticate($request, $api_client_id, $api_secret_key);
     }
 
+    /**
+     * Calls {@see AuthenticationMethod::verify()}
+     * on all method instances in the stack (in their original order)
+     * until one of them verifies the request.
+     *
+     * All {@see InvalidAuthenticationException}s/{@see MissingAuthenticationHeaderException}s/{@see CryptoErrorException}s
+     * are ignored.
+     *
+     * If none of the method instances accept the input,
+     * an {@see InvalidAuthenticationException} is thrown.
+     *
+     * @param RequestInfo $request
+     * @param KeyRepository $keys
+     * @throws InvalidAuthenticationException  if none of the method instances in the stack accepted the request.
+     */
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
         $this->applyStack(
@@ -52,6 +93,21 @@ class MethodStack
         );
     }
 
+    /**
+     * Calls {@see AuthenticationMethod::getClientId()}
+     * on all method instances in the stack (in their original order)
+     * until one of them returns the client ID.
+     *
+     * All {@see InvalidAuthenticationException}s/{@see MissingAuthenticationHeaderException}s/{@see CryptoErrorException}s
+     * are ignored.
+     *
+     * If none of the method instances accept the input,
+     * an {@see InvalidAuthenticationException} is thrown.
+     *
+     * @param RequestInfo $request
+     * @return string
+     * @throws InvalidAuthenticationException  if none of the method instances in the stack accepted the request.
+     */
     public function getClientId(RequestInfo $request): string
     {
         return $this->applyStack(
