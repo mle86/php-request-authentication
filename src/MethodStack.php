@@ -87,7 +87,8 @@ class MethodStack
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
         $this->applyStack(
-            function(AuthenticationMethod $method) use($request, $keys): void {
+            $this->methods,
+            function(AuthenticationMethod $method) use($request, $keys) {
                 $method->verify($request, $keys);
             }
         );
@@ -111,19 +112,28 @@ class MethodStack
     public function getClientId(RequestInfo $request): string
     {
         return $this->applyStack(
+            $methods,
             function(AuthenticationMethod $method) use($request): string {
                 return $method->getClientId($request);
             }
-        );
+        )[1];
     }
 
-    private function applyStack(callable $callback)
+    /**
+     * @param AuthenticationMethod[]|iterable $methods  The list of methods to try.
+     * @param callable $callback  The callback to execute. Will receive one {@see AuthenticationMethod} instance as its only argument.
+     * @return array  Returns an array with two elements.
+     *                The first element is the successful {@see AuthenticationMethod} instance,
+     *                the second element is whatever the first successful callback returned (which might be void/null).
+     * @throws InvalidAuthenticationException  if the callback worked with none of the method instances in the stack.
+     */
+    private function applyStack(iterable $methods, callable $callback): array
     {
         $first_exception = null;
 
-        foreach ($this->methods as $method) {
+        foreach ($methods as $method) {
             try {
-                return $callback($method);
+                return [$method, $callback($method)];
             } catch (InvalidAuthenticationException | MissingAuthenticationHeaderException | CryptoErrorException $e) {
                 if (!$first_exception) {
                     $first_exception = $e;
