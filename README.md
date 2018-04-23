@@ -32,7 +32,8 @@ PHP 7.1
 * [AuthenticationMethod] main interface:
     * [BasicAuthenticationMethod] class,
     * [DefaultAuthenticationMethod] class,
-    * [PublicKeyMethod] class.
+    * [PublicKeyMethod] class,
+    * [MethodStack] composite class.
 * [RequestInfo] data transfer object,
 * [KeyRepository] base class:
     * [ArrayRepository] class,
@@ -48,4 +49,5 @@ PHP 7.1
 [KeyRepository]: doc/Class_KeyRepository.md
 [ArrayRepository]: doc/Class_ArrayRepository.md
 [Exceptions]: doc/Exceptions.md
+[MethodStack]: doc/Class_MethodStack.md
 

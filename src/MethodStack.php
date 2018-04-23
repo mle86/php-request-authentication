@@ -58,7 +58,7 @@ class MethodStack
 
     /**
      * Proxy for {@see AuthenticationMethod::authenticate()}
-     * of the first method in the stack.
+     * of the _first method_ in the stack.
      *
      * @param RequestInfo $request
      * @param string $api_client_id
@@ -111,7 +111,8 @@ class MethodStack
      * If none of the method instances accept the input,
      * an {@see InvalidAuthenticationException} is thrown.
      *
-     * NB: It is only safe to call this method if {@see verify()} has been called before _and_
+     * **⚠ NB:**
+     *   It is only safe to call this method if {@see verify()} has been called before _and_
      *   if the last successful {@see verify()} call had the same request argument.
      *   Otherwise, the wrong method may be chosen which might return an incorrect client id.
      *   The {@see RequestVerifier} helper class does this correctly.
@@ -180,6 +181,7 @@ class MethodStack
 
     /**
      * @return AuthenticationMethod[]
+     *   Returns the contained {@see AuthenticationMethod} instances in their original order.
      */
     public function getMethods(): array
     {
