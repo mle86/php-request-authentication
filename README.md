@@ -14,7 +14,7 @@ Or insert this into your project's `composer.json` file:
 
 ```js
 "require": {
-    "mle86/value": "^1.0"
+    "mle86/request-authentication": "^0"
 }
 ```
 
