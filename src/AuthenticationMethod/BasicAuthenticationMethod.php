@@ -56,7 +56,7 @@ class BasicAuthenticationMethod
         if (strtolower(substr($header, 0,6)) !== 'basic ') {
             throw new InvalidAuthenticationException('invalid ' . self::HEADER . ' header');
         }
-        $header = trim(substr($header, 6));  // remove 'Basic ' prefix
+        $header = trim(substr($header, 6), ' ');  // remove 'Basic ' prefix
 
         $decoded = base64_decode($header, true);
         if ($decoded === false || $decoded === null) {
