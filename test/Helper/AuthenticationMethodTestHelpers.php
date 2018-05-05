@@ -50,14 +50,21 @@ trait AuthenticationMethodTestHelpers
      *
      * @param RequestInterface $request
      * @param array $add_headers  [headerName => headerValue, …]
+     * @param bool $replace  If this is true (default), existing headers will be overwritten.
      * @return RequestInterface  Returns in instance with added headers. (It will never return the same instance.)
      */
-    protected function applyHeaders(RequestInterface $request, array $add_headers): RequestInterface
+    protected function applyHeaders(RequestInterface $request, array $add_headers, bool $replace = true): RequestInterface
     {
         $authenticated_request = clone $request;
 
         foreach ($add_headers as $name => $value) {
-            $authenticated_request = $authenticated_request->withHeader($name, $value);
+            if ($replace) {
+                // add the header, overwriting it if it already exists
+                $authenticated_request = $authenticated_request->withHeader($name, $value);
+            } else {
+                // just add the header, possibly creating a repeated header
+                $authenticated_request = $authenticated_request->withAddedHeader($name, $value);
+            }
         }
 
         return $authenticated_request;

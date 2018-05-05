@@ -3,6 +3,7 @@ namespace mle86\RequestAuthentication\Tests\Helper;
 
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
 use mle86\RequestAuthentication\DTO\RequestInfo;
+use mle86\RequestAuthentication\Exception\CryptoErrorException;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
 use mle86\RequestAuthentication\Exception\MissingAuthenticationHeaderException;
 use Psr\Http\Message\RequestInterface;
@@ -251,6 +252,63 @@ trait AuthenticationMethodTests
         }
     }
 
+    /**
+     * Builds a valid request with valid auth headers,
+     * then adds those headers _again_ (repeated headers) --
+     * at first header will be repeated one by one,
+     * then all of them at once,
+     * then one by one with garbage data,
+     * then one by one no value.
+     *
+     * In all cases, the test method expects both {@see AuthenticationMethod::verify()} to fail
+     * (either with an {@see InvalidAuthenticationException} or with a {@see CryptoErrorException}).
+     *
+     * @depends testGetInstance
+     * @depends testSampleRequest
+     */
+    public function testRepeatedIdentificationHeader(AuthenticationMethod $method): void
+    {
+        $request = $this->buildRequest();
+        $add_headers = $method->authenticate(RequestInfo::fromPsr7($request), self::sampleClientId(), self::sampleClientKey());
+
+        $fn_extra_headers = function(array $extra) use($request, $add_headers): RequestInterface {
+            // first, apply the correct auth headers:
+            $authenticated_request = $this->applyHeaders($request, $add_headers);
+            // ...then add the extra headers without replacing existing headers:
+            return $this->applyHeaders($authenticated_request, $extra, false);
+        };
+
+        $fn_expect_failure = function(RequestInterface $request) use($method): void {
+            $ri = RequestInfo::fromPsr7($request);
+            $this->assertException(
+                [InvalidAuthenticationException::class, CryptoErrorException::class],
+                function() use($ri, $method) {
+                    $method->verify($ri, $this->getTestingKeyRepository());
+                }
+            );
+        };
+
+        // Try to duplicate every authentication header. This should fail because RequestInfo concatenates repeated header values.
+        foreach ($add_headers as $name => $value) {
+            $fn_expect_failure($fn_extra_headers([$name => $value]));
+        }
+
+        // Try to duplicate ALL authentication headers at once. This should also fail.
+        $fn_expect_failure($fn_extra_headers($add_headers));
+
+        // Try to add a repeated garbage header. This should also fail.
+        foreach ($add_headers as $name => $value) {
+            foreach ($this->invalidAuthenticationHeaderValues() as [$invalidValue]) {
+                $fn_expect_failure($fn_extra_headers([$name => $invalidValue]));
+            }
+        }
+
+        // Try to add an extra EMPTY header. This should also fail because RequestInfo uses a join character, thereby invalidating the header value.
+        foreach ($add_headers as $name => $value) {
+            $fn_expect_failure($fn_extra_headers([$name => '']));
+        }
+    }
+
 
     /**
      * This test method depends on _all_ previous tests.
@@ -263,6 +321,7 @@ trait AuthenticationMethodTests
      * @depends testMismatchOnDifferentClient
      * @depends testMissingHeaderValues
      * @depends testInvalidHeaderValues
+     * @depends testRepeatedIdentificationHeader
      */
     public function testOther(AuthenticationMethod $method, array $original_add_headers): void
     {

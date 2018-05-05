@@ -1,3 +1,1 @@
-- add generic checks for repeated identification/token/signature headers
-
 - add generic checks for repeated payload headers
