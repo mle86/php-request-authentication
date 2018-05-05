@@ -26,8 +26,8 @@ trait AuthenticationMethodTestDefaults
     protected static function samplePath(): string { return '/info.php?111=222'; }
     protected static function otherPath(): string  { return '/info.php?444=555'; }
 
-    protected static function sampleBody(): string { return http_build_query(['k1' => 'V1', 'k2' => 'V2']); }
-    protected static function otherBody(): string  { return GuzzleHttp\json_encode(['k1' => 'V1', 'k2' => 'V2']); }
+    protected static function sampleBody(): string { return http_build_query      (['k1' => 'V1', 'k2' => 'V2', 'random' => random_int(   0, 5000)]); }
+    protected static function otherBody(): string  { return GuzzleHttp\json_encode(['k1' => 'V1', 'k2' => 'V2', 'random' => random_int(5001, 9999)]); }
 
     protected static function sampleHeaders(): array { return ['Content-Type' => 'application/x-www-form-urlencoded', 'Accept' => '*/*']; }
     protected static function otherHeaders(): array  { return ['Content-Type' => 'application/json',                  'Accept' => 'text/plain']; }
