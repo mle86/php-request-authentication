@@ -1,7 +1,3 @@
 - add generic checks for repeated identification/token/signature headers
 
 - add generic checks for repeated payload headers
-
-- MStack: only throw InvalidAuthEx if at least one method did so,
-	else just a MAHE
-

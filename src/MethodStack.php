@@ -80,12 +80,17 @@ class MethodStack
      * All {@see InvalidAuthenticationException}s/{@see MissingAuthenticationHeaderException}s/{@see CryptoErrorException}s
      * are ignored.
      *
-     * If none of the method instances accept the input,
-     * an {@see InvalidAuthenticationException} is thrown.
+     * If none of the method instances accept the input
+     * and they all throw a {@see MissingAuthenticationHeaderException}s,
+-     * the first of them is re-thrown.
+     * If none of the method instances accept the input
+     * and at least one of them throws a {@see InvalidAuthenticationException} or {@see CryptoErrorException},
+     * a new {@see InvalidAuthenticationException} is thrown.
      *
      * @param RequestInfo $request
      * @param KeyRepository $keys
-     * @throws InvalidAuthenticationException  if none of the method instances in the stack accepted the request.
+     * @throws InvalidAuthenticationException  if none of the method instances in the stack accepted the request and at least one of them threw an {@see InvalidAuthenticationException}.
+     * @throws InvalidAuthenticationException  if none of the method instances in the stack accepted the request and they all threw {@see MissingAuthenticationHeaderException}s.
      */
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
@@ -160,23 +165,41 @@ class MethodStack
      *                The first element is the successful {@see AuthenticationMethod} instance,
      *                the second element is whatever the first successful callback returned (which might be void/null).
      * @throws InvalidAuthenticationException  if the callback worked with none of the method instances in the stack.
+     * @throws MissingAuthenticationHeaderException  if the callback worked with none of the method instances in the stack.
      */
     private function applyStack(iterable $methods, callable $callback): array
     {
-        $first_exception = null;
+        $first_mh_exception = null;
+        $first_cr_exception = null;
+        $first_ia_exception = null;
 
         foreach ($methods as $method) {
             try {
                 return [$method, $callback($method)];
-            } catch (InvalidAuthenticationException | MissingAuthenticationHeaderException | CryptoErrorException $e) {
-                if (!$first_exception) {
-                    $first_exception = $e;
+
+            } catch (InvalidAuthenticationException $e) {
+                if (!$first_ia_exception) {
+                    $first_ia_exception = $e;
+                }
+                // continue!
+            } catch (MissingAuthenticationHeaderException $e) {
+                if (!$first_mh_exception) {
+                    $first_mh_exception = $e;
+                }
+                // continue!
+            } catch (CryptoErrorException $e) {
+                if (!$first_cr_exception) {
+                    $first_cr_exception = $e;
                 }
                 // continue!
             }
         }
 
-        throw new InvalidAuthenticationException('no applicable authentication method in stack', 0, $first_exception);
+        $errmsg = 'no applicable authentication method in stack';
+        if ($first_cr_exception || $first_ia_exception) {
+            throw new InvalidAuthenticationException($errmsg, 0, $first_cr_exception ?? $first_ia_exception);
+        }
+        throw new MissingAuthenticationHeaderException($errmsg, 0, $first_mh_exception);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace mle86\RequestAuthentication\Tests;
 
 use mle86\RequestAuthentication\DTO\RequestInfo;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
+use mle86\RequestAuthentication\Exception\MissingAuthenticationHeaderException;
 use mle86\RequestAuthentication\MethodStack;
 use mle86\RequestAuthentication\Tests\Helper\AssertException;
 use mle86\RequestAuthentication\Tests\Helper\AuthenticationMethodTestConfiguration;
@@ -90,8 +91,7 @@ class MethodStackTest
         $this->checkValidResult($empty_request, $auth_b_headers, $ab);
 
         // Empty requests can never match.
-        // This should cause a MissingAuthenticationHeaderException internally, but the stack should always emit an InvalidAuthenticationException:
-        $this->assertException(InvalidAuthenticationException::class,
+        $this->assertException(MissingAuthenticationHeaderException::class,
             function() use($empty_request, $ab) {
                 $this->checkValidResult($empty_request, [], $ab);
             });
