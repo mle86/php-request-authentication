@@ -1,6 +1,7 @@
 <?php
 namespace mle86\RequestAuthentication\Crypto;
 
+use mle86\RequestAuthentication\Exception\CryptoErrorException;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
 
 /**
@@ -23,6 +24,7 @@ abstract class Verifier
      *   True if the signature matches the message (and the instance's other settings, such as the signer's public key),
      *   False if not.
      * @throws InvalidAuthenticationException  if the signature is invalid.
+     * @throws CryptoErrorException  if the signature could not be decoded correctly.
      */
     abstract public function test (string $message, string $signature): bool;
 
@@ -35,6 +37,7 @@ abstract class Verifier
      * @return void
      *   Returns if the signature matches.
      * @throws InvalidAuthenticationException  if the signature does not match.
+     * @throws CryptoErrorException  if the signature could not be decoded correctly.
      */
     final public function verify (string $message, string $signature): void {
         if (!$this->test($message, $signature)) {
