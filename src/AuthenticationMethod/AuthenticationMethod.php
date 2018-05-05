@@ -68,6 +68,8 @@ interface AuthenticationMethod
      * @param RequestInfo $request
      * @return string
      * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
+     * @throws InvalidAuthenticationException  on incorrect authentication header(s).
+     * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
      */
     public function getClientId(RequestInfo $request): string;
 
