@@ -36,7 +36,7 @@ Wraps an [AuthenticationMethod] instance to authenticate outbound requests.
     Takes a Symfony HttpFounddation Request instance
     and returns a new Request instance with added authentication data.
 
-* <code><b>\_\_invoke (): \Closure</b></code>  
+* <code><b>\_\_invoke</b> (): \Closure</code>  
     Returns a GuzzleHttp middleware handler
     that will add authentication data to all requests
     according to the constructor settings.  
