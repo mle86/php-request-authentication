@@ -6,7 +6,7 @@ and for verifying inbound API requests' authentication.
 It is released under the [MIT License](https://opensource.org/licenses/MIT).
 
 
-# Installation:
+## Installation:
 
 Via Composer:  `$ composer require mle86/request-authentication`
 
@@ -19,12 +19,12 @@ Or insert this into your project's `composer.json` file:
 ```
 
 
-# Minimum PHP version:
+## Minimum PHP version:
 
 PHP 7.1
 
 
-# Workflow:
+## Workflow:
 
 This library contains several [AuthenticationMethod] classes.
 
@@ -55,19 +55,19 @@ the client will use its private key for signing
 and the [KeyRepository] must return the client's public key.)
 
 
-# Classes and interfaces:
+## Classes and interfaces:
 
 * Main wrapper classes:
     * [RequestAuthenticator] wrapper class,
-    * [RequestVerifier] wrapper class,
+    * [RequestVerifier] wrapper class.
 * [AuthenticationMethod] main interface:
     * [BasicAuthenticationMethod] class,
     * [DefaultAuthenticationMethod] class,
     * [PublicKeyMethod] class,
     * [MethodStack] composite class.
-* [RequestInfo] data transfer object,
+* [RequestInfo] data transfer object.
 * [KeyRepository] base class:
-    * [ArrayRepository] class,
+    * [ArrayRepository] class.
 * [Exceptions] classes.
 
 [RequestAuthenticator]: doc/Class_RequestAuthenticator.md

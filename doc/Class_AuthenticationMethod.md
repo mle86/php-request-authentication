@@ -28,7 +28,7 @@ in case you need it for authorization checking/rate limiting/logging.
 
 ## Class Details
 
-* Full interface name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>AuthenticationMethod</b></code>.
+* Full interface name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>AuthenticationMethod</b></code>
 * Class file: [src/AuthenticationMethod/AuthenticationMethod.php](../src/AuthenticationMethod/AuthenticationMethod.php)
 
 

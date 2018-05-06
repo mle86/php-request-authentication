@@ -13,7 +13,7 @@ They are built by the [RequestAuthenticator] and [RequestVerifier] wrapper class
 
 ## Class Details
 
-* Full class name: <code>mle86\\RequestAuthentication\\DTO\\<b>RequestInfo</b></code>.
+* Full class name: <code>mle86\\RequestAuthentication\\DTO\\<b>RequestInfo</b></code>
 * Class file: [src/DTO/RequestInfo.php](../src/DTO/RequestInfo.php)
 
 

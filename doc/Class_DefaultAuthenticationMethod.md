@@ -44,7 +44,7 @@ for basic hash authentication.
 
 ## Class Details
 
-* Full class name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>DefaultAuthenticationMethod</b></code>.
+* Full class name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>DefaultAuthenticationMethod</b></code>
 * Class file: [src/AuthenticationMethod/DefaultAuthenticationMethod.php](../src/AuthenticationMethod/DefaultAuthenticationMethod.php)
 
 

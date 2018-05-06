@@ -19,7 +19,7 @@ More complex implementations may look up the client secret in a database or some
 
 ## Class Details
 
-* Full class name: <code>mle86\\RequestAuthentication\\KeyRepository\\<b>KeyRepository</b></code>.
+* Full class name: <code>mle86\\RequestAuthentication\\KeyRepository\\<b>KeyRepository</b></code>
 * Class file: [src/KeyRepository/KeyRepository.php](../src/KeyRepository/KeyRepository.php)
 
 

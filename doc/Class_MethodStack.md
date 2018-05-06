@@ -19,7 +19,7 @@ so it can be used in place of single instances everywhere.
 
 ## Class Details
 
-* Full class name: <code>mle86\\RequestAuthentication\\<b>MethodStack</b></code>.
+* Full class name: <code>mle86\\RequestAuthentication\\<b>MethodStack</b></code>
 * Class file: [src/MethodStack.php](../src/MethodStack.php)
 
 

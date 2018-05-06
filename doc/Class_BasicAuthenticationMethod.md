@@ -20,7 +20,7 @@ it can probably do this better.
 
 ## Class Details
 
-* Full class name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>BasicAuthenticationMethod</b></code>.
+* Full class name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>BasicAuthenticationMethod</b></code>
 * Class file: [src/AuthenticationMethod/BasicAuthenticationMethod.php](../src/AuthenticationMethod/BasicAuthenticationMethod.php)
 
 

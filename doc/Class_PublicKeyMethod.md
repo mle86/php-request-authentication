@@ -44,7 +44,7 @@ composer require paragonie/halite
 
 ## Class Details
 
-* Full class name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>PublicKeyMethod</b></code>.
+* Full class name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>PublicKeyMethod</b></code>
 * Class file: [src/AuthenticationMethod/PublicKeyMethod.php](../src/AuthenticationMethod/PublicKeyMethod.php)
 
 

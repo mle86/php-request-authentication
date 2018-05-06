@@ -19,7 +19,7 @@ Wraps an [AuthenticationMethod] instance to authenticate outbound requests.
 
 ## Class Details
 
-* Full class name: <code>mle86\\RequestAuthentication\\<b>RequestAuthenticator</b></code>.
+* Full class name: <code>mle86\\RequestAuthentication\\<b>RequestAuthenticator</b></code>
 * Class file: [src/RequestAuthenticator.php](../src/RequestAuthenticator.php)
 
 

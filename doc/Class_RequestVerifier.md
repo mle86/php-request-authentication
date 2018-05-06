@@ -18,7 +18,7 @@ Wraps an [AuthenticationMethod] instance to verify inbound request authenticatio
 
 ## Class Details
 
-* Full class name: <code>mle86\\RequestAuthentication\\<b>RequestVerifier</b></code>.
+* Full class name: <code>mle86\\RequestAuthentication\\<b>RequestVerifier</b></code>
 * Class file: [src/RequestVerifier.php](../src/RequestVerifier.php)
 
 
