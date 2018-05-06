@@ -42,6 +42,9 @@ class PublicKeyMethodTest
     ]; }
 
     public function differentClientData(): array { return [
+        /* Some of the original differentClientData() entries contain keys that cannot be decoded correctly,
+         * which would lead to InvalidArgumentExceptions/CryptoExceptions. That's not what we want to test here,
+         * so we'll emit only valid-looking (but still incorrect) keys:  */
         [['key' => self::otherClientKey()]],
         [['key' => 'y' . substr(self::sampleClientKey(), 1)]],
     ]; }
