@@ -39,6 +39,9 @@ class DefaultAuthenticationMethodTest
     {
         $this->checkMissingRequestId($method, $original_add_headers);
         $this->checkModifiedRequestId($method, $original_add_headers);
+
+        $this->checkRepeatedPayloadHeader($method, $this->applyHeaders($this->buildRequest(), $original_add_headers),
+            'Content-Type');
     }
 
     /**

@@ -68,4 +68,10 @@ class PublicKeyMethodTest
         PublicKeyMethod::CLIENT_ID_HEADER,
     ]; }
 
+    protected function otherTests(AuthenticationMethod $method, array $original_add_headers)
+    {
+        $this->checkRepeatedPayloadHeader($method, $this->applyHeaders($this->buildRequest(), $original_add_headers),
+            'Content-Type');
+    }
+
 }

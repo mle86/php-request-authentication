@@ -4,6 +4,7 @@ namespace mle86\RequestAuthentication\Tests\Helper;
 use GuzzleHttp\Psr7\Request;
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
 use mle86\RequestAuthentication\DTO\RequestInfo;
+use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
 use mle86\RequestAuthentication\KeyRepository\ArrayRepository;
 use mle86\RequestAuthentication\KeyRepository\KeyRepository;
 use Psr\Http\Message\RequestInterface;
@@ -88,6 +89,36 @@ trait AuthenticationMethodTestHelpers
             self::sampleClientId() => self::sampleClientKey(),
             self::otherClientId()  => self::otherClientKey(),
         ]);
+    }
+
+    /**
+     * Tries to add a repeated header (with random value) to the request
+     * and expects the verification to fail (because the repeated header should affect the signature).
+     *
+     * Also tries to add a repeated header (with SAME value) to the request
+     * and expects the verification to fail (RequestInfo concatenates repeated headers).
+     *
+     * This is basically an extra test method but it doesn't work with every AuthenticationMethod,
+     * so you'll have to call it manually from your {@see otherTests()} method, possibly more than once.
+     *
+     * @param AuthenticationMethod $method
+     * @param RequestInterface $request  The request to test. Should already have valid authentication headers added.
+     * @param string $header_name  The HTTP header name to repeat.
+     */
+    protected function checkRepeatedPayloadHeader(AuthenticationMethod $method, RequestInterface $request, string $header_name): void
+    {
+        // If the signature gets repeated with a random value, the signature should change:
+        $random_value = 'RANDOM-HEADER-VALUE-' . random_int(1, 999999);
+        $invalid_request = $request->withAddedHeader($header_name, $random_value);
+        $this->assertException(InvalidAuthenticationException::class, function() use($invalid_request, $method) {
+            $this->checkValidResult($invalid_request, [], $method);
+        });
+
+        // If a payload header gets repeated with the original value, the signature should also change:
+        $invalid_request = $request->withAddedHeader($header_name, $request->getHeader($header_name));
+        $this->assertException(InvalidAuthenticationException::class, function() use($invalid_request, $method) {
+            $this->checkValidResult($invalid_request, [], $method);
+        });
     }
 
 }
