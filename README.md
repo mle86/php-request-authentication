@@ -1,5 +1,7 @@
 # php-request-authentication
 
+[![Build Status](https://travis-ci.org/mle86/php-request-authentication.svg?branch=master)](https://travis-ci.org/mle86/php-request-authentication)
+
 This PHP library provides a generic interface for authenticating outbound API requests
 and for verifying inbound API requests' authentication.
 
