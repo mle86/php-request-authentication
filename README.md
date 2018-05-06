@@ -24,6 +24,37 @@ Or insert this into your project's `composer.json` file:
 PHP 7.1
 
 
+# Workflow:
+
+This library contains several [AuthenticationMethod] classes.
+
+Each of those represents one mechanism for request authentication and verification.
+The [BasicAuthenticationMethod] for example adds an `Authorization: Basic …` HTTP header to outbound requests
+and verifies that header in inbound requests against a list of known usernames and their passwords.
+
+Usually the [AuthenticationMethod] classes won't be used directly
+(apart from instantiating them),
+there's the [RequestAuthenticator] and [RequestVerifier] wrapper classes instead
+that take an AuthenticationMethod dependency.
+
+To sign/authenticate an outbound request
+you'll need an [AuthenticationMethod] instance
+wrapped in a [RequestAuthenticator] instance,
+a client ID and a client secret,
+and the request to sign.
+The `authenticate()` method will add the required authentication methods to the request
+so that it can be sent.
+
+To verify an inbound request
+you'll need an [AuthenticationMethod] instance of the same class
+wrapped in a [RequestVerifier] instance
+and a [KeyRepository] that will map the request's client ID
+to the same client secret used for signing the request.  
+(In case of the [PublicKeyMethod] class,
+the client will use its private key for signing
+and the [KeyRepository] must return the client's public key.)
+
+
 # Classes and interfaces:
 
 * Main wrapper classes:
