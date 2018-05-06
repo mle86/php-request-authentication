@@ -56,10 +56,10 @@ class DefaultAuthenticationMethodTest
     {
         $request = $this->buildRequest();
 
-        foreach ($this->missingAuthenticationHeaderValues() as $missing_value) {
-            $incomplete_request = ($missing_value[0] instanceof RemoveHeaderMarker)
+        foreach ($this->missingAuthenticationHeaderValues() as [$missing_value]) {
+            $incomplete_request = ($missing_value instanceof RemoveHeaderMarker)
                 ? $request->withoutHeader(DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER)
-                : $request->withHeader(DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER, $missing_value[0]);
+                : $request->withHeader(DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER, $missing_value);
 
             $incomplete_headers = $original_add_headers;
             unset($incomplete_headers[DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER]);
