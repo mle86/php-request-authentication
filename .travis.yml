@@ -1,4 +1,5 @@
 language: php
+sudo: required
 
 php:
   - '7.1'
@@ -6,8 +7,16 @@ php:
 
 before_install:
   - composer self-update
+  - sudo add-apt-repository -y ppa:ondrej/php
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libsodium-dev
 
 install:
+  - if [ "$(phpenv version-name)" = "7.1" ]; then
+        pecl install libsodium-1.0.7 ;
+    else
+        pecl install libsodium ;
+    fi
   - composer install
 
 script:
