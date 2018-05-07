@@ -20,7 +20,7 @@ class RequestInfo
     private $http_host;     // www.domain.test:8080
     private $http_path;     // /foo/bar?123
     private $request_body;  // input1=value1&input2=value2
-    private $request_headers;  // [Content-Type => application/x-www-form-urlencoded, Conent-Length => 27]
+    private $request_headers;  // [Content-Type => application/x-www-form-urlencoded, Content-Length => 27]
 
     const REPEATED_HEADERS_JOIN = "\x00";
 
