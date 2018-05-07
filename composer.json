@@ -29,7 +29,8 @@
     "roave/security-advisories": "dev-master",
     "guzzlehttp/guzzle": "^6.3",
     "symfony/http-foundation": "^4.0",
-    "paragonie/halite": "^4.4||^3.4"
+    "paragonie/halite": "^4.4||^3.4",
+    "php-coveralls/php-coveralls": "^2.0"
   },
 
   "require": {
