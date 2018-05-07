@@ -1,6 +1,9 @@
 # php-request-authentication
 
 [![Build Status](https://travis-ci.org/mle86/php-request-authentication.svg?branch=master)](https://travis-ci.org/mle86/php-request-authentication)
+[![Coverage Status](https://coveralls.io/repos/github/mle86/php-request-authentication/badge.svg?branch=master)](https://coveralls.io/github/mle86/php-request-authentication?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/mle86/request-authentication/version)](https://packagist.org/packages/mle86/request-authentication)
+[![License](https://poser.pugx.org/mle86/request-authentication/license)](https://packagist.org/packages/mle86/request-authentication)
 
 This PHP library provides a generic interface for authenticating outbound API requests
 and for verifying inbound API requests' authentication.
