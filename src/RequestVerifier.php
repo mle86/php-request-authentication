@@ -64,9 +64,8 @@ class RequestVerifier
     public function verifySymfonyRequest(Request $request): string
     {
         $ri = RequestInfo::fromSymfonyRequest($request);
-        $id = $this->method->getClientId($ri);
         $this->method->verify($ri, $this->keys);
-        return $id;
+        return $this->method->getClientId($ri);
     }
 
     /**
