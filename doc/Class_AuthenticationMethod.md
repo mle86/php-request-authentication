@@ -2,7 +2,7 @@
 
 Authentication method used to sign or to verify requests.
 
-All implementation have two use cases:
+All implementations have two use cases:
 
  - **Authentication:**
    Using the `authenticate()` method,
