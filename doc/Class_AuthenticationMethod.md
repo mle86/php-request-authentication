@@ -24,6 +24,7 @@ in case you need it for authorization checking/rate limiting/logging.
 [RequestAuthenticator]: Class_RequestAuthenticator.md
 [RequestVerifier]: Class_RequestVerifier.md
 [RequestInfo]: Class_RequestInfo.md
+[KeyRepository]: Class_KeyRepository.md
 
 
 ## Class Details

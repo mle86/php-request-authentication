@@ -15,6 +15,7 @@ More complex implementations may look up the client secret in a database or some
 [AuthenticationMethod]: Class_AuthenticationMethod.md
 [RequestAuthenticator]: Class_RequestAuthenticator.md
 [RequestVerifier]: Class_RequestVerifier.md
+[ArrayRepository]: Class_ArrayRepository.md
 
 
 ## Class Details
