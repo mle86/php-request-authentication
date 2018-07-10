@@ -47,7 +47,9 @@ you'll need an [AuthenticationMethod] instance
 wrapped in a [RequestAuthenticator] instance,
 a client ID and a client secret,
 and the request to sign.
-The `authenticate()` method will add the required authentication methods to the request
+The `authenticate()` method will add
+the required authentication headers
+to the request
 so that it can be sent.
 
 To verify an inbound request
