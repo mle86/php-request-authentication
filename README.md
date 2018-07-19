@@ -75,7 +75,7 @@ and the [KeyRepository] must return the client's public key.)
 * [RequestInfo] data transfer object.
 * [KeyRepository] base class:
     * [ArrayRepository] class.
-* [Exceptions] classes.
+* [Exception] classes.
 
 [RequestAuthenticator]: doc/Class_RequestAuthenticator.md
 [RequestVerifier]: doc/Class_RequestVerifier.md
@@ -86,6 +86,6 @@ and the [KeyRepository] must return the client's public key.)
 [RequestInfo]: doc/Class_RequestInfo.md
 [KeyRepository]: doc/Class_KeyRepository.md
 [ArrayRepository]: doc/Class_ArrayRepository.md
-[Exceptions]: doc/Exceptions.md
+[Exception]: doc/Exceptions.md
 [MethodStack]: doc/Class_MethodStack.md
 
