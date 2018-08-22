@@ -9,6 +9,10 @@ and you want to support them all with a single `verify()` call.
 This class itself implements the [AuthenticationMethod] interface,
 so it can be used in place of single instances everywhere.
 
+Instances can be used for authentication:
+the `authenticate()` call will always be delegated
+to the _first instance_ in the stack.
+
 [Exceptions]: Exceptions.md
 [KeyRepository]: Class_KeyRepository.md
 [AuthenticationMethod]: Class_AuthenticationMethod.md

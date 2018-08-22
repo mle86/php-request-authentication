@@ -18,6 +18,10 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *
  * This class itself implements the {@see AuthenticationMethod} interface,
  * so it can be used in place of single instances everywhere.
+ *
+ * Instances can be used for authentication:
+ * the {@see authenticate()} call will always be delegated
+ * to the _first instance_ in the stack.
  */
 class MethodStack
     implements AuthenticationMethod
