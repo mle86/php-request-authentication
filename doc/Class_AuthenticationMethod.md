@@ -29,12 +29,24 @@ in case you need it for authorization checking/rate limiting/logging.
 [RequestVerifier]: Class_RequestVerifier.md
 [RequestInfo]: Class_RequestInfo.md
 [KeyRepository]: Class_KeyRepository.md
+[BasicAuthenticationMethod]: Class_BasicAuthenticationMethod.md
+[DefaultAuthenticationMethod]: Class_DefaultAuthenticationMethod.md
+[PublicKeyMethod]: Class_PublicKeyMethod.md
+[MethodStack]: Class_MethodStack.md
 
 
 ## Class Details
 
 * Full interface name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>AuthenticationMethod</b></code>
 * Class file: [src/AuthenticationMethod/AuthenticationMethod.php](../src/AuthenticationMethod/AuthenticationMethod.php)
+
+
+## Implementations
+
+* [BasicAuthenticationMethod] class
+* [DefaultAuthenticationMethod] class
+* [PublicKeyMethod] class
+* [MethodStack] composite class
 
 
 ## Methods
