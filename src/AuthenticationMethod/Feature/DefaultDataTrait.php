@@ -18,7 +18,7 @@ trait DefaultDataTrait
      *
      * Not all of it (many HTTP headers are not security-relevant),
      * but the HTTP method, the exact URI (including host and query string), and the request body
-     * must be included to be reasonaly safe against request forgery.
+     * must be included to be reasonably safe against request forgery.
      *
      * Callers may specify any number of additional header values
      * that will become part of the signature.

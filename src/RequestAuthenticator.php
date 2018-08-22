@@ -57,7 +57,7 @@ class RequestAuthenticator
     }
 
     /**
-     * Takes a Symfony HttpFounddation Request instance
+     * Takes a Symfony HttpFoundation Request instance
      * and returns a new Request instance with added authentication data.
      *
      * @param Request $request  The request to authenticate. The instance will not be modified.

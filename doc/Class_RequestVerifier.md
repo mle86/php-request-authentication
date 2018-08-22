@@ -32,7 +32,7 @@ Wraps an [AuthenticationMethod] instance to verify inbound request authenticatio
     _Side Effect:_ This will cause a `StreamInterface::rewind()` call on `RequestInterface::getBody()`.  
 
 * <code><b>verifySymfonyRequest</b> (Symfony\Component\HttpFoundation\Request $request): string</code>  
-    Takes a Symfony HttpFounddation Request instance
+    Takes a Symfony HttpFoundation Request instance
     and checks the contained authentication token data.
 
 **Return values:**

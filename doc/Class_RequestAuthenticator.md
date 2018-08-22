@@ -33,7 +33,7 @@ Wraps an [AuthenticationMethod] instance to authenticate outbound requests.
     _Side Effect:_ This will cause a `StreamInterface::rewind()` call on `RequestInterface::getBody()`.  
 
 * <code><b>authenticateSymfonyRequest</b> (Symfony\Component\HttpFoundation\Request $request): Symfony\Component\HttpFoundation\Request</code>  
-    Takes a Symfony HttpFounddation Request instance
+    Takes a Symfony HttpFoundation Request instance
     and returns a new Request instance with added authentication data.
 
 * <code><b>\_\_invoke</b> (): \Closure</code>  

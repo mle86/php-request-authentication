@@ -52,7 +52,7 @@ class RequestVerifier
     }
 
     /**
-     * Takes a Symfony HttpFounddation Request instance
+     * Takes a Symfony HttpFoundation Request instance
      * and checks the contained authentication token data.
      *
      * @param Request $request  The request to verify. The instance won't be modified.
