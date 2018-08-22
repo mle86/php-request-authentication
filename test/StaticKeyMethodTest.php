@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\RequestAuthentication\Tests;
 
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
@@ -37,7 +38,7 @@ class StaticKeyMethodTest
 
     public function testGetInstance(): AuthenticationMethod
     {
-        return new StaticKeyMethod;
+        return new StaticKeyMethod();
     }
 
 }

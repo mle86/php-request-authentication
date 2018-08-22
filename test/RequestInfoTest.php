@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\RequestAuthentication\Tests;
 
 use mle86\RequestAuthentication\DTO\RequestInfo;

@@ -1,6 +1,6 @@
 <?php
-namespace mle86\RequestAuthentication\Crypto;
 
+namespace mle86\RequestAuthentication\Crypto;
 
 /**
  * Can be used to sign messages cryptographically.

@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\RequestAuthentication\Tests;
 
 use GuzzleHttp\Psr7\Request;
@@ -28,7 +29,7 @@ class BasicAuthenticationMethodTest
 
     public function testGetInstance(): AuthenticationMethod
     {
-        return new BasicAuthenticationMethod;
+        return new BasicAuthenticationMethod();
     }
 
     protected function otherTests(AuthenticationMethod $method): void

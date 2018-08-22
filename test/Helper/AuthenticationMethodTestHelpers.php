@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\RequestAuthentication\Tests\Helper;
 
 use GuzzleHttp\Psr7\Request;
@@ -8,7 +9,6 @@ use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
 use mle86\RequestAuthentication\KeyRepository\ArrayRepository;
 use mle86\RequestAuthentication\KeyRepository\KeyRepository;
 use Psr\Http\Message\RequestInterface;
-
 
 /** @internal This trait is used by {@see AuthenticationMethodTests}. */
 trait AuthenticationMethodTestHelpers

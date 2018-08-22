@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\RequestAuthentication\AuthenticationMethod;
 
 use mle86\RequestAuthentication\AuthenticationMethod\Feature\DefaultDataTrait;
@@ -82,7 +83,7 @@ class DefaultAuthenticationMethod
 
         $token = hash_hmac(self::TOKEN_ALGO, $data, $api_secret_key);
         if ($token === '' || $token === null || $token === false || $token === '*') {
-            throw new HashErrorException;
+            throw new HashErrorException();
         }
 
         return $token;

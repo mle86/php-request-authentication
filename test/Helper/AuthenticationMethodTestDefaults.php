@@ -1,8 +1,8 @@
 <?php
+
 namespace mle86\RequestAuthentication\Tests\Helper;
 
 use GuzzleHttp;
-
 
 /** @internal This trait is used by {@see AuthenticationMethodTests}. */
 trait AuthenticationMethodTestDefaults

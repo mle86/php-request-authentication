@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\RequestAuthentication\AuthenticationMethod\Feature;
 
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;

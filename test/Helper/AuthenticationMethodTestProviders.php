@@ -1,6 +1,6 @@
 <?php
-namespace mle86\RequestAuthentication\Tests\Helper;
 
+namespace mle86\RequestAuthentication\Tests\Helper;
 
 /** @internal This trait is used by {@see AuthenticationMethodTests}. */
 trait AuthenticationMethodTestProviders
@@ -43,7 +43,7 @@ trait AuthenticationMethodTestProviders
         [''],
         [false],
         [null],
-        [new RemoveHeaderMarker],
+        [new RemoveHeaderMarker()],
     ]; }
 
     public function invalidAuthenticationHeaderValues(): array { return [

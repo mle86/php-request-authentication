@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\RequestAuthentication\Crypto\Halite;
 
 use mle86\RequestAuthentication\Crypto\SigningPublicKey;

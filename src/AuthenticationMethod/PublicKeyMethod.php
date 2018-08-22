@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\RequestAuthentication\AuthenticationMethod;
 
 use mle86\RequestAuthentication\AuthenticationMethod\Feature\DefaultDataTrait;

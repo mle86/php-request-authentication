@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace mle86\RequestAuthentication\Tests;
 
 use mle86\RequestAuthentication\DTO\RequestInfo;
@@ -25,7 +27,7 @@ class MethodStackTest
 
     public function testConstructor(): MethodStack
     {
-        $initializer = [new TestMethodA, new TestMethodA];
+        $initializer = [new TestMethodA(), new TestMethodA()];
 
         $stack = new MethodStack($initializer);
         $this->assertSame($initializer, $stack->getMethods());
@@ -39,7 +41,7 @@ class MethodStackTest
      */
     public function testInstantiation(): MethodStack
     {
-        $initializer = [new TestMethodA, TestMethodB::class];
+        $initializer = [new TestMethodA(), TestMethodB::class];
 
         $stack = new MethodStack($initializer);
 
@@ -67,12 +69,12 @@ class MethodStackTest
         $auth_headers = $ab->authenticate(RequestInfo::fromPsr7($empty_request), 'C0', 'CS');
 
         // The first method should have added its headers and should therefore now consider the complete request valid:
-        $this->checkValidResult($empty_request, $auth_headers, new TestMethodA);
+        $this->checkValidResult($empty_request, $auth_headers, new TestMethodA());
 
         // The second method should NOT have added its headers and should therefore still consider the complete request invalid:
         $this->assertException(InvalidAuthenticationException::class,
             function() use($empty_request, $auth_headers) {
-                $this->checkValidResult($empty_request, $auth_headers, new TestMethodB);
+                $this->checkValidResult($empty_request, $auth_headers, new TestMethodB());
             });
     }
 
@@ -83,8 +85,8 @@ class MethodStackTest
     {
         $empty_request = $this->buildRequest();
 
-        $auth_a_headers = (new TestMethodA)->authenticate(RequestInfo::fromPsr7($empty_request), 'C0', 'CS');
-        $auth_b_headers = (new TestMethodB)->authenticate(RequestInfo::fromPsr7($empty_request), 'C0', 'CS');
+        $auth_a_headers = (new TestMethodA())->authenticate(RequestInfo::fromPsr7($empty_request), 'C0', 'CS');
+        $auth_b_headers = (new TestMethodB())->authenticate(RequestInfo::fromPsr7($empty_request), 'C0', 'CS');
 
         // Both must be accepted:
         $this->checkValidResult($empty_request, $auth_a_headers, $ab);
@@ -135,8 +137,8 @@ class MethodStackTest
             $ab->getMethods()[0],
         ]);
 
-        $auth_a_headers = (new TestMethodA)->authenticate(RequestInfo::fromPsr7($base_request), 'C.A', 'CS');
-        $auth_b_headers = (new TestMethodB)->authenticate(RequestInfo::fromPsr7($base_request), 'C.B', 'CS');
+        $auth_a_headers = (new TestMethodA())->authenticate(RequestInfo::fromPsr7($base_request), 'C.A', 'CS');
+        $auth_b_headers = (new TestMethodB())->authenticate(RequestInfo::fromPsr7($base_request), 'C.B', 'CS');
 
         $assertClientId($ab, $auth_a_headers, 'C.A');
         $assertClientId($ba, $auth_a_headers, 'C.A');

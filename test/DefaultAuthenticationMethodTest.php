@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\RequestAuthentication\Tests;
 
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
@@ -18,7 +19,7 @@ class DefaultAuthenticationMethodTest
 
     public function testGetInstance(): AuthenticationMethod
     {
-        return new DefaultAuthenticationMethod;
+        return new DefaultAuthenticationMethod();
     }
 
     protected function defaultRequestHeaders(): array { return [

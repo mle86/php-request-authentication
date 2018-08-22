@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\RequestAuthentication\Tests;
 
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
@@ -52,7 +53,7 @@ class PublicKeyMethodTest
 
     public function testGetInstance(): AuthenticationMethod
     {
-        return new PublicKeyMethod;
+        return new PublicKeyMethod();
     }
 
     protected function defaultRequestHeaders(): array { return [

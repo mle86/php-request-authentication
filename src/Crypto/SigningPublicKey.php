@@ -1,6 +1,6 @@
 <?php
-namespace mle86\RequestAuthentication\Crypto;
 
+namespace mle86\RequestAuthentication\Crypto;
 
 /**
  * Common interface for public keys suitable for signature verification by a {@see Verifer} implementation.

@@ -1,6 +1,6 @@
 <?php
-namespace mle86\RequestAuthentication\Crypto;
 
+namespace mle86\RequestAuthentication\Crypto;
 
 /**
  * Common interface for private keys suitable for signature creation by a {@see Signer} implementation.

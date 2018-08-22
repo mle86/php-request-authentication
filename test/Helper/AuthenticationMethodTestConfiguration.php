@@ -1,8 +1,8 @@
 <?php
+
 namespace mle86\RequestAuthentication\Tests\Helper;
 
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
-
 
 /** @internal This trait is used by {@see AuthenticationMethodTests}. */
 trait AuthenticationMethodTestConfiguration

@@ -1,6 +1,6 @@
 <?php
-namespace mle86\RequestAuthentication\Tests\Helper;
 
+namespace mle86\RequestAuthentication\Tests\Helper;
 
 /**
  * Adds the {@see runId()} method.
