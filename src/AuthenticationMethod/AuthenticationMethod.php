@@ -26,6 +26,10 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *
  * There's also a {@see getClientId()} method that just extracts the API client identification from a request
  * in case you need it for authorization checking/rate limiting/logging.
+ *
+ * NB:
+ *  It's not recommended to use the interface methods directly.
+ *  Use the {@see RequestAuthenticator} and {@see RequestVerifier} helper classes instead.
  */
 interface AuthenticationMethod
 {

@@ -19,6 +19,10 @@ All implementations have two use cases:
 There's also a `getClientId()` method that just extracts the API client identification from a request
 in case you need it for authorization checking/rate limiting/logging.
 
+**NB:**
+ It's not recommended to use the interface methods directly.
+ Use the [RequestAuthenticator] and [RequestVerifier] helper classes instead.
+
 [Exceptions]: Exceptions.md
 [AuthenticationMethod]: Class_AuthenticationMethod.md
 [RequestAuthenticator]: Class_RequestAuthenticator.md
