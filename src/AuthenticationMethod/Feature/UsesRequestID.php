@@ -4,6 +4,8 @@ namespace mle86\RequestAuthentication\AuthenticationMethod\Feature;
 
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
 use mle86\RequestAuthentication\AuthenticationMethod\DefaultAuthenticationMethod;
+use mle86\RequestAuthentication\DTO\RequestInfo;
+use mle86\RequestAuthentication\Exception\MissingAuthenticationHeaderException;
 
 /**
  * An interface for {@see AuthenticationMethod} implementations
@@ -46,5 +48,17 @@ interface UsesRequestID extends AuthenticationMethod
      * @see AuthenticationMethod::authenticate()  The main use case for this method -- to auto-generate missing request IDs.
      */
     public function generateRequestId(): string;
+
+    /**
+     * Extracts the Request ID from an inbound request.
+     *
+     * NB: This method does NOT {@see verify} the request, it simply extracts the request id header.
+     *  (The only validation it does is ensuring that the request id header exists and is non-empty.)
+     *
+     * @param RequestInfo $request
+     * @return string
+     * @throws MissingAuthenticationHeaderException  on missing or empty request id header(s).
+     */
+    public function getRequestId(RequestInfo $request): string;
 
 }

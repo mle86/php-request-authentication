@@ -79,7 +79,7 @@ class PublicKeyMethod implements AuthenticationMethod, UsesRequestID
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
         $client_id  = $this->getClientId($request);
-        $request_id = $request->getNonemptyHeaderValue(self::DEFAULT_REQUEST_ID_HEADER);
+        $request_id = $this->getRequestId($request);
         $signature  = $request->getNonemptyHeaderValue(self::SIGNATURE_HEADER);
 
         self::validateRequestId($request_id);
@@ -93,6 +93,11 @@ class PublicKeyMethod implements AuthenticationMethod, UsesRequestID
     public function getClientId(RequestInfo $request): string
     {
         return $request->getNonemptyHeaderValue(self::CLIENT_ID_HEADER);
+    }
+
+    public function getRequestId(RequestInfo $request): string
+    {
+        return $request->getNonemptyHeaderValue(self::DEFAULT_REQUEST_ID_HEADER);
     }
 
 }

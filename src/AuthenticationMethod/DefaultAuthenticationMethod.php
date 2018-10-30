@@ -90,7 +90,7 @@ class DefaultAuthenticationMethod implements AuthenticationMethod, UsesRequestID
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
         $client_id  = $this->getClientId($request);
-        $request_id = $request->getNonemptyHeaderValue(self::DEFAULT_REQUEST_ID_HEADER);
+        $request_id = $this->getRequestId($request);
         $auth_token = $request->getNonemptyHeaderValue(self::DEFAULT_AUTH_TOKEN_HEADER);
 
         self::validateRequestId($request_id);
@@ -106,6 +106,11 @@ class DefaultAuthenticationMethod implements AuthenticationMethod, UsesRequestID
     public function getClientId(RequestInfo $request): string
     {
         return $request->getNonemptyHeaderValue(self::DEFAULT_CLIENT_ID_HEADER);
+    }
+
+    public function getRequestId(RequestInfo $request): string
+    {
+        return $request->getNonemptyHeaderValue(self::DEFAULT_REQUEST_ID_HEADER);
     }
 
 }
