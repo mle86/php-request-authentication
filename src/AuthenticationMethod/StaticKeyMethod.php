@@ -24,8 +24,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *
  * @internal This authentication method should not be used in the real world, it is insecure.
  */
-class StaticKeyMethod
-    implements AuthenticationMethod
+class StaticKeyMethod implements AuthenticationMethod
 {
 
     const DEFAULT_HEADER_NAME = 'X-API-Key';

@@ -7,8 +7,7 @@ namespace mle86\RequestAuthentication\KeyRepository;
 /**
  * A client key repository that contains exactly one client key.
  */
-class SingleKeyRepository
-    extends KeyRepository
+class SingleKeyRepository extends KeyRepository
 {
 
     private $client_id;

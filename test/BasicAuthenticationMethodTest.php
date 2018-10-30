@@ -9,8 +9,7 @@ use mle86\RequestAuthentication\DTO\RequestInfo;
 use mle86\RequestAuthentication\Tests\Helper\AuthenticationMethodTests;
 use PHPUnit\Framework\TestCase;
 
-class BasicAuthenticationMethodTest
-    extends TestCase
+class BasicAuthenticationMethodTest extends TestCase
 {
     use AuthenticationMethodTests;
 

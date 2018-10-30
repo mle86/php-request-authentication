@@ -11,8 +11,7 @@ use mle86\RequestAuthentication\Tests\Helper\AssertException;
 use mle86\RequestAuthentication\Tests\Helper\KeyRepositoryTests;
 use PHPUnit\Framework\TestCase;
 
-class SingleKeyRepositoryTest
-    extends TestCase
+class SingleKeyRepositoryTest extends TestCase
 {
     use AssertException;
     use KeyRepositoryTests;

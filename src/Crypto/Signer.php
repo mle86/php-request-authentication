@@ -21,6 +21,6 @@ interface Signer
      *                 in a printable, whitespace-free encoding
      *                 accepted by {@see Verifier::test()}.
      */
-    public function sign (string $message): string;
+    public function sign(string $message): string;
 
 }

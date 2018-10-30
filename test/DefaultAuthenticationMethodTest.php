@@ -11,8 +11,7 @@ use mle86\RequestAuthentication\Tests\Helper\RemoveHeaderMarker;
 use mle86\RequestAuthentication\Tests\Helper\RunID;
 use PHPUnit\Framework\TestCase;
 
-class DefaultAuthenticationMethodTest
-    extends TestCase
+class DefaultAuthenticationMethodTest extends TestCase
 {
     use AuthenticationMethodTests;
     use RunID;

@@ -19,8 +19,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  * which uses the same headers
  * but expects the signature value to be odd.
  */
-class TestMethodA
-    implements AuthenticationMethod
+class TestMethodA implements AuthenticationMethod
 {
 
     const SIGNATURE_HEADER = 'X-Test-Signature';

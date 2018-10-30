@@ -20,10 +20,8 @@ use Sodium;
  *
  * @see HaliteSigner  to use these key instances for calculating cryptographic signatures which can later be verified by {@see HaliteVerifier}.
  */
-class HaliteSigningPrivateKey
-    implements SigningPrivateKey
+class HaliteSigningPrivateKey implements SigningPrivateKey
 {
-
     use HaliteKeyEncoding;
 
     private $encoded;
@@ -61,7 +59,7 @@ class HaliteSigningPrivateKey
      */
     public static function fromRawKey(string $raw_private_key): self
     {
-        return new self (self::encodeKey($raw_private_key));
+        return new self(self::encodeKey($raw_private_key));
     }
 
     /**

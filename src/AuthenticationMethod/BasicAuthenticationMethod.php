@@ -19,8 +19,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *   whatever HTTP/REST/PSR-7 library you're using,
  *   it can probably do this better.
  */
-class BasicAuthenticationMethod
-    implements AuthenticationMethod
+class BasicAuthenticationMethod implements AuthenticationMethod
 {
 
     const HEADER = 'Authorization';
@@ -54,7 +53,7 @@ class BasicAuthenticationMethod
     {
         $header = $request->getNonemptyHeaderValue(self::HEADER);
 
-        if (strtolower(substr($header, 0,6)) !== 'basic ') {
+        if (strtolower(substr($header, 0, 6)) !== 'basic ') {
             throw new InvalidAuthenticationException('invalid ' . self::HEADER . ' header');
         }
         $header = trim(substr($header, 6), ' ');  // remove 'Basic ' prefix

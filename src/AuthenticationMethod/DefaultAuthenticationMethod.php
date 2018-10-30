@@ -8,7 +8,6 @@ use mle86\RequestAuthentication\AuthenticationMethod\Feature\UsesRequestID;
 use mle86\RequestAuthentication\DTO\RequestInfo;
 use mle86\RequestAuthentication\Exception\HashErrorException;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
-use mle86\RequestAuthentication\Exception\MissingAuthenticationHeaderException;
 use mle86\RequestAuthentication\KeyRepository\KeyRepository;
 
 /**
@@ -47,8 +46,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  * - The {@see verify} method **will NOT...**
  *     - check if the `X-Request-ID` header value is actually unique.
  */
-class DefaultAuthenticationMethod
-    implements AuthenticationMethod, UsesRequestID
+class DefaultAuthenticationMethod implements AuthenticationMethod, UsesRequestID
 {
     use HexRequestIDTrait;
     use DefaultDataTrait;
@@ -97,7 +95,7 @@ class DefaultAuthenticationMethod
 
         self::validateRequestId($request_id);
 
-        $client_key = $keys[$client_id];
+        $client_key     = $keys[$client_id];
         $expected_token = self::calculateToken($request, $client_key);
 
         if (!hash_equals($expected_token, $auth_token)) {

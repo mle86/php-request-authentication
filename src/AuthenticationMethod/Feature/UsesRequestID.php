@@ -30,8 +30,7 @@ use mle86\RequestAuthentication\AuthenticationMethod\DefaultAuthenticationMethod
  *                                   The class does auto-generate missing request IDs in {@see authenticate}.
  *                                   The class does not check for unique request IDs in {@see verify}.
  */
-interface UsesRequestID
-    extends AuthenticationMethod
+interface UsesRequestID extends AuthenticationMethod
 {
 
     const DEFAULT_REQUEST_ID_HEADER = 'X-Request-ID';

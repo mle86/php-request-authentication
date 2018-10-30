@@ -16,10 +16,8 @@ use Sodium;
  * This class exists mostly for some convenience methods
  * and to make sure the keys are always stored in a printable string encoding.
  */
-class HaliteSigningPublicKey
-    implements SigningPublicKey
+class HaliteSigningPublicKey implements SigningPublicKey
 {
-
     use HaliteKeyEncoding;
 
     private $encoded;
@@ -57,7 +55,7 @@ class HaliteSigningPublicKey
      */
     public static function fromRawKey(string $raw_public_key): self
     {
-        return new self (self::encodeKey($raw_public_key));
+        return new self(self::encodeKey($raw_public_key));
     }
 
     /**

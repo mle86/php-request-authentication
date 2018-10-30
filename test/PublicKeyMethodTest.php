@@ -12,8 +12,7 @@ use ParagonIE\Halite\KeyFactory;
 use ParagonIE\Halite\SignatureKeyPair;
 use PHPUnit\Framework\TestCase;
 
-class PublicKeyMethodTest
-    extends TestCase
+class PublicKeyMethodTest extends TestCase
 {
     use AuthenticationMethodTests;
     use RunID;

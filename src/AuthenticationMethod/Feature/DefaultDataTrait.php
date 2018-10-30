@@ -25,14 +25,17 @@ trait DefaultDataTrait
      * that will become part of the signature.
      * (Additionally, this method always includes the Content-Type header.)
      *
-     * @param RequestInfo $request  The request to sign.
-     * @param array $use_headers  Header names whose values should be included in the output.
+     * @param RequestInfo $request     The request to sign.
+     * @param array $use_headers       Header names whose values should be included in the output.
      * @param array $override_headers  Overridden header values that take precedence over $request's header values.
      * @return string  Signable request-dependent raw output.
      *                 This should NOT be sent anywhere, it should be used for HMAC hashing or some other cryptographic signing process.
      */
-    protected static function signableRequestData(RequestInfo $request, array $use_headers = [], array $override_headers = []): string
-    {
+    protected static function signableRequestData(
+        RequestInfo $request,
+        array $use_headers = [],
+        array $override_headers = []
+    ): string {
         $override_headers = array_change_key_case($override_headers, \CASE_LOWER);
 
         $hdr = function(string $header_name) use($request, $override_headers): string {

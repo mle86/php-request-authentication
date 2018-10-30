@@ -82,7 +82,7 @@ trait KeyRepositoryTests
         [false],
         [-3.3],
         [array()],
-        [new \stdClass],
+        [new \stdClass()],
     ]; }
 
 

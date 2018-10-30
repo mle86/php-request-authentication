@@ -17,8 +17,7 @@ use mle86\RequestAuthentication\Tests\Helper\TestMethodB;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 
-class MethodStackTest
-    extends TestCase
+class MethodStackTest extends TestCase
 {
     use AuthenticationMethodTestHelpers;
     use AuthenticationMethodTestDefaults;

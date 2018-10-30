@@ -9,8 +9,7 @@ use mle86\RequestAuthentication\Tests\Helper\AssertException;
 use mle86\RequestAuthentication\Tests\Helper\KeyRepositoryTests;
 use PHPUnit\Framework\TestCase;
 
-class ArrayRepositoryTest
-    extends TestCase
+class ArrayRepositoryTest extends TestCase
 {
     use AssertException;
     use KeyRepositoryTests;

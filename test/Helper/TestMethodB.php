@@ -22,8 +22,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  * Besides the odd signature number, there's another difference:
  * it has a prefix in the client id header!
  */
-class TestMethodB
-    implements AuthenticationMethod
+class TestMethodB implements AuthenticationMethod
 {
 
     const SIGNATURE_HEADER = TestMethodA::SIGNATURE_HEADER;

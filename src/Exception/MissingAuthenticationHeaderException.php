@@ -8,9 +8,7 @@ namespace mle86\RequestAuthentication\Exception;
  * in case of a missing or empty header value
  * that should be present and non-empty.
  */
-class MissingAuthenticationHeaderException
-    extends \RuntimeException
-    implements RequestAuthenticationException
+class MissingAuthenticationHeaderException extends \RuntimeException implements RequestAuthenticationException
 {
 
 }

@@ -21,16 +21,16 @@ use GuzzleHttp\HandlerStack;
 class RequestAuthenticator
 {
 
-	private $api_client_id;
-	private $api_secret_key;
-	private $method;
+    private $api_client_id;
+    private $api_secret_key;
+    private $method;
 
-	public function __construct(AuthenticationMethod $method, string $api_client_id, string $api_secret_key)
+    public function __construct(AuthenticationMethod $method, string $api_client_id, string $api_secret_key)
     {
         $this->method         = $method;
-		$this->api_client_id  = $api_client_id;
-		$this->api_secret_key = $api_secret_key;
-	}
+        $this->api_client_id  = $api_client_id;
+        $this->api_secret_key = $api_secret_key;
+    }
 
 
     /**
@@ -65,12 +65,12 @@ class RequestAuthenticator
      * @return Request  Contains added authentication data. Cloned from the input request instance.
      * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
      */
-	public function authenticateSymfonyRequest(Request $request): Request
+    public function authenticateSymfonyRequest(Request $request): Request
     {
-	    $request = clone $request;  // don't modify original
-	    $ri = RequestInfo::fromSymfonyRequest($request);
+        $request = clone $request;  // don't modify original
+        $ri      = RequestInfo::fromSymfonyRequest($request);
 
-	    $add_headers = $this->method->authenticate($ri, $this->api_client_id, $this->api_secret_key);
+        $add_headers = $this->method->authenticate($ri, $this->api_client_id, $this->api_secret_key);
         $request->headers->add($add_headers);
 
         return $request;

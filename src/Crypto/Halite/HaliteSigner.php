@@ -11,8 +11,7 @@ use ParagonIE\Halite\Halite;
  *
  * @see HaliteVerifier
  */
-class HaliteSigner
-    implements Signer
+class HaliteSigner implements Signer
 {
 
     const SIGNATURE_ENCODING = Halite::ENCODE_BASE64URLSAFE;

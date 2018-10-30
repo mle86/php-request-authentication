@@ -12,8 +12,8 @@ namespace mle86\RequestAuthentication\Crypto;
 interface SigningPublicKey
 {
 
-    public function __construct (string $encoded_public_key);
+    public function __construct(string $encoded_public_key);
 
-    public function getEncodedForm (): string;
+    public function getEncodedForm(): string;
 
 }

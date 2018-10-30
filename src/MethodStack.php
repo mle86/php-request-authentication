@@ -24,8 +24,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  * the {@see authenticate()} call will always be delegated
  * to the _first instance_ in the stack.
  */
-class MethodStack
-    implements AuthenticationMethod
+class MethodStack implements AuthenticationMethod
 {
 
     /** @var AuthenticationMethod[] */
@@ -51,7 +50,7 @@ class MethodStack
                 // okay, keep instance
             } elseif (is_string($method) && class_exists($method) && is_subclass_of($method, AuthenticationMethod::class, true)) {
                 // is fqdn of method class, instantiate:
-                $method = new $method ();
+                $method = new $method();
             } else {
                 throw new InvalidArgumentException('$methods must be array of AuthenticationMethod instances or class names');
             }
@@ -87,7 +86,7 @@ class MethodStack
      *
      * If none of the method instances accept the input
      * and they all throw a {@see MissingAuthenticationHeaderException}s,
--     * the first of them is re-thrown.
+     * the first of them is re-thrown.
      * If none of the method instances accept the input
      * and at least one of them throws a {@see InvalidAuthenticationException} or {@see CryptoErrorException},
      * a new {@see InvalidAuthenticationException} is thrown.
@@ -165,7 +164,7 @@ class MethodStack
 
     /**
      * @param AuthenticationMethod[]|iterable $methods  The list of methods to try.
-     * @param callable $callback  The callback to execute. Will receive one {@see AuthenticationMethod} instance as its only argument.
+     * @param callable $callback                        The callback to execute. Will receive one {@see AuthenticationMethod} instance as its only argument.
      * @return array  Returns an array with two elements.
      *                The first element is the successful {@see AuthenticationMethod} instance,
      *                the second element is whatever the first successful callback returned (which might be void/null).

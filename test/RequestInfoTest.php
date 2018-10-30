@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @backupGlobals enabled
  */
-class RequestInfoTest
-    extends TestCase
+class RequestInfoTest extends TestCase
 {
     use AssertException;
 

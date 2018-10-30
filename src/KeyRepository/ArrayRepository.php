@@ -13,8 +13,7 @@ namespace mle86\RequestAuthentication\KeyRepository;
  * - Client IDs must be non-zero integers or non-empty strings.
  * - Client keys must be non-empty strings.
  */
-class ArrayRepository
-    extends KeyRepository
+class ArrayRepository extends KeyRepository
 {
 
     private $keys;

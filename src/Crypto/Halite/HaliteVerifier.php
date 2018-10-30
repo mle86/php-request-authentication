@@ -13,8 +13,7 @@ use ParagonIE\Halite\Asymmetric;
  *
  * @see HaliteSigner
  */
-class HaliteVerifier
-    extends Verifier
+class HaliteVerifier extends Verifier
 {
 
     const SIGNATURE_ENCODING = HaliteSigner::SIGNATURE_ENCODING;

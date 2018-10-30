@@ -9,8 +9,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
 use mle86\RequestAuthentication\Tests\Helper\AuthenticationMethodTests;
 use PHPUnit\Framework\TestCase;
 
-class StaticKeyMethodTest
-    extends TestCase
+class StaticKeyMethodTest extends TestCase
 {
     use AuthenticationMethodTests;
 

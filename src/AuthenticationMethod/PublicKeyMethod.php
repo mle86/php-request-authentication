@@ -12,7 +12,6 @@ use mle86\RequestAuthentication\Crypto\Halite\HaliteVerifier;
 use mle86\RequestAuthentication\Crypto\Signer;
 use mle86\RequestAuthentication\Crypto\Verifier;
 use mle86\RequestAuthentication\DTO\RequestInfo;
-use mle86\RequestAuthentication\Exception\MissingAuthenticationHeaderException;
 use mle86\RequestAuthentication\KeyRepository\KeyRepository;
 
 /**
@@ -36,14 +35,13 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *
  * @see https://github.com/paragonie/halite  This method assumes that the paragonie/halite cryptographic library is available in your project.
  */
-class PublicKeyMethod
-    implements AuthenticationMethod, UsesRequestID
+class PublicKeyMethod implements AuthenticationMethod, UsesRequestID
 {
     use HexRequestIDTrait;
     use DefaultDataTrait;
 
-    const CLIENT_ID_HEADER  = 'X-API-Client';
-    const SIGNATURE_HEADER  = 'X-API-Signature';
+    const CLIENT_ID_HEADER = 'X-API-Client';
+    const SIGNATURE_HEADER = 'X-API-Signature';
 
     const ADD_REQUEST_ID_HEADER_IF_MISSING = true;
 

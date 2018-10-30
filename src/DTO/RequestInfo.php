@@ -28,11 +28,11 @@ class RequestInfo
     /**
      * RequestInfo constructor.
      *
-     * @param string $http_method  HTTP method verb, in uppercase letters (e.g. "GET").
-     * @param string $http_scheme  Request scheme (e.g. "https").
-     * @param string $http_host  HTTP host, including port if non-default (e.g. "www.domain.test" or "www2.domain.test:8080").
-     * @param string $http_path  Full HTTP path including query string (e.g.  "/info.html" or "/").
-     * @param string $request_body  Raw request body contents.
+     * @param string $http_method     HTTP method verb, in uppercase letters (e.g. "GET").
+     * @param string $http_scheme     Request scheme (e.g. "https").
+     * @param string $http_host       HTTP host, including port if non-default (e.g. "www.domain.test" or "www2.domain.test:8080").
+     * @param string $http_path       Full HTTP path including query string (e.g.  "/info.html" or "/").
+     * @param string $request_body    Raw request body contents.
      * @param array $request_headers  All HTTP headers included in the request: [headerName => headerValue…].
      *                                In case of array headerValues, they will be joined with \x00 (NUL) characters.
      */
@@ -43,8 +43,7 @@ class RequestInfo
         string $http_path = '/',
         string $request_body = '',
         array $request_headers = []
-    )
-    {
+    ) {
         $this->http_method     = $http_method;
         $this->http_scheme     = $http_scheme;
         $this->http_host       = $http_host;
@@ -132,7 +131,7 @@ class RequestInfo
     {
         $uri = $request->getUri();
 
-        $path = $uri->getPath();
+        $path  = $uri->getPath();
         $query = $uri->getQuery();
         if ($query !== null && $query !== '') {
             $path .= '?' . $query;

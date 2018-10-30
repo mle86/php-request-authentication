@@ -40,7 +40,7 @@ interface AuthenticationMethod
      * based on its headers, http method/host/uri, and request body.
      *
      * @param RequestInfo $request
-     * @param string $api_client_id  The API client's identification which will be included in the output headers.
+     * @param string $api_client_id   The API client's identification which will be included in the output headers.
      * @param string $api_secret_key  The client's secret key used to calculate the authentication token.
      * @return array  Returns an array of HTTP headers that must be added to the request before sending it: [headerName => headerValue, …]
      * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
@@ -56,7 +56,7 @@ interface AuthenticationMethod
      * against that key and the request data.
      *
      * @param RequestInfo $request  The request to verify.
-     * @param KeyRepository $keys  The client keys available for authentication.
+     * @param KeyRepository $keys   The client keys available for authentication.
      * @return void  on success.
      * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
      * @throws InvalidAuthenticationException  on incorrect authentication header(s).

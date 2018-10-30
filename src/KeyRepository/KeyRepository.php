@@ -20,8 +20,7 @@ use mle86\RequestAuthentication\Exception\UnknownClientIdException;
  * A basic implementation is the {@see ArrayRepository} which simply wraps a `[clientId => clientSecret, …]` array.
  * More complex implementations may look up the client secret in a database or some other external system.
  */
-abstract class KeyRepository
-    implements \ArrayAccess
+abstract class KeyRepository implements \ArrayAccess
 {
 
     /**
