@@ -11,7 +11,7 @@ and for verifying inbound API requests' authentication.
 It is released under the [MIT License](https://opensource.org/licenses/MIT).
 
 
-## Installation:
+## Installation
 
 Via Composer:  `$ composer require mle86/request-authentication`
 
@@ -24,12 +24,12 @@ Or insert this into your project's `composer.json` file:
 ```
 
 
-## Minimum PHP version:
+## Minimum PHP Version
 
 PHP 7.1
 
 
-## Workflow:
+## Workflow
 
 This library contains several [AuthenticationMethod] classes.
 
@@ -42,7 +42,7 @@ Usually the [AuthenticationMethod] classes won't be used directly
 there's the [RequestAuthenticator] and [RequestVerifier] wrapper classes instead
 that take an AuthenticationMethod dependency.
 
-To sign/authenticate an outbound request
+**To sign/authenticate an outbound request**
 you'll need an [AuthenticationMethod] instance
 wrapped in a [RequestAuthenticator] instance,
 a client ID and a client secret,
@@ -52,7 +52,7 @@ the required authentication headers
 to the request
 so that it can be sent.
 
-To verify an inbound request
+**To verify an inbound request**
 you'll need an [AuthenticationMethod] instance of the same class
 wrapped in a [RequestVerifier] instance
 and a [KeyRepository] that will map the request's client ID
@@ -62,12 +62,12 @@ the client will use its private key for signing
 and the [KeyRepository] must return the client's public key.)
 
 
-## Classes and interfaces:
+## Classes and Interfaces
 
-* Main wrapper classes:
+* **Main wrapper classes:**
     * [RequestAuthenticator] wrapper class,
     * [RequestVerifier] wrapper class.
-* [AuthenticationMethod] main interface:
+* **[AuthenticationMethod] main interface:**
     * [BasicAuthenticationMethod] class,
     * [DefaultAuthenticationMethod] class,
     * [PublicKeyMethod] class,
@@ -88,4 +88,3 @@ and the [KeyRepository] must return the client's public key.)
 [ArrayRepository]: doc/Class_ArrayRepository.md
 [Exception]: doc/Exceptions.md
 [MethodStack]: doc/Class_MethodStack.md
-
