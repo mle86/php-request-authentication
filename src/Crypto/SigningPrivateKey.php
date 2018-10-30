@@ -12,7 +12,7 @@ namespace mle86\RequestAuthentication\Crypto;
 interface SigningPrivateKey
 {
 
-    public function __construct(string $encoded_private_key);
+    public function __construct(string $encodedPrivateKey);
 
     public function getEncodedForm(): string;
 

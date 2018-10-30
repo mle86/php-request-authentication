@@ -30,8 +30,8 @@ class MethodStack implements AuthenticationMethod
     /** @var AuthenticationMethod[] */
     private $methods;
 
-    private $last_request;
-    private $last_method;
+    private $lastRequest;
+    private $lastMethod;
 
     /**
      * @param AuthenticationMethod[]|string[]|iterable  A list of {@see AuthenticationMethod} instances or class names.
@@ -65,15 +65,15 @@ class MethodStack implements AuthenticationMethod
      * of the _first method_ in the stack.
      *
      * @param RequestInfo $request
-     * @param string $api_client_id
-     * @param string $api_secret_key
+     * @param string $apiClientId
+     * @param string $apiSecretKey
      * @return array
      * @throws CryptoErrorException
      */
-    public function authenticate(RequestInfo $request, string $api_client_id, string $api_secret_key): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
     {
         $method = reset($this->methods);
-        return $method->authenticate($request, $api_client_id, $api_secret_key);
+        return $method->authenticate($request, $apiClientId, $apiSecretKey);
     }
 
     /**
@@ -98,15 +98,15 @@ class MethodStack implements AuthenticationMethod
      */
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
-        $used_method = $this->applyStack(
+        $usedMethod = $this->applyStack(
             $this->methods,
             function(AuthenticationMethod $method) use($request, $keys) {
                 $method->verify($request, $keys);
             }
         )[0];
 
-        $this->last_request = $request;
-        $this->last_method  = $used_method;
+        $this->lastRequest = $request;
+        $this->lastMethod  = $usedMethod;
     }
 
     /**
@@ -149,9 +149,9 @@ class MethodStack implements AuthenticationMethod
          */
 
         $methods = $this->methods;
-        if ($request === $this->last_request) {
+        if ($request === $this->lastRequest) {
             // we already know the correct method for this request, try it first:
-            $methods = array_merge([$this->last_method], $methods);
+            $methods = array_merge([$this->lastMethod], $methods);
         }
 
         return $this->applyStack(

@@ -25,25 +25,25 @@ trait DefaultDataTrait
      * that will become part of the signature.
      * (Additionally, this method always includes the Content-Type header.)
      *
-     * @param RequestInfo $request     The request to sign.
-     * @param array $use_headers       Header names whose values should be included in the output.
-     * @param array $override_headers  Overridden header values that take precedence over $request's header values.
+     * @param RequestInfo $request   The request to sign.
+     * @param array $useHeaders      Header names whose values should be included in the output.
+     * @param array $overrideHeaders Overridden header values that take precedence over $request's header values.
      * @return string  Signable request-dependent raw output.
      *                 This should NOT be sent anywhere, it should be used for HMAC hashing or some other cryptographic signing process.
      */
     protected static function signableRequestData(
         RequestInfo $request,
-        array $use_headers = [],
-        array $override_headers = []
+        array $useHeaders = [],
+        array $overrideHeaders = []
     ): string {
-        $override_headers = array_change_key_case($override_headers, \CASE_LOWER);
+        $overrideHeaders = array_change_key_case($overrideHeaders, \CASE_LOWER);
 
-        $hdr = function(string $header_name) use($request, $override_headers): string {
+        $hdr = function(string $headerName) use($request, $overrideHeaders): string {
             try {
-                $header_name = strtolower($header_name);
+                $headerName = strtolower($headerName);
                 return
-                    $override_headers[$header_name] ??
-                    $request->getHeaderValue($header_name) ??
+                    $overrideHeaders[$headerName] ??
+                    $request->getHeaderValue($headerName) ??
                     '';
             } catch (MissingAuthenticationHeaderException $e) {
                 return '';
@@ -56,21 +56,21 @@ trait DefaultDataTrait
         $separator = "\n";
 
         // always include these header values:
-        $header_info = '';
-        $force_use_headers = ['Content-Type'];
-        foreach ($force_use_headers as $use_header_name) {
-            $header_info .= $hdr($use_header_name) . $separator;
+        $headerInfo = '';
+        $forceUseHeaders = ['Content-Type'];
+        foreach ($forceUseHeaders as $useHeaderName) {
+            $headerInfo .= $hdr($useHeaderName) . $separator;
         }
         // attach more header values as requested:
-        foreach ($use_headers as $use_header_name) {
-            $header_info .= $hdr($use_header_name) . $separator;
+        foreach ($useHeaders as $useHeaderName) {
+            $headerInfo .= $hdr($useHeaderName) . $separator;
         }
 
         return
             // HTTP method and exact URI:
             "{$request->getHttpMethod()} {$request->getUri()}" . $separator .
-            // Header values based on $force_use_headers and $use_headers:
-            $header_info .
+            // Header values based on $forceUseHeaders and $useHeaders:
+            $headerInfo .
             // Full request body, if present:
             $request->getRequestBody();
     }

@@ -63,17 +63,17 @@ class MethodStackTest extends TestCase
      */
     public function testAuthenticate(MethodStack $ab)
     {
-        $empty_request = $this->buildRequest();
+        $emptyRequest = $this->buildRequest();
 
-        $auth_headers = $ab->authenticate(RequestInfo::fromPsr7($empty_request), 'C0', 'CS');
+        $authHeaders = $ab->authenticate(RequestInfo::fromPsr7($emptyRequest), 'C0', 'CS');
 
         // The first method should have added its headers and should therefore now consider the complete request valid:
-        $this->checkValidResult($empty_request, $auth_headers, new TestMethodA());
+        $this->checkValidResult($emptyRequest, $authHeaders, new TestMethodA());
 
         // The second method should NOT have added its headers and should therefore still consider the complete request invalid:
         $this->assertException(InvalidAuthenticationException::class,
-            function() use($empty_request, $auth_headers) {
-                $this->checkValidResult($empty_request, $auth_headers, new TestMethodB());
+            function() use($emptyRequest, $authHeaders) {
+                $this->checkValidResult($emptyRequest, $authHeaders, new TestMethodB());
             });
     }
 
@@ -82,30 +82,30 @@ class MethodStackTest extends TestCase
      */
     public function testVerify(MethodStack $ab)
     {
-        $empty_request = $this->buildRequest();
+        $emptyRequest = $this->buildRequest();
 
-        $auth_a_headers = (new TestMethodA())->authenticate(RequestInfo::fromPsr7($empty_request), 'C0', 'CS');
-        $auth_b_headers = (new TestMethodB())->authenticate(RequestInfo::fromPsr7($empty_request), 'C0', 'CS');
+        $auth_a_headers = (new TestMethodA())->authenticate(RequestInfo::fromPsr7($emptyRequest), 'C0', 'CS');
+        $auth_b_headers = (new TestMethodB())->authenticate(RequestInfo::fromPsr7($emptyRequest), 'C0', 'CS');
 
         // Both must be accepted:
-        $this->checkValidResult($empty_request, $auth_a_headers, $ab);
-        $this->checkValidResult($empty_request, $auth_b_headers, $ab);
+        $this->checkValidResult($emptyRequest, $auth_a_headers, $ab);
+        $this->checkValidResult($emptyRequest, $auth_b_headers, $ab);
 
         // Empty requests can never match.
         $this->assertException(MissingAuthenticationHeaderException::class,
-            function() use($empty_request, $ab) {
-                $this->checkValidResult($empty_request, [], $ab);
+            function() use($emptyRequest, $ab) {
+                $this->checkValidResult($emptyRequest, [], $ab);
             });
 
         // Now we'll build a request that has the headers for both classes, but incorrect values.
         // This should result in an InvalidAuthenticationException internally, and we also expect that class to be thrown.
-        $fail_headers = [
+        $failHeaders = [
             TestMethodA::CLIENT_HEADER    => '?',
             TestMethodA::SIGNATURE_HEADER => '-3.3',
         ];
         $this->assertException(InvalidAuthenticationException::class,
-            function() use($empty_request, $fail_headers, $ab) {
-                $this->checkValidResult($empty_request, $fail_headers, $ab);
+            function() use($emptyRequest, $failHeaders, $ab) {
+                $this->checkValidResult($emptyRequest, $failHeaders, $ab);
             });
     }
 
@@ -115,11 +115,11 @@ class MethodStackTest extends TestCase
      */
     public function testGetClientId(MethodStack $ab)
     {
-        $base_request = $this->buildRequest();
+        $baseRequest = $this->buildRequest();
 
-        $assertClientId = function(MethodStack $stack, array $add_headers, string $expectedClientId) use($base_request): void {
-            $authenticated_request = $this->applyHeaders($base_request, $add_headers);
-            $ri = RequestInfo::fromPsr7($authenticated_request);
+        $assertClientId = function(MethodStack $stack, array $addHeaders, string $expectedClientId) use($baseRequest): void {
+            $authenticatedRequest = $this->applyHeaders($baseRequest, $addHeaders);
+            $ri = RequestInfo::fromPsr7($authenticatedRequest);
 
             // MethodStack::getClientId() promises correct results only if verify() is called before (with same request instance)
             $stack->verify($ri, $this->getTestingKeyRepository());
@@ -136,8 +136,8 @@ class MethodStackTest extends TestCase
             $ab->getMethods()[0],
         ]);
 
-        $auth_a_headers = (new TestMethodA())->authenticate(RequestInfo::fromPsr7($base_request), 'C.A', 'CS');
-        $auth_b_headers = (new TestMethodB())->authenticate(RequestInfo::fromPsr7($base_request), 'C.B', 'CS');
+        $auth_a_headers = (new TestMethodA())->authenticate(RequestInfo::fromPsr7($baseRequest), 'C.A', 'CS');
+        $auth_b_headers = (new TestMethodB())->authenticate(RequestInfo::fromPsr7($baseRequest), 'C.B', 'CS');
 
         $assertClientId($ab, $auth_a_headers, 'C.A');
         $assertClientId($ba, $auth_a_headers, 'C.A');

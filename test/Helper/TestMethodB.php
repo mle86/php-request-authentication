@@ -30,10 +30,10 @@ class TestMethodB implements AuthenticationMethod
 
     const CLIENT_PREFIX = 'PREFIX!';
 
-    public function authenticate(RequestInfo $request, string $api_client_id, string $api_secret_key): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
     {
         return [
-            self::CLIENT_HEADER    => self::CLIENT_PREFIX . $api_client_id,
+            self::CLIENT_HEADER    => self::CLIENT_PREFIX . $apiClientId,
             self::SIGNATURE_HEADER => (2 * random_int(1, 1000)) + 1,
         ];
     }
@@ -43,11 +43,11 @@ class TestMethodB implements AuthenticationMethod
         $this->getClientId($request);  // value required but not validated
 
         $sig = $request->getNonemptyHeaderValue(self::SIGNATURE_HEADER);
-        $is_odd_integer = (
+        $isOddInteger = (
             (is_int($sig) || ctype_digit($sig)) &&
             $sig > 0 &&
             ($sig % 2) === 1);
-        if (!$is_odd_integer) {
+        if (!$isOddInteger) {
             throw new InvalidAuthenticationException('invalid signature value');
         }
     }

@@ -226,17 +226,17 @@ class RequestInfo
      * Like {@see getHeaderValue()}, but will never return `null` or the empty string –
      * it'll throw a {@see MissingAuthenticationHeaderException} instead.
      *
-     * @param string $header_name  The name of the header(s) to return. Case-insensitive.
+     * @param string $headerName The name of the header(s) to return. Case-insensitive.
      * @return string
      *   - If the header exists multiple times, its values will be joined with {@see RequestInfo::REPEATED_HEADERS_JOIN}.
      * @throws MissingAuthenticationHeaderException  if the header does not exist.
      * @throws MissingAuthenticationHeaderException  if the header exists but its value is the empty string.
      */
-    public function getNonemptyHeaderValue(string $header_name): string
+    public function getNonemptyHeaderValue(string $headerName): string
     {
-        $header = $this->getHeaderValue($header_name);
+        $header = $this->getHeaderValue($headerName);
         if ($header === null || $header === '') {
-            throw new MissingAuthenticationHeaderException('empty \'' . $header_name . '\' header');
+            throw new MissingAuthenticationHeaderException('empty \'' . $headerName . '\' header');
         }
 
         return $header;

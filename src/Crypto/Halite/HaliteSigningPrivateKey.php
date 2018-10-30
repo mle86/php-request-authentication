@@ -30,36 +30,36 @@ class HaliteSigningPrivateKey implements SigningPrivateKey
     /**
      * Creates a new instance from an encoded private key.
      *
-     * @param string $encoded_private_key The private key.
+     * @param string $encodedPrivateKey The private key.
      * @throws CryptoErrorException  if the private key is invalid.
      */
-    public function __construct(string $encoded_private_key)
+    public function __construct(string $encodedPrivateKey)
     {
-        $this->encoded = new HiddenString($encoded_private_key);
+        $this->encoded = new HiddenString($encodedPrivateKey);
 
-        $raw_private_key = self::decodeKey($encoded_private_key);
+        $rawPrivateKey = self::decodeKey($encodedPrivateKey);
 
         try {
             $this->key = new SignatureSecretKey(
-                new HiddenString($raw_private_key, true, true)
+                new HiddenString($rawPrivateKey, true, true)
             );
         } catch (InvalidKey $e) {
             throw new CryptoErrorException('invalid private key', 0, $e);
         } finally {
-            Sodium\memzero($raw_private_key);
+            Sodium\memzero($rawPrivateKey);
         }
     }
 
     /**
      * Creates a new instance from a raw, unencoded private key.
      *
-     * @param string $raw_private_key The unencoded private key.
+     * @param string $rawPrivateKey The unencoded private key.
      * @return self
      * @throws CryptoErrorException  if the private key is invalid.
      */
-    public static function fromRawKey(string $raw_private_key): self
+    public static function fromRawKey(string $rawPrivateKey): self
     {
-        return new self(self::encodeKey($raw_private_key));
+        return new self(self::encodeKey($rawPrivateKey));
     }
 
     /**

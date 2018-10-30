@@ -7,14 +7,14 @@ use mle86\RequestAuthentication\Exception\InvalidArgumentException;
 trait HaliteKeyEncoding
 {
 
-    protected static function encodeKey(string $raw_key): string
+    protected static function encodeKey(string $rawKey): string
     {
-        return base64_encode($raw_key);
+        return base64_encode($rawKey);
     }
 
-    protected static function decodeKey(string $encoded_key): string
+    protected static function decodeKey(string $encodedKey): string
     {
-        $decoded = base64_decode($encoded_key, true);
+        $decoded = base64_decode($encodedKey, true);
 
         if ($decoded === null || $decoded === false || $decoded === '') {
             throw new InvalidArgumentException('could not decode key');

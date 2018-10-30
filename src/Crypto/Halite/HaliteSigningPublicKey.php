@@ -26,36 +26,36 @@ class HaliteSigningPublicKey implements SigningPublicKey
     /**
      * Creates a new instance from an encoded public key.
      *
-     * @param string $encoded_public_key The public key.
+     * @param string $encodedPublicKey The public key.
      * @throws CryptoErrorException  if the public key is invalid.
      */
-    public function __construct(string $encoded_public_key)
+    public function __construct(string $encodedPublicKey)
     {
-        $this->encoded = $encoded_public_key;
+        $this->encoded = $encodedPublicKey;
 
-        $raw_public_key = self::decodeKey($encoded_public_key);
+        $rawPublicKey = self::decodeKey($encodedPublicKey);
 
         try {
             $this->key = new SignaturePublicKey(
-                new HiddenString($raw_public_key, true, true)
+                new HiddenString($rawPublicKey, true, true)
             );
         } catch (InvalidKey $e) {
             throw new CryptoErrorException('invalid public key', 0, $e);
         } finally {
-            Sodium\memzero($raw_public_key);
+            Sodium\memzero($rawPublicKey);
         }
     }
 
     /**
      * Creates a new instance from a raw, unencoded public key.
      *
-     * @param string $raw_public_key The unencoded public key.
+     * @param string $rawPublicKey The unencoded public key.
      * @return self
      * @throws CryptoErrorException  if the public key is invalid.
      */
-    public static function fromRawKey(string $raw_public_key): self
+    public static function fromRawKey(string $rawPublicKey): self
     {
-        return new self(self::encodeKey($raw_public_key));
+        return new self(self::encodeKey($rawPublicKey));
     }
 
     /**
@@ -72,12 +72,12 @@ class HaliteSigningPublicKey implements SigningPublicKey
     /**
      * Creates a new instance from an existing private key.
      *
-     * @param HaliteSigningPrivateKey $private_key The private key to derive the new public key from.
+     * @param HaliteSigningPrivateKey $privateKey The private key to derive the new public key from.
      * @return self
      */
-    public static function fromPrivateKey(HaliteSigningPrivateKey $private_key): self
+    public static function fromPrivateKey(HaliteSigningPrivateKey $privateKey): self
     {
-        return self::fromRawKey($private_key->getInternalKey()->derivePublicKey()->getRawKeyMaterial());
+        return self::fromRawKey($privateKey->getInternalKey()->derivePublicKey()->getRawKeyMaterial());
     }
 
 

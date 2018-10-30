@@ -40,12 +40,12 @@ interface AuthenticationMethod
      * based on its headers, http method/host/uri, and request body.
      *
      * @param RequestInfo $request
-     * @param string $api_client_id   The API client's identification which will be included in the output headers.
-     * @param string $api_secret_key  The client's secret key used to calculate the authentication token.
+     * @param string $apiClientId  The API client's identification which will be included in the output headers.
+     * @param string $apiSecretKey The client's secret key used to calculate the authentication token.
      * @return array  Returns an array of HTTP headers that must be added to the request before sending it: [headerName => headerValue, …]
      * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
      */
-    public function authenticate(RequestInfo $request, string $api_client_id, string $api_secret_key): array;
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array;
 
     /**
      * Verifies one request's authentication token.

@@ -92,11 +92,11 @@ trait KeyRepositoryTests
      * @dataProvider unknownKeys
      * @depends testGetInstance
      */
-    public function testUnknownKeys($unknown_key, KeyRepository $keys): void
+    public function testUnknownKeys($unknownKey, KeyRepository $keys): void
     {
-        $this->assertFalse(isset($keys[$unknown_key]));
-        $this->assertException(UnknownClientIdException::class, function() use($keys, $unknown_key) {
-            $x = $keys[$unknown_key];
+        $this->assertFalse(isset($keys[$unknownKey]));
+        $this->assertException(UnknownClientIdException::class, function() use($keys, $unknownKey) {
+            $x = $keys[$unknownKey];
             unset($x);
         });
     }
@@ -122,29 +122,29 @@ trait KeyRepositoryTests
     {
         $keys = clone $keys;
 
-        $setto          = '#990199';
-        $existing_key   = array_keys  (static::defaultData())[0];
-        $existing_value = array_values(static::defaultData())[0];
-        $unknown_key    = self::unknownKeys()[0][0];
+        $setto         = '#990199';
+        $existingKey   = array_keys  (static::defaultData())[0];
+        $existingValue = array_values(static::defaultData())[0];
+        $unknownKey    = self::unknownKeys()[0][0];
 
-        $this->assertException(ImmutableDataException::class, function() use(&$keys, $existing_key, $setto) {
-            $keys[$existing_key] = $setto;
+        $this->assertException(ImmutableDataException::class, function() use(&$keys, $existingKey, $setto) {
+            $keys[$existingKey] = $setto;
         });
-        $this->assertNotSame($setto, $keys[$existing_key],
+        $this->assertNotSame($setto, $keys[$existingKey],
             'Write access to existing key caused an exception, but still changed the value!');
 
-        $this->assertException(ImmutableDataException::class, function() use(&$keys, $existing_key) {
-            unset($keys[$existing_key]);
+        $this->assertException(ImmutableDataException::class, function() use(&$keys, $existingKey) {
+            unset($keys[$existingKey]);
         });
-        $this->assertTrue(isset($keys[$existing_key]),
+        $this->assertTrue(isset($keys[$existingKey]),
             'unset() against an existing key caused an exception, but still removed the key!');
-        $this->assertSame($existing_value, $keys[$existing_key],
+        $this->assertSame($existingValue, $keys[$existingKey],
             'unset() against an existing key caused an exception, but still changed the value!');
 
-        $this->assertException(ImmutableDataException::class, function() use(&$keys, $unknown_key, $setto) {
-            $keys[$unknown_key] = $setto;
+        $this->assertException(ImmutableDataException::class, function() use(&$keys, $unknownKey, $setto) {
+            $keys[$unknownKey] = $setto;
         });
-        $this->assertFalse(isset($keys[$unknown_key]),
+        $this->assertFalse(isset($keys[$unknownKey]),
             'Write access to an unknown key caused an exception, but still created the key!');
     }
 

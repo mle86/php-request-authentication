@@ -20,24 +20,24 @@ class ArrayRepository extends KeyRepository
 
     public function __construct(array $keys)
     {
-        foreach ($keys as $client_id => $client_key) {
-            self::validateClientId($client_id);
-            self::validateClientKey($client_key);
+        foreach ($keys as $clientId => $clientKey) {
+            self::validateClientId($clientId);
+            self::validateClientKey($clientKey);
         }
 
         $this->keys = $keys;
     }
 
 
-    public function offsetExists($client_id): bool
+    public function offsetExists($clientId): bool
     {
-        return isset($this->keys[$client_id]);
+        return isset($this->keys[$clientId]);
     }
 
-    public function offsetGet($client_id): string
+    public function offsetGet($clientId): string
     {
-        $this->requireClientId($client_id);
-        return $this->keys[$client_id];
+        $this->requireClientId($clientId);
+        return $this->keys[$clientId];
     }
 
 }

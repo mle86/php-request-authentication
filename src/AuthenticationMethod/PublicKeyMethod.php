@@ -48,46 +48,46 @@ class PublicKeyMethod implements AuthenticationMethod, UsesRequestID
     private const USE_HEADERS_FOR_SIGNATURE = [self::CLIENT_ID_HEADER, self::DEFAULT_REQUEST_ID_HEADER];
 
 
-    protected function getSigner(string $api_secret_key): Signer
+    protected function getSigner(string $apiSecretKey): Signer
     {
-        return new HaliteSigner(new HaliteSigningPrivateKey($api_secret_key));
+        return new HaliteSigner(new HaliteSigningPrivateKey($apiSecretKey));
     }
 
-    protected function getVerifier(string $api_public_key): Verifier
+    protected function getVerifier(string $apiPublicKey): Verifier
     {
-        return new HaliteVerifier(new HaliteSigningPublicKey($api_public_key));
+        return new HaliteVerifier(new HaliteSigningPublicKey($apiPublicKey));
     }
 
 
-    public function authenticate(RequestInfo $request, string $api_client_id, string $api_secret_key): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
     {
-        $output_headers = [
-            self::CLIENT_ID_HEADER => $api_client_id,
+        $outputHeaders = [
+            self::CLIENT_ID_HEADER => $apiClientId,
         ];
 
         if (self::ADD_REQUEST_ID_HEADER_IF_MISSING && !$request->hasHeader(self::DEFAULT_REQUEST_ID_HEADER)) {
-            $output_headers[self::DEFAULT_REQUEST_ID_HEADER] = $this->generateRequestId();
+            $outputHeaders[self::DEFAULT_REQUEST_ID_HEADER] = $this->generateRequestId();
         }
 
-        $signable_message = self::signableRequestData($request, self::USE_HEADERS_FOR_SIGNATURE, $output_headers);
-        $signature        = $this->getSigner($api_secret_key)->sign($signable_message);
-        $output_headers[self::SIGNATURE_HEADER] = $signature;
+        $signableMessage = self::signableRequestData($request, self::USE_HEADERS_FOR_SIGNATURE, $outputHeaders);
+        $signature       = $this->getSigner($apiSecretKey)->sign($signableMessage);
+        $outputHeaders[self::SIGNATURE_HEADER] = $signature;
 
-        return $output_headers;
+        return $outputHeaders;
     }
 
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
-        $client_id  = $this->getClientId($request);
-        $request_id = $this->getRequestId($request);
+        $clientId  = $this->getClientId($request);
+        $requestId = $this->getRequestId($request);
         $signature  = $request->getNonemptyHeaderValue(self::SIGNATURE_HEADER);
 
-        self::validateRequestId($request_id);
+        self::validateRequestId($requestId);
 
-        $signable_message = self::signableRequestData($request, self::USE_HEADERS_FOR_SIGNATURE);
-        $public_key       = $keys[$client_id];
-        $verifier         = $this->getVerifier($public_key);
-        $verifier->verify($signable_message, $signature);
+        $signableMessage = self::signableRequestData($request, self::USE_HEADERS_FOR_SIGNATURE);
+        $publicKey       = $keys[$clientId];
+        $verifier        = $this->getVerifier($publicKey);
+        $verifier->verify($signableMessage, $signature);
     }
 
     public function getClientId(RequestInfo $request): string

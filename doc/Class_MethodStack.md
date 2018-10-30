@@ -38,7 +38,7 @@ to the _first instance_ in the stack.
 
 ## Method Overrides
 
-* <code><b>authenticate</b> ([RequestInfo] $request, string $api\_client\_id, string $api\_secret\_key): array</code>  
+* <code><b>authenticate</b> ([RequestInfo] $request, string $apiClientId, string $apiSecretKey): array</code>  
     Proxy for <code>[AuthenticationMethod]::authenticate()</code>
     of the _first method_ in the stack.
 

@@ -35,12 +35,12 @@ class DefaultAuthenticationMethodTest extends TestCase
     ]; }
 
 
-    protected function otherTests(AuthenticationMethod $method, array $original_add_headers)
+    protected function otherTests(AuthenticationMethod $method, array $originalAddHeaders)
     {
-        $this->checkMissingRequestId($method, $original_add_headers);
-        $this->checkModifiedRequestId($method, $original_add_headers);
+        $this->checkMissingRequestId($method, $originalAddHeaders);
+        $this->checkModifiedRequestId($method, $originalAddHeaders);
 
-        $this->checkRepeatedPayloadHeader($method, $this->applyHeaders($this->buildRequest(), $original_add_headers),
+        $this->checkRepeatedPayloadHeader($method, $this->applyHeaders($this->buildRequest(), $originalAddHeaders),
             'Content-Type');
     }
 
@@ -55,35 +55,35 @@ class DefaultAuthenticationMethodTest extends TestCase
         DefaultAuthenticationMethod::DEFAULT_CLIENT_ID_HEADER,
     ]; }
 
-    protected function checkMissingRequestId(AuthenticationMethod $method, array $original_add_headers)
+    protected function checkMissingRequestId(AuthenticationMethod $method, array $originalAddHeaders)
     {
         $request = $this->buildRequest();
 
-        foreach ($this->missingAuthenticationHeaderValues() as [$missing_value]) {
-            $incomplete_request = ($missing_value instanceof RemoveHeaderMarker)
+        foreach ($this->missingAuthenticationHeaderValues() as [$missingValue]) {
+            $incompleteRequest = ($missingValue instanceof RemoveHeaderMarker)
                 ? $request->withoutHeader(DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER)
-                : $request->withHeader(DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER, $missing_value);
+                : $request->withHeader(DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER, $missingValue);
 
-            $incomplete_headers = $original_add_headers;
-            unset($incomplete_headers[DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER]);
+            $incompleteHeaders = $originalAddHeaders;
+            unset($incompleteHeaders[DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER]);
 
-            $this->assertException(MissingAuthenticationHeaderException::class, function() use($incomplete_headers, $incomplete_request, $method) {
-                $this->checkValidResult($incomplete_request, $incomplete_headers, $method);
+            $this->assertException(MissingAuthenticationHeaderException::class, function() use($incompleteHeaders, $incompleteRequest, $method) {
+                $this->checkValidResult($incompleteRequest, $incompleteHeaders, $method);
             });
         }
     }
 
-    protected function checkModifiedRequestId(AuthenticationMethod $method, array $original_add_headers)
+    protected function checkModifiedRequestId(AuthenticationMethod $method, array $originalAddHeaders)
     {
         $request = $this->buildRequest();
 
-        $invalid_values = ['*', "\x00"];
-        foreach ($invalid_values as $invalid_value) {
-            $invalid_headers = $original_add_headers;
-            $invalid_headers[DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER] = $invalid_value;
+        $invalidValues = ['*', "\x00"];
+        foreach ($invalidValues as $invalidValue) {
+            $invalidHeaders = $originalAddHeaders;
+            $invalidHeaders[DefaultAuthenticationMethod::DEFAULT_REQUEST_ID_HEADER] = $invalidValue;
 
-            $this->assertException(InvalidAuthenticationException::class, function() use($invalid_headers, $request, $method) {
-                $this->checkValidResult($request, $invalid_headers, $method);
+            $this->assertException(InvalidAuthenticationException::class, function() use($invalidHeaders, $request, $method) {
+                $this->checkValidResult($request, $invalidHeaders, $method);
             });
         }
     }

@@ -17,18 +17,18 @@ class PublicKeyMethodTest extends TestCase
     use AuthenticationMethodTests;
     use RunID;
 
-    private static $default_key_pair;
+    private static $defaultKeyPair;
     private static function generateDefaultKeyPair(): SignatureKeyPair
     {
-        return (self::$default_key_pair ?? (self::$default_key_pair =
+        return (self::$defaultKeyPair ?? (self::$defaultKeyPair =
             KeyFactory::generateSignatureKeyPair()
         ));
     }
 
-    private static $other_key_pair;
+    private static $otherKeyPair;
     private static function generateOtherKeyPair(): SignatureKeyPair
     {
-        return (self::$other_key_pair ?? (self::$other_key_pair =
+        return (self::$otherKeyPair ?? (self::$otherKeyPair =
             KeyFactory::generateSignatureKeyPair()
         ));
     }
@@ -71,9 +71,9 @@ class PublicKeyMethodTest extends TestCase
         PublicKeyMethod::CLIENT_ID_HEADER,
     ]; }
 
-    protected function otherTests(AuthenticationMethod $method, array $original_add_headers)
+    protected function otherTests(AuthenticationMethod $method, array $originalAddHeaders)
     {
-        $this->checkRepeatedPayloadHeader($method, $this->applyHeaders($this->buildRequest(), $original_add_headers),
+        $this->checkRepeatedPayloadHeader($method, $this->applyHeaders($this->buildRequest(), $originalAddHeaders),
             'Content-Type');
     }
 

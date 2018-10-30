@@ -25,7 +25,7 @@ Wraps an [AuthenticationMethod] instance to authenticate outbound requests.
 
 ## Methods
 
-* **Constructor:** <code>\_\_construct ([AuthenticationMethod] $method, string $api\_client\_id, string $api\_secret\_key)</code>
+* **Constructor:** <code>\_\_construct ([AuthenticationMethod] $method, string $apiClientId, string $apiSecretKey)</code>
 
 * <code><b>authenticate</b> (Psr\Http\Message\RequestInterface $request): Psr\Http\Message\RequestInterface</code>  
     Takes a PSR-7 RequestInterface instance

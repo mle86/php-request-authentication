@@ -10,27 +10,27 @@ namespace mle86\RequestAuthentication\KeyRepository;
 class SingleKeyRepository extends KeyRepository
 {
 
-    private $client_id;
-    private $client_key;
+    private $clientId;
+    private $clientKey;
 
-    public function __construct($client_id, string $client_key)
+    public function __construct($clientId, string $clientKey)
     {
-        self::validateClientId($client_id);
-        self::validateClientKey($client_key);
+        self::validateClientId($clientId);
+        self::validateClientKey($clientKey);
 
-        $this->client_id  = $client_id;
-        $this->client_key = $client_key;
+        $this->clientId  = $clientId;
+        $this->clientKey = $clientKey;
     }
 
-    public function offsetExists($client_id): bool
+    public function offsetExists($clientId): bool
     {
-        return ($client_id === $this->client_id);
+        return ($clientId === $this->clientId);
     }
 
-    public function offsetGet($client_id): string
+    public function offsetGet($clientId): string
     {
-        $this->requireClientId($client_id);
-        return $this->client_key;
+        $this->requireClientId($clientId);
+        return $this->clientKey;
     }
 
 }

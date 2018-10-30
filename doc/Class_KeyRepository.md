@@ -28,8 +28,8 @@ More complex implementations may look up the client secret in a database or some
 
 The class implements the native [`ArrayAccess`](http://php.net/manual/class.arrayaccess.php) interface:
 
-* <code>offsetExists ($client\_id): bool</code>
-* <code>offsetGet ($client\_id): string</code>
-* <code>offsetUnset ($client\_id): void</code> – always throws an [ImmutableDataException][Exceptions].
-* <code>offsetSet ($client\_id, $value): void</code> – always throws an [ImmutableDataException][Exceptions].
+* <code>offsetExists ($clientId): bool</code>
+* <code>offsetGet ($clientId): string</code>
+* <code>offsetUnset ($clientId): void</code> – always throws an [ImmutableDataException][Exceptions].
+* <code>offsetSet ($clientId, $value): void</code> – always throws an [ImmutableDataException][Exceptions].
 

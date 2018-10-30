@@ -51,14 +51,14 @@ in case you need it for authorization checking/rate limiting/logging.
 
 ## Methods
 
-* <code><b>authenticate</b> ([RequestInfo] $request, string $api\_client\_id, string $api\_secret\_key): array</code>  
+* <code><b>authenticate</b> ([RequestInfo] $request, string $apiClientId, string $apiSecretKey): array</code>  
     Calculates the authentication data for one request
     based on its headers, http method/host/uri, and request body.  
 	Returns an array of HTTP headers that must be added to the request before sending it:
 	  `[headerName => headerValue, …]`  
 	Throws a [CryptoErrorException][Exceptions] if there was a problem with a low-level cryptographic function.
-	* `$api_client_id`: The API client's identification which will be included in the output headers.
-	* `$api_secret_key`: The client's secret key used to calculate the authentication token.
+	* `$apiClientId`: The API client's identification which will be included in the output headers.
+	* `$apiSecretKey`: The client's secret key used to calculate the authentication token.
 
 * <code><b>verify</b> ([RequestInfo] $request, [KeyRepository] $keys): void</code>  
 	Verifies one request's authentication token.  

@@ -10,8 +10,8 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
 /**
  * Implements HTTP “Basic” authentication.
  *
- * The Basic username is the $api_client_id,
- * the Basic password is the $api_secret_key.
+ * The Basic username is the $apiClientId,
+ * the Basic password is the $apiSecretKey.
  * The Basic password must also be returned unchanged by the KeyRepository.
  *
  * @internal
@@ -24,18 +24,18 @@ class BasicAuthenticationMethod implements AuthenticationMethod
 
     const HEADER = 'Authorization';
 
-    public function authenticate(RequestInfo $request, string $api_client_id, string $api_secret_key): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
     {
-        return [self::HEADER => 'Basic ' . base64_encode($api_client_id . ':' . $api_secret_key)];
+        return [self::HEADER => 'Basic ' . base64_encode($apiClientId . ':' . $apiSecretKey)];
     }
 
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
         [$username, $password] = $this->extractAuthenticationData($request);
 
-        $known_password = $keys[$username];
+        $knownPassword = $keys[$username];
 
-        if (!hash_equals($known_password, $password)) {
+        if (!hash_equals($knownPassword, $password)) {
             throw new InvalidAuthenticationException('auth password mismatch');
         }
     }
@@ -49,7 +49,7 @@ class BasicAuthenticationMethod implements AuthenticationMethod
      * @param RequestInfo $request
      * @return string[]  [$username, $password]
      */
-    private function extractAuthenticationData(RequestInfo $request): array
+    protected function extractAuthenticationData(RequestInfo $request): array
     {
         $header = $request->getNonemptyHeaderValue(self::HEADER);
 

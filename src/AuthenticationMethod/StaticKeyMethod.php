@@ -20,7 +20,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *    the actual return value is ignored, as long as it's non-empty.
  *    For example, this would work:
  *
- *    `new ArrayRepository([ $secret_key => '1', … ])`
+ *    `new ArrayRepository([ $secretKey => '1', … ])`
  *
  * @internal This authentication method should not be used in the real world, it is insecure.
  */
@@ -29,25 +29,25 @@ class StaticKeyMethod implements AuthenticationMethod
 
     const DEFAULT_HEADER_NAME = 'X-API-Key';
 
-    private $header_name;
-    public function __construct(string $header_name = self::DEFAULT_HEADER_NAME)
+    private $headerName;
+    public function __construct(string $headerName = self::DEFAULT_HEADER_NAME)
     {
-        $header_name = rtrim($header_name, ':');
-        if (!preg_match('/^[A-Za-z](?:[A-Za-z0-9\-]*[A-Za-z0-9])?$/', $header_name)) {
+        $headerName = rtrim($headerName, ':');
+        if (!preg_match('/^[A-Za-z](?:[A-Za-z0-9\-]*[A-Za-z0-9])?$/', $headerName)) {
             throw new InvalidArgumentException('invalid header name');
         }
 
-        $this->header_name = $header_name;
+        $this->headerName = $headerName;
     }
 
-    public function authenticate(RequestInfo $request, string $api_client_id, string $api_secret_key): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
     {
-        return [$this->header_name => $api_secret_key];
+        return [$this->headerName => $apiSecretKey];
     }
 
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
-        if (!isset($keys[ $request->getNonemptyHeaderValue($this->header_name) ])) {
+        if (!isset($keys[ $request->getNonemptyHeaderValue($this->headerName) ])) {
             throw new InvalidAuthenticationException('unknown api key');
         }
     }

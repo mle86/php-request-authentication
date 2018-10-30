@@ -21,15 +21,15 @@ use GuzzleHttp\HandlerStack;
 class RequestAuthenticator
 {
 
-    private $api_client_id;
-    private $api_secret_key;
+    private $apiClientId;
+    private $apiSecretKey;
     private $method;
 
-    public function __construct(AuthenticationMethod $method, string $api_client_id, string $api_secret_key)
+    public function __construct(AuthenticationMethod $method, string $apiClientId, string $apiSecretKey)
     {
-        $this->method         = $method;
-        $this->api_client_id  = $api_client_id;
-        $this->api_secret_key = $api_secret_key;
+        $this->method       = $method;
+        $this->apiClientId  = $apiClientId;
+        $this->apiSecretKey = $apiSecretKey;
     }
 
 
@@ -49,8 +49,8 @@ class RequestAuthenticator
     {
         $ri = RequestInfo::fromPsr7($request);
 
-        $add_headers = $this->method->authenticate($ri, $this->api_client_id, $this->api_secret_key);
-        foreach ($add_headers as $name => $value) {
+        $addHeaders = $this->method->authenticate($ri, $this->apiClientId, $this->apiSecretKey);
+        foreach ($addHeaders as $name => $value) {
             $request = $request->withHeader($name, $value);
         }
 
@@ -70,8 +70,8 @@ class RequestAuthenticator
         $request = clone $request;  // don't modify original
         $ri      = RequestInfo::fromSymfonyRequest($request);
 
-        $add_headers = $this->method->authenticate($ri, $this->api_client_id, $this->api_secret_key);
-        $request->headers->add($add_headers);
+        $addHeaders = $this->method->authenticate($ri, $this->apiClientId, $this->apiSecretKey);
+        $request->headers->add($addHeaders);
 
         return $request;
     }

@@ -35,46 +35,46 @@ trait AuthenticationMethodTests
         $request = $this->buildRequest();
         $ri = RequestInfo::fromPsr7($request);
 
-        $add_headers  = $method->authenticate($ri, self::sampleClientId(), self::sampleClientKey());
-        $add_headers2 = $method->authenticate($ri, self::sampleClientId(), self::sampleClientKey());
+        $addHeaders  = $method->authenticate($ri, self::sampleClientId(), self::sampleClientKey());
+        $addHeaders2 = $method->authenticate($ri, self::sampleClientId(), self::sampleClientKey());
 
-        if ($add_headers !== $add_headers2) {
+        if ($addHeaders !== $addHeaders2) {
             $this->markTestSkipped(
                 'Repeated authenticate() calls with same input produced different results, ' .
                 'this makes this test and testMismatchOnDifferentInput unreliable.');
         }
 
-        $this->checkValidResult($request, $add_headers, $method);
+        $this->checkValidResult($request, $addHeaders, $method);
 
-        return $add_headers;
+        return $addHeaders;
     }
 
     /**
      * @depends testGetInstance
      * @depends testSampleRequest
      */
-    public function testClientIdGetter(AuthenticationMethod $method, array $add_headers): void
+    public function testClientIdGetter(AuthenticationMethod $method, array $addHeaders): void
     {
         if (!$this->methodOutputIncludesClientId()) {
             // cannot test with this method implementation
             return;
         }
 
-        $original_request = $this->buildRequest();
-        $original_ri      = RequestInfo::fromPsr7($original_request);
+        $originalRequest = $this->buildRequest();
+        $originalRi      = RequestInfo::fromPsr7($originalRequest);
 
         // The original request contains no authentication data, so getClientId should fail:
-        $this->assertException(MissingAuthenticationHeaderException::class, function() use($original_request, $method) {
-            $this->checkValidResult($original_request, [], $method);
+        $this->assertException(MissingAuthenticationHeaderException::class, function() use($originalRequest, $method) {
+            $this->checkValidResult($originalRequest, [], $method);
         });
 
-        $authenticated_request = $this->applyHeaders($original_request, $add_headers);
-        $authenticated_ri      = RequestInfo::fromPsr7($authenticated_request);
+        $authenticatedRequest = $this->applyHeaders($originalRequest, $addHeaders);
+        $authenticatedRi      = RequestInfo::fromPsr7($authenticatedRequest);
 
         // After adding all the headers, the client ID should be contained within the updated request:
         $this->assertSame(
             self::sampleClientId(),
-            $method->getClientId($authenticated_ri));
+            $method->getClientId($authenticatedRi));
     }
 
     /**
@@ -82,24 +82,24 @@ trait AuthenticationMethodTests
      * @depends testGetInstance
      * @depends testSampleRequest
      */
-    public function testMismatchOnDifferentInput(RequestInterface $different_request, AuthenticationMethod $method, array $original_add_headers): void
+    public function testMismatchOnDifferentInput(RequestInterface $differentRequest, AuthenticationMethod $method, array $originalAddHeaders): void
     {
-        $different_ri = RequestInfo::fromPsr7($different_request);
-        $different_add_headers = $method->authenticate($different_ri, self::sampleClientId(), self::sampleClientKey());
+        $differentRi = RequestInfo::fromPsr7($differentRequest);
+        $differentAddHeaders = $method->authenticate($differentRi, self::sampleClientId(), self::sampleClientKey());
 
         if ($this->methodOutputDependsOnRequestData()) {
 
             // Make sure the resulting headers (including the signature) differ from the very first sample request:
-            $this->assertNotEquals($original_add_headers, $different_add_headers,
+            $this->assertNotEquals($originalAddHeaders, $differentAddHeaders,
                 "authenticate() added the exact same headers, but input data was different!");
 
             // Make sure the resulting headers (including the signature) also differ from all _other_ "different input" requests:
-            static $seen_headers = [];
-            $header_key = sha1(var_export($different_add_headers, true));
-            $this->assertArrayNotHasKey($header_key, $seen_headers,
+            static $seenHeaders = [];
+            $headerKey = sha1(var_export($differentAddHeaders, true));
+            $this->assertArrayNotHasKey($headerKey, $seenHeaders,
                 "authenticate() result headers have been seen in an earlier modified input request!\n" .
-                print_r($different_add_headers, true));
-            $seen_headers[$header_key] = true;
+                print_r($differentAddHeaders, true));
+            $seenHeaders[$headerKey] = true;
 
         } else {
             // If the authentication output does not depend on the request data at all (i.e. constant authentication data),
@@ -108,7 +108,7 @@ trait AuthenticationMethodTests
         }
 
         // The output should still be a valid signature for the changed input data:
-        $this->checkValidResult($different_request, $different_add_headers, $method);
+        $this->checkValidResult($differentRequest, $differentAddHeaders, $method);
     }
 
     /**
@@ -128,34 +128,34 @@ trait AuthenticationMethodTests
      * @depends testGetInstance
      * @depends testSampleRequest
      */
-    public function testMismatchOnDifferentClient(array $override_client, AuthenticationMethod $method, array $original_add_headers): void
+    public function testMismatchOnDifferentClient(array $overrideClient, AuthenticationMethod $method, array $originalAddHeaders): void
     {
         $request = $this->buildRequest();
         $ri = RequestInfo::fromPsr7($request);
 
-        $client_id  = $override_client['id']  ?? self::sampleClientId();
-        $client_key = $override_client['key'] ?? self::sampleClientKey();
-        $different_add_headers = $method->authenticate($ri, $client_id, $client_key);
+        $clientId  = $overrideClient['id']  ?? self::sampleClientId();
+        $clientKey = $overrideClient['key'] ?? self::sampleClientKey();
+        $differentAddHeaders = $method->authenticate($ri, $clientId, $clientKey);
 
         // Make sure the changed client ID is contained in the output:
         if ($this->methodOutputIncludesClientId()) {
-            $different_ri = RequestInfo::fromPsr7($this->applyHeaders($request, $different_add_headers));
+            $differentRi = RequestInfo::fromPsr7($this->applyHeaders($request, $differentAddHeaders));
             $this->assertSame(
-                $client_id,
-                $method->getClientId($different_ri));
+                $clientId,
+                $method->getClientId($differentRi));
         }
 
         // Make sure the resulting headers (including the signature) differ from the very first sample request:
-        $this->assertNotEquals($original_add_headers, $different_add_headers,
+        $this->assertNotEquals($originalAddHeaders, $differentAddHeaders,
             'authenticate() added the exact same headers, but client data was different!');
 
         // Make sure the resulting headers (including the signature) also differ from all _other_ "different client" requests:
-        static $seen_headers = [];
-        $header_key = sha1(var_export($different_add_headers, true));
-        $this->assertArrayNotHasKey($header_key, $seen_headers,
+        static $seenHeaders = [];
+        $headerKey = sha1(var_export($differentAddHeaders, true));
+        $this->assertArrayNotHasKey($headerKey, $seenHeaders,
             "authenticate() result headers have been seen in an earlier modified input request!\n" .
-            print_r($different_add_headers, true));
-        $seen_headers[$header_key] = true;
+            print_r($differentAddHeaders, true));
+        $seenHeaders[$headerKey] = true;
     }
 
     /**
@@ -170,42 +170,42 @@ trait AuthenticationMethodTests
      * @depends testGetInstance
      * @depends testSampleRequest
      */
-    public function testMissingHeaderValues($missing_value, AuthenticationMethod $method, array $add_headers): void
+    public function testMissingHeaderValues($missingValue, AuthenticationMethod $method, array $addHeaders): void
     {
         // build a basic sample request with known data and known client id/key:
         $request = $this->buildRequest();
 
-        $relevant_headers = $this->authenticationHeaders() ?? array_keys($add_headers);
+        $relevantHeaders = $this->authenticationHeaders() ?? array_keys($addHeaders);
 
         // set every known authentication-relevant header...
-        foreach ($relevant_headers as $header_name) {
+        foreach ($relevantHeaders as $headerName) {
             // ...to some "missing" value or remove it entirely:
 
-            $incomplete_headers = $add_headers;
-            if ($missing_value instanceof RemoveHeaderMarker) {
-                unset($incomplete_headers[$header_name]);
+            $incompleteHeaders = $addHeaders;
+            if ($missingValue instanceof RemoveHeaderMarker) {
+                unset($incompleteHeaders[$headerName]);
             } else {
-                $incomplete_headers[$header_name] = $missing_value;
+                $incompleteHeaders[$headerName] = $missingValue;
             }
 
-            $this->assertException(MissingAuthenticationHeaderException::class, function() use($request, $incomplete_headers, $method) {
-                $this->checkValidResult($request, $incomplete_headers, $method);
+            $this->assertException(MissingAuthenticationHeaderException::class, function() use($request, $incompleteHeaders, $method) {
+                $this->checkValidResult($request, $incompleteHeaders, $method);
             });
         }
 
         // and to be safe, set _all_ authentication-relevant headers to the same "missing" value or remove them all:
-        if (count($relevant_headers) > 1) {
-            $incomplete_headers = $add_headers;
-            foreach ($relevant_headers as $header_name) {
-                if ($missing_value instanceof RemoveHeaderMarker) {
-                    unset($incomplete_headers[$header_name]);
+        if (count($relevantHeaders) > 1) {
+            $incompleteHeaders = $addHeaders;
+            foreach ($relevantHeaders as $headerName) {
+                if ($missingValue instanceof RemoveHeaderMarker) {
+                    unset($incompleteHeaders[$headerName]);
                 } else {
-                    $incomplete_headers[$header_name] = $missing_value;
+                    $incompleteHeaders[$headerName] = $missingValue;
                 }
             }
 
-            $this->assertException(MissingAuthenticationHeaderException::class, function() use($request, $incomplete_headers, $method) {
-                $this->checkValidResult($request, $incomplete_headers, $method);
+            $this->assertException(MissingAuthenticationHeaderException::class, function() use($request, $incompleteHeaders, $method) {
+                $this->checkValidResult($request, $incompleteHeaders, $method);
             });
         }
     }
@@ -223,32 +223,32 @@ trait AuthenticationMethodTests
      * @depends testGetInstance
      * @depends testSampleRequest
      */
-    public function testInvalidHeaderValues($invalid_value, AuthenticationMethod $method, array $add_headers): void
+    public function testInvalidHeaderValues($invalidValue, AuthenticationMethod $method, array $addHeaders): void
     {
         // build a basic sample request with known data and known client id/key:
         $request = $this->buildRequest();
 
-        $relevant_headers = $this->authenticationHeaders() ?? array_keys($add_headers);
+        $relevantHeaders = $this->authenticationHeaders() ?? array_keys($addHeaders);
 
         // set every known authentication-relevant header...
-        foreach ($relevant_headers as $header_name) {
+        foreach ($relevantHeaders as $headerName) {
             // ...to some invalid value:
-            $invalid_headers = [$header_name => $invalid_value] + $add_headers;  // !
+            $invalidHeaders = [$headerName => $invalidValue] + $addHeaders;  // !
 
-            $this->assertException(InvalidAuthenticationException::class, function() use($request, $invalid_headers, $method) {
-                $this->checkValidResult($request, $invalid_headers, $method);
+            $this->assertException(InvalidAuthenticationException::class, function() use($request, $invalidHeaders, $method) {
+                $this->checkValidResult($request, $invalidHeaders, $method);
             });
         }
 
         // and to be safe, set _all_ authentication-relevant headers to the same invalid value:
-        if (count($relevant_headers) > 1) {
-            $invalid_headers = $add_headers;
-            foreach ($this->authenticationHeaders() as $header_name) {
-                $invalid_headers[$header_name] = $invalid_value;
+        if (count($relevantHeaders) > 1) {
+            $invalidHeaders = $addHeaders;
+            foreach ($this->authenticationHeaders() as $headerName) {
+                $invalidHeaders[$headerName] = $invalidValue;
             }
 
-            $this->assertException(InvalidAuthenticationException::class, function() use($request, $invalid_headers, $method) {
-                $this->checkValidResult($request, $invalid_headers, $method);
+            $this->assertException(InvalidAuthenticationException::class, function() use($request, $invalidHeaders, $method) {
+                $this->checkValidResult($request, $invalidHeaders, $method);
             });
         }
     }
@@ -270,16 +270,16 @@ trait AuthenticationMethodTests
     public function testRepeatedIdentificationHeader(AuthenticationMethod $method): void
     {
         $request = $this->buildRequest();
-        $add_headers = $method->authenticate(RequestInfo::fromPsr7($request), self::sampleClientId(), self::sampleClientKey());
+        $addHeaders = $method->authenticate(RequestInfo::fromPsr7($request), self::sampleClientId(), self::sampleClientKey());
 
-        $fn_extra_headers = function(array $extra) use($request, $add_headers): RequestInterface {
+        $fnExtraHeaders = function(array $extra) use($request, $addHeaders): RequestInterface {
             // first, apply the correct auth headers:
-            $authenticated_request = $this->applyHeaders($request, $add_headers);
+            $authenticatedRequest = $this->applyHeaders($request, $addHeaders);
             // ...then add the extra headers without replacing existing headers:
-            return $this->applyHeaders($authenticated_request, $extra, false);
+            return $this->applyHeaders($authenticatedRequest, $extra, false);
         };
 
-        $fn_expect_failure = function(RequestInterface $request) use($method): void {
+        $fnExpectFailure = function(RequestInterface $request) use($method): void {
             $ri = RequestInfo::fromPsr7($request);
             $this->assertException(
                 [InvalidAuthenticationException::class, CryptoErrorException::class],
@@ -290,23 +290,23 @@ trait AuthenticationMethodTests
         };
 
         // Try to duplicate every authentication header. This should fail because RequestInfo concatenates repeated header values.
-        foreach ($add_headers as $name => $value) {
-            $fn_expect_failure($fn_extra_headers([$name => $value]));
+        foreach ($addHeaders as $name => $value) {
+            $fnExpectFailure($fnExtraHeaders([$name => $value]));
         }
 
         // Try to duplicate ALL authentication headers at once. This should also fail.
-        $fn_expect_failure($fn_extra_headers($add_headers));
+        $fnExpectFailure($fnExtraHeaders($addHeaders));
 
         // Try to add a repeated garbage header. This should also fail.
-        foreach ($add_headers as $name => $value) {
+        foreach ($addHeaders as $name => $value) {
             foreach ($this->invalidAuthenticationHeaderValues() as [$invalidValue]) {
-                $fn_expect_failure($fn_extra_headers([$name => $invalidValue]));
+                $fnExpectFailure($fnExtraHeaders([$name => $invalidValue]));
             }
         }
 
         // Try to add an extra EMPTY header. This should also fail because RequestInfo uses a join character, thereby invalidating the header value.
-        foreach ($add_headers as $name => $value) {
-            $fn_expect_failure($fn_extra_headers([$name => '']));
+        foreach ($addHeaders as $name => $value) {
+            $fnExpectFailure($fnExtraHeaders([$name => '']));
         }
     }
 
@@ -324,9 +324,9 @@ trait AuthenticationMethodTests
      * @depends testInvalidHeaderValues
      * @depends testRepeatedIdentificationHeader
      */
-    public function testOther(AuthenticationMethod $method, array $original_add_headers): void
+    public function testOther(AuthenticationMethod $method, array $originalAddHeaders): void
     {
-        $this->otherTests($method, $original_add_headers);
+        $this->otherTests($method, $originalAddHeaders);
     }
 
 }

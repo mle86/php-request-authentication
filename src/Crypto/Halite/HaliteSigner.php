@@ -16,18 +16,18 @@ class HaliteSigner implements Signer
 
     const SIGNATURE_ENCODING = Halite::ENCODE_BASE64URLSAFE;
 
-    private $private_key;
+    private $privateKey;
 
-    public function __construct(HaliteSigningPrivateKey $private_key)
+    public function __construct(HaliteSigningPrivateKey $privateKey)
     {
-        $this->private_key = $private_key;
+        $this->privateKey = $privateKey;
     }
 
     public function sign(string $message): string
     {
         return Asymmetric\Crypto::sign(
             $message,
-            $this->private_key->getInternalKey(),
+            $this->privateKey->getInternalKey(),
             self::SIGNATURE_ENCODING);
     }
 

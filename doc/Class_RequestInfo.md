@@ -60,13 +60,13 @@ There should be no need to use any of its methods (besides the constructors).
   (POST request body or empty string)
 * <code><b>getRequestHeaders</b> (): array</code>  
   (\[headerName => headerValue, …])
-* <code><b>hasHeader</b> (string $header\_name): bool</code>
-* <code><b>getHeaderValue</b> (string $header\_name): ?string</code>  
+* <code><b>hasHeader</b> (string $headerName): bool</code>
+* <code><b>getHeaderValue</b> (string $headerName): ?string</code>  
     Returns a header value from the request.
-    `$header_name` is case-insensitive.
+    `$headerName` is case-insensitive.
     * If the header exists but its value is an empty string, `null` is returned instead.
     * If the header exists multiple times, its values will be joined with `\x00` NUL characters.
     * If the header does not exist, a [MissingAuthenticationHeaderException][Exceptions] is thrown.
-* <code><b>getNonemptyHeaderValue</b> (string $header\_name): string</code>  
+* <code><b>getNonemptyHeaderValue</b> (string $headerName): string</code>  
     Like `getHeaderValue()`, but will never return `null` or the empty string –
     it'll throw a [MissingAuthenticationHeaderException][Exceptions] instead.

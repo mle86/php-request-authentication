@@ -33,12 +33,12 @@ class SingleKeyRepositoryTest extends TestCase
      * @dataProvider invalidClientIDs
      * @depends testGetInstance
      */
-    public function testInvalidClientIDsInConstructor($invalid_client_id): void
+    public function testInvalidClientIDsInConstructor($invalidClientId): void
     {
-        $valid_key = array_values(self::defaultData())[0];
+        $validKey = array_values(self::defaultData())[0];
 
-        $this->assertException([InvalidArgumentException::class, \TypeError::class], function() use($invalid_client_id, $valid_key) {
-            new SingleKeyRepository($invalid_client_id, $valid_key);
+        $this->assertException([InvalidArgumentException::class, \TypeError::class], function() use($invalidClientId, $validKey) {
+            new SingleKeyRepository($invalidClientId, $validKey);
         });
     }
 
@@ -46,12 +46,12 @@ class SingleKeyRepositoryTest extends TestCase
      * @dataProvider invalidClientKeys
      * @depends testGetInstance
      */
-    public function testInvalidClientKeysInConstructor($invalid_client_key): void
+    public function testInvalidClientKeysInConstructor($invalidClientKey): void
     {
-        $valid_id = array_keys(self::defaultData())[0];
+        $validId = array_keys(self::defaultData())[0];
 
-        $this->assertException([InvalidArgumentException::class, \TypeError::class], function() use($invalid_client_key, $valid_id) {
-            new SingleKeyRepository($valid_id, $invalid_client_key);
+        $this->assertException([InvalidArgumentException::class, \TypeError::class], function() use($invalidClientKey, $validId) {
+            new SingleKeyRepository($validId, $invalidClientKey);
         });
     }
 

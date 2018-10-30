@@ -14,9 +14,9 @@ use Psr\Http\Message\RequestInterface;
 trait AuthenticationMethodTestHelpers
 {
 
-    protected function buildRequest(array $override = [], bool $add_default_headers = true): RequestInterface
+    protected function buildRequest(array $override = [], bool $addDefaultHeaders = true): RequestInterface
     {
-        $default_headers = ($add_default_headers) ? $this->defaultRequestHeaders() : [];
+        $defaultHeaders = ($addDefaultHeaders) ? $this->defaultRequestHeaders() : [];
 
         $method  = $override['method']  ?? self::sampleMethod();
         $scheme  = $override['scheme']  ?? self::sampleScheme();
@@ -26,23 +26,23 @@ trait AuthenticationMethodTestHelpers
         $body    = $override['body']    ?? self::sampleBody();
         $uri     = $override['uri']     ?? ($scheme . '://' . $host . $path);
 
-        return new Request($method, $uri, $headers + $default_headers, $body);
+        return new Request($method, $uri, $headers + $defaultHeaders, $body);
     }
 
     /**
      * Adds some headers to a request (without changing the existing instance),
      * then tests it against the known client IDs/keys (see {@see getTestingKeyRepository}).
      *
-     * @param RequestInterface $request  The request to test (after the $add_headers have been added).
-     * @param array $add_headers  The headers to add. This is what {@see AuthenticationMethod::authenticate} returned.
+     * @param RequestInterface $request The request to test (after the $addHeaders have been added).
+     * @param array $addHeaders         The headers to add. This is what {@see AuthenticationMethod::authenticate} returned.
      * @param AuthenticationMethod $method
      */
-    protected function checkValidResult(RequestInterface $request, array $add_headers, AuthenticationMethod $method): void
+    protected function checkValidResult(RequestInterface $request, array $addHeaders, AuthenticationMethod $method): void
     {
-        $authenticated_request = $this->applyHeaders($request, $add_headers);
-        $authenticated_ri      = RequestInfo::fromPsr7($authenticated_request);
+        $authenticatedRequest = $this->applyHeaders($request, $addHeaders);
+        $authenticatedRi      = RequestInfo::fromPsr7($authenticatedRequest);
 
-        $method->verify($authenticated_ri, $this->getTestingKeyRepository());
+        $method->verify($authenticatedRi, $this->getTestingKeyRepository());
     }
 
     /**
@@ -50,25 +50,25 @@ trait AuthenticationMethodTestHelpers
      * and adds them to an existing PSR-7 request.
      *
      * @param RequestInterface $request
-     * @param array $add_headers  [headerName => headerValue, …]
+     * @param array $addHeaders  [headerName => headerValue, …]
      * @param bool $replace  If this is true (default), existing headers will be overwritten.
      * @return RequestInterface  Returns in instance with added headers. (It will never return the same instance.)
      */
-    protected function applyHeaders(RequestInterface $request, array $add_headers, bool $replace = true): RequestInterface
+    protected function applyHeaders(RequestInterface $request, array $addHeaders, bool $replace = true): RequestInterface
     {
-        $authenticated_request = clone $request;
+        $authenticatedRequest = clone $request;
 
-        foreach ($add_headers as $name => $value) {
+        foreach ($addHeaders as $name => $value) {
             if ($replace) {
                 // add the header, overwriting it if it already exists
-                $authenticated_request = $authenticated_request->withHeader($name, $value);
+                $authenticatedRequest = $authenticatedRequest->withHeader($name, $value);
             } else {
                 // just add the header, possibly creating a repeated header
-                $authenticated_request = $authenticated_request->withAddedHeader($name, $value);
+                $authenticatedRequest = $authenticatedRequest->withAddedHeader($name, $value);
             }
         }
 
-        return $authenticated_request;
+        return $authenticatedRequest;
     }
 
     /**
@@ -103,21 +103,21 @@ trait AuthenticationMethodTestHelpers
      *
      * @param AuthenticationMethod $method
      * @param RequestInterface $request  The request to test. Should already have valid authentication headers added.
-     * @param string $header_name  The HTTP header name to repeat.
+     * @param string $headerName         The HTTP header name to repeat.
      */
-    protected function checkRepeatedPayloadHeader(AuthenticationMethod $method, RequestInterface $request, string $header_name): void
+    protected function checkRepeatedPayloadHeader(AuthenticationMethod $method, RequestInterface $request, string $headerName): void
     {
         // If the signature gets repeated with a random value, the signature should change:
-        $random_value = 'RANDOM-HEADER-VALUE-' . random_int(1, 999999);
-        $invalid_request = $request->withAddedHeader($header_name, $random_value);
-        $this->assertException(InvalidAuthenticationException::class, function() use($invalid_request, $method) {
-            $this->checkValidResult($invalid_request, [], $method);
+        $randomValue = 'RANDOM-HEADER-VALUE-' . random_int(1, 999999);
+        $invalidRequest = $request->withAddedHeader($headerName, $randomValue);
+        $this->assertException(InvalidAuthenticationException::class, function() use($invalidRequest, $method) {
+            $this->checkValidResult($invalidRequest, [], $method);
         });
 
         // If a payload header gets repeated with the original value, the signature should also change:
-        $invalid_request = $request->withAddedHeader($header_name, $request->getHeader($header_name));
-        $this->assertException(InvalidAuthenticationException::class, function() use($invalid_request, $method) {
-            $this->checkValidResult($invalid_request, [], $method);
+        $invalidRequest = $request->withAddedHeader($headerName, $request->getHeader($headerName));
+        $this->assertException(InvalidAuthenticationException::class, function() use($invalidRequest, $method) {
+            $this->checkValidResult($invalidRequest, [], $method);
         });
     }
 

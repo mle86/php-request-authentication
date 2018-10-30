@@ -112,7 +112,7 @@ $authenticator = new RequestAuthenticator(
     $clientId,
     $encodedPrivateKey);
 
-$authenticated_request = $authenticator->authenticate($request);
+$authenticatedRequest = $authenticator->authenticate($request);
 ```
 
 **To verify an inbound request,**

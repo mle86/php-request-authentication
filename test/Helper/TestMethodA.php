@@ -25,10 +25,10 @@ class TestMethodA implements AuthenticationMethod
     const SIGNATURE_HEADER = 'X-Test-Signature';
     const CLIENT_HEADER    = 'X-Test-Client';
 
-    public function authenticate(RequestInfo $request, string $api_client_id, string $api_secret_key): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
     {
         return [
-            self::CLIENT_HEADER    => $api_client_id,
+            self::CLIENT_HEADER    => $apiClientId,
             self::SIGNATURE_HEADER => 2 * random_int(1, 1000),
         ];
     }
@@ -38,11 +38,11 @@ class TestMethodA implements AuthenticationMethod
         $this->getClientId($request);  // value required but not validated
 
         $sig = $request->getNonemptyHeaderValue(self::SIGNATURE_HEADER);
-        $is_even_integer = (
+        $isEvenInteger = (
             (is_int($sig) || ctype_digit($sig)) &&
             $sig > 0 &&
             ($sig % 2) === 0);
-        if (!$is_even_integer) {
+        if (!$isEvenInteger) {
             throw new InvalidAuthenticationException('invalid signature value');
         }
     }

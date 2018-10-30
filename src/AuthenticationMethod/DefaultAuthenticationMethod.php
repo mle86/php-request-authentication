@@ -58,28 +58,28 @@ class DefaultAuthenticationMethod implements AuthenticationMethod, UsesRequestID
 
     const TOKEN_ALGO = 'sha256';
 
-    public function authenticate(RequestInfo $request, string $api_client_id, string $api_secret_key): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
     {
-        $output_headers = [
-            self::DEFAULT_CLIENT_ID_HEADER => $api_client_id,
+        $outputHeaders = [
+            self::DEFAULT_CLIENT_ID_HEADER => $apiClientId,
         ];
 
         if (self::ADD_REQUEST_ID_HEADER_IF_MISSING && !$request->hasHeader(self::DEFAULT_REQUEST_ID_HEADER)) {
-            $output_headers[self::DEFAULT_REQUEST_ID_HEADER] = $this->generateRequestId();
+            $outputHeaders[self::DEFAULT_REQUEST_ID_HEADER] = $this->generateRequestId();
         }
 
-        $output_headers[self::DEFAULT_AUTH_TOKEN_HEADER] =
-            self::calculateToken($request, $api_secret_key, $output_headers);
+        $outputHeaders[self::DEFAULT_AUTH_TOKEN_HEADER] =
+            self::calculateToken($request, $apiSecretKey, $outputHeaders);
 
-        return $output_headers;
+        return $outputHeaders;
     }
 
-    private static function calculateToken(RequestInfo $request, string $api_secret_key, array $extra_headers = []): string
+    private static function calculateToken(RequestInfo $request, string $apiSecretKey, array $extraHeaders = []): string
     {
-        $use_headers = [self::DEFAULT_CLIENT_ID_HEADER, self::DEFAULT_REQUEST_ID_HEADER];
-        $data = self::signableRequestData($request, $use_headers, $extra_headers);
+        $useHeaders = [self::DEFAULT_CLIENT_ID_HEADER, self::DEFAULT_REQUEST_ID_HEADER];
+        $data = self::signableRequestData($request, $useHeaders, $extraHeaders);
 
-        $token = hash_hmac(self::TOKEN_ALGO, $data, $api_secret_key);
+        $token = hash_hmac(self::TOKEN_ALGO, $data, $apiSecretKey);
         if ($token === '' || $token === null || $token === false || $token === '*') {
             throw new HashErrorException();
         }
@@ -89,16 +89,16 @@ class DefaultAuthenticationMethod implements AuthenticationMethod, UsesRequestID
 
     public function verify(RequestInfo $request, KeyRepository $keys): void
     {
-        $client_id  = $this->getClientId($request);
-        $request_id = $this->getRequestId($request);
-        $auth_token = $request->getNonemptyHeaderValue(self::DEFAULT_AUTH_TOKEN_HEADER);
+        $clientId  = $this->getClientId($request);
+        $requestId = $this->getRequestId($request);
+        $authToken = $request->getNonemptyHeaderValue(self::DEFAULT_AUTH_TOKEN_HEADER);
 
-        self::validateRequestId($request_id);
+        self::validateRequestId($requestId);
 
-        $client_key     = $keys[$client_id];
-        $expected_token = self::calculateToken($request, $client_key);
+        $clientKey     = $keys[$clientId];
+        $expectedToken = self::calculateToken($request, $clientKey);
 
-        if (!hash_equals($expected_token, $auth_token)) {
+        if (!hash_equals($expectedToken, $authToken)) {
             throw new InvalidAuthenticationException('auth token mismatch');
         }
     }

@@ -18,11 +18,11 @@ class HaliteVerifier extends Verifier
 
     const SIGNATURE_ENCODING = HaliteSigner::SIGNATURE_ENCODING;
 
-    private $public_key;
+    private $publicKey;
 
-    public function __construct(HaliteSigningPublicKey $public_key)
+    public function __construct(HaliteSigningPublicKey $publicKey)
     {
-        $this->public_key = $public_key;
+        $this->publicKey = $publicKey;
     }
 
     public function test(string $message, string $signature): bool
@@ -30,7 +30,7 @@ class HaliteVerifier extends Verifier
         try {
             return Asymmetric\Crypto::verify(
                 $message,
-                $this->public_key->getInternalKey(),
+                $this->publicKey->getInternalKey(),
                 $signature,
                 self::SIGNATURE_ENCODING);
 

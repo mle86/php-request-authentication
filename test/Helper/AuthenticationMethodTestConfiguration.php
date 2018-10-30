@@ -111,9 +111,9 @@ trait AuthenticationMethodTestConfiguration
      * It will be called by {@see testOther} at the end.
      *
      * @param AuthenticationMethod $method  The instance returned by {@see testGetInstance()}.
-     * @param array $original_add_headers  The array returned by {@see testSampleRequest()}.
+     * @param array $originalAddHeaders     The array returned by {@see testSampleRequest()}.
      */
-    protected function otherTests(AuthenticationMethod $method, array $original_add_headers)
+    protected function otherTests(AuthenticationMethod $method, array $originalAddHeaders)
     {
     }
 
