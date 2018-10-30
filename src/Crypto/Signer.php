@@ -8,7 +8,9 @@ namespace mle86\RequestAuthentication\Crypto;
  * Implementations will usually have some more dependencies
  * such as a {@see SigningPrivateKey} key used for signing.
  *
- * @see Verifier implementations to verify the signatures this class generates.
+ * This is an asymmetric operation;
+ * use the appropriate {@see Verifier} implementation class
+ * to verify the signatures this class generates.
  */
 interface Signer
 {
