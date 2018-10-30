@@ -24,9 +24,11 @@ Or insert this into your project's `composer.json` file:
 ```
 
 
-## Minimum PHP Version
+## Dependencies and Minimum PHP Version
 
-PHP 7.1
+- PHP 7.1
+- The [PSR-7](https://www.php-fig.org/psr/psr-7/) interfaces ([psr/http-message](https://github.com/php-fig/http-message))
+- The [PSR-15](https://www.php-fig.org/psr/psr-15/) interfaces ([psr/http-server-middleware](https://github.com/php-fig/http-server-handler))
 
 
 ## Workflow
