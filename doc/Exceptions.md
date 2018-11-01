@@ -2,6 +2,7 @@
 
 [Exceptions]: Exceptions.md
 [KeyRepository]: Class_KeyRepository.md
+[RequestIdList]: Class_RequestIdList.md
 [AuthenticationMethod]: Class_AuthenticationMethod.md
 [RequestAuthenticator]: Class_RequestAuthenticator.md
 [RequestVerifier]: Class_RequestVerifier.md
@@ -44,6 +45,10 @@ All custom exceptions live in the `mle86\RequestAuthentication\Exception\` names
 * `UnknownClientIdException`  
     Thrown by [KeyRepository] implementations
     in case of an unknown client ID.
+
+* `DuplicateRequestIDException`  
+    Thrown by [RequestIdList] implementations
+    in case of a repeated request ID.
 
 * `RepositorySourceException`  
     Thrown by [KeyRepository] implementations
