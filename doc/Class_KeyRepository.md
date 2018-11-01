@@ -29,7 +29,9 @@ More complex implementations may look up the client secret in a database or some
 The class implements the native [`ArrayAccess`](http://php.net/manual/class.arrayaccess.php) interface:
 
 * <code>offsetExists ($clientId): bool</code>
-* <code>offsetGet ($clientId): string</code>
+* <code>offsetGet ($clientId): string</code> – Returns the client key/secret/hash/password that belongs to one client ID.
+    (This might be a symmetric key or hash, a public key, or a plaintext password depending on the [AuthenticationMethod] used.)
+    Throws an [UnknownClientIdException][Exceptions] if the client ID is unknown in this repository.
 * <code>offsetUnset ($clientId): void</code> – always throws an [ImmutableDataException][Exceptions].
 * <code>offsetSet ($clientId, $value): void</code> – always throws an [ImmutableDataException][Exceptions].
 

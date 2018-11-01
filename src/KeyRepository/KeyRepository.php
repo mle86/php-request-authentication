@@ -36,10 +36,10 @@ abstract class KeyRepository implements \ArrayAccess
     abstract public function offsetExists($clientId): bool;
 
     /**
-     * Returns the client key that belongs to one client ID.
+     * Returns the client key/secret/hash/password that belongs to one client ID.
      *
      * @param string $clientId The client identification to look up.
-     * @return string  The client key. (This might be a symmetric or a public key, depending on the {@see AuthenticationMethod} used.)
+     * @return string  The client key. (This might be a symmetric key or hash, a public key, or a plaintext password depending on the {@see AuthenticationMethod} used.)
      * @throws UnknownClientIdException  if the client ID is unknown in this repository.
      */
     abstract public function offsetGet($clientId): string;
