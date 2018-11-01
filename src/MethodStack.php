@@ -151,7 +151,7 @@ class MethodStack implements AuthenticationMethod
         $methods = $this->methods;
         if ($request === $this->lastRequest) {
             // we already know the correct method for this request, try it first:
-            $methods = array_merge([$this->lastMethod], $methods);
+            array_unshift($methods, $this->lastMethod);
         }
 
         return $this->applyStack(
