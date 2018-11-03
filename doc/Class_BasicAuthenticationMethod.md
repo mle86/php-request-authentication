@@ -6,6 +6,9 @@ Implements HTTP “Basic” authentication.
  - the Basic password is the `$api_secret_key`.
  - The Basic password must also be returned unchanged by the [KeyRepository].
 
+If you want to store the Basic password in hashed form instead of plaintext passwords,
+use the [BasicHashAuthenticationMethod] class instead.
+
 This is here mostly for testing and completeness purposes;
 whatever HTTP/REST/PSR-7 library you're using,
 it can probably do this better.

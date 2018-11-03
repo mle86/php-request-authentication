@@ -14,6 +14,9 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  * the Basic password is the $apiSecretKey.
  * The Basic password must also be returned unchanged by the KeyRepository.
  *
+ * If you want to store the Basic password in hashed form instead of plaintext passwords,
+ * use the {@see BasicHashAuthenticationMethod} class instead.
+ *
  * @internal
  *   This is here mostly for testing and completeness purposes;
  *   whatever HTTP/REST/PSR-7 library you're using,

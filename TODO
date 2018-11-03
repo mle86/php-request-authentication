@@ -1,0 +1,6 @@
+ - hf: {SSHA}
+
+ - test: BasicHashAuthenticationMethod
+
+ - doc: BasicHashAuthenticationMethod
+
