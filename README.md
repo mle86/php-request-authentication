@@ -80,6 +80,12 @@ and the [KeyRepository] must return the client's public key.)
     * [ArrayRepository] class.
 * [Exception] classes.
 
+
+## More Documentation
+
+* [Usage Example with htpasswd file](doc/Example_htpasswd.md)
+
+
 [RequestAuthenticator]: doc/Class_RequestAuthenticator.md
 [RequestVerifier]: doc/Class_RequestVerifier.md
 [AuthenticationMethod]: doc/Class_AuthenticationMethod.md
