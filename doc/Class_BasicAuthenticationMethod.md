@@ -2,8 +2,8 @@
 
 Implements HTTP “Basic” authentication.
 
- - The Basic username is the `$api_client_id`,
- - the Basic password is the `$api_secret_key`.
+ - The Basic username is the `$apiClientId`,
+ - the Basic password is the `$apiSecretKey`.
  - The Basic password must also be returned unchanged by the [KeyRepository].
 
 If you want to store the Basic password in hashed form instead of plaintext passwords,
