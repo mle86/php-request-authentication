@@ -1,7 +1,7 @@
 # BasicHashAuthenticationMethod Class
 
 Implements HTTP “Basic” authentication
-with hashes password storage.
+with hashed password storage.
 
  - The Basic username is the `$apiClientId`,
  - the Basic password is the `$apiSecretKey`.
@@ -10,7 +10,7 @@ with hashes password storage.
 This class expects the KeyRepository to contain only hashed passwords
 (in contrast to the simpler [BasicAuthenticationMethod]
 which expects the repository to contain plaintext passwords).
-This works well with `.htpasswd` files and the {@see FileRepository}.
+This works well with `htpasswd` files and the [FileRepository].
 
 The following hash formats are recognized:
  - Prefixes `$1$` (MD5),
@@ -30,6 +30,8 @@ The following hash formats are recognized:
 [Exceptions]: Exceptions.md
 [KeyRepository]: Class_KeyRepository.md
 [AuthenticationMethod]: Class_AuthenticationMethod.md
+[BasicAuthenticationMethod]: Class_BasicAuthenticationMethod.md
+[FileRepository]: Class_FileRepository.md
 [RequestAuthenticator]: Class_RequestAuthenticator.md
 [RequestVerifier]: Class_RequestVerifier.md
 [RequestInfo]: Class_RequestInfo.md

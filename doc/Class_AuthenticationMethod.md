@@ -30,6 +30,7 @@ in case you need it for authorization checking/rate limiting/logging.
 [RequestInfo]: Class_RequestInfo.md
 [KeyRepository]: Class_KeyRepository.md
 [BasicAuthenticationMethod]: Class_BasicAuthenticationMethod.md
+[BasicHashAuthenticationMethod]: Class_BasicHashAuthenticationMethod.md
 [DefaultAuthenticationMethod]: Class_DefaultAuthenticationMethod.md
 [PublicKeyMethod]: Class_PublicKeyMethod.md
 [MethodStack]: Class_MethodStack.md
@@ -44,6 +45,7 @@ in case you need it for authorization checking/rate limiting/logging.
 ## Implementations
 
 * [BasicAuthenticationMethod] class
+* [BasicHashAuthenticationMethod] class
 * [DefaultAuthenticationMethod] class
 * [PublicKeyMethod] class
 * [MethodStack] composite class

@@ -31,9 +31,9 @@ $clientId = $verifier->verifyGlobals();
 #  $clientId = $verifier->verify($request);
 
 // If we got a MissingAuthenticationHeaderException, the request had no `Authorization: Basic` header.
-// If we got a InvalidAuthenticationException, the username was not found in the htpasswd file
+// If we got an InvalidAuthenticationException, the username was not found in the htpasswd file
 //  or the password was incorrect.
-// If we reach this line without any exception,
+// If we reach this line without any exceptions,
 //  the request contained a valid Basic header!
 
 // We now have the Basic username in $clientId:
