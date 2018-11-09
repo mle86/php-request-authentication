@@ -76,6 +76,7 @@ and the [KeyRepository] must return the client's public key.)
     * [MethodStack] composite class.
 * [RequestInfo] data transfer object.
 * [KeyRepository] base class:
+    * [FileRepository] class,
     * [ArrayRepository] class.
 * [Exception] classes.
 
@@ -88,5 +89,6 @@ and the [KeyRepository] must return the client's public key.)
 [RequestInfo]: doc/Class_RequestInfo.md
 [KeyRepository]: doc/Class_KeyRepository.md
 [ArrayRepository]: doc/Class_ArrayRepository.md
+[FileRepository]: doc/Class_FileRepository.md
 [Exception]: doc/Exceptions.md
 [MethodStack]: doc/Class_MethodStack.md
