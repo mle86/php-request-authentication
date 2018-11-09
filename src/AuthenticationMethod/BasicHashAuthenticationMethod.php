@@ -25,15 +25,15 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *    `$2$`/`$2a$`/`$2x$`/`$2y$` (bcrypt),
  *    `$5$` (SHA-256),
  *    `$6$` (SHA-512),
- *    and `$argon2i$` (Argon2)
+ *    and `$argon2i$` (Argon2 -- only on PHP7.2+)
  *    as returned by {@see crypt()} and {@see password_hash()}.
- *  - Prefixes
- *    `{SHA}` (SHA-1) and `{SSHA}` (salted SHA-1)
+ *  - Prefix
+ *    `{SHA}` (SHA-1)
  *    as traditionally used in htpasswd files.
  *
  * ⚠ The following hash formats are _not yet recognized:_
  *  - Prefix `$apr1$` (APR1-MD5).
- *  - Prefix `{SSHA}`.
+ *  - Prefix `{SSHA}` (salted SHA-1).
  */
 class BasicHashAuthenticationMethod extends BasicAuthenticationMethod
 {
