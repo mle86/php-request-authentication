@@ -43,7 +43,7 @@ to use with a class like [PublicKeyMethod].
 ## Class Details
 
 * Full class name: <code>mle86\\RequestAuthentication\\KeyRepository\\<b>FileRepository</b></code>
-* Class file: [src/KeyRepository/ArrayRepository.php](../src/KeyRepository/FileRepository.php)
+* Class file: [src/KeyRepository/FileRepository.php](../src/KeyRepository/FileRepository.php)
 
 
 ## Constructor
