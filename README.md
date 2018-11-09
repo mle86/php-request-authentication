@@ -71,6 +71,7 @@ and the [KeyRepository] must return the client's public key.)
     * [RequestVerifier] wrapper class.
 * **[AuthenticationMethod] main interface:**
     * [BasicAuthenticationMethod] class,
+    * [BasicHashAuthenticationMethod] class,
     * [DefaultAuthenticationMethod] class,
     * [PublicKeyMethod] class,
     * [MethodStack] composite class.
@@ -90,6 +91,7 @@ and the [KeyRepository] must return the client's public key.)
 [RequestVerifier]: doc/Class_RequestVerifier.md
 [AuthenticationMethod]: doc/Class_AuthenticationMethod.md
 [BasicAuthenticationMethod]: doc/Class_BasicAuthenticationMethod.md
+[BasicHashAuthenticationMethod]: doc/Class_BasicHashAuthenticationMethod.md
 [DefaultAuthenticationMethod]: doc/Class_DefaultAuthenticationMethod.md
 [PublicKeyMethod]: doc/Class_PublicKeyMethod.md
 [RequestInfo]: doc/Class_RequestInfo.md

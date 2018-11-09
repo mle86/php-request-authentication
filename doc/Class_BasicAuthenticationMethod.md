@@ -16,6 +16,7 @@ it can probably do this better.
 [Exceptions]: Exceptions.md
 [KeyRepository]: Class_KeyRepository.md
 [AuthenticationMethod]: Class_AuthenticationMethod.md
+[BasicHashAuthenticationMethod]: Class_BasicHashAuthenticationMethod.md
 [RequestAuthenticator]: Class_RequestAuthenticator.md
 [RequestVerifier]: Class_RequestVerifier.md
 [RequestInfo]: Class_RequestInfo.md
