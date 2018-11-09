@@ -92,6 +92,19 @@ trait AuthenticationMethodTestConfiguration
     }
 
     /**
+     * Data provider used by {@see AuthenticationMethodTests::testMismatchOnDifferentClient}.
+     *
+     *  TODO: doc, assumes key is in kr
+     * See {@see AuthenticationMethodTests::differentAuthenticationData()} for the syntax.
+     *
+     * @return array[][]
+     */
+    public function customDifferentAuthenticationData(): array
+    {
+        return [];
+    }
+
+    /**
      * Data provider used by {@see AuthenticationMethodTests::testInvalidHeaderValues}.
      *
      * See {@see AuthenticationMethodTests::invalidAuthenticationHeaderValues()} for the syntax.

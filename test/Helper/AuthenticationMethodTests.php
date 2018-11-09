@@ -159,6 +159,35 @@ trait AuthenticationMethodTests
     }
 
     /**
+     * Authenticates sample requests with the _other_ known client keys
+     * and makes sure verify() accepts them.
+     *
+     * We already created the authentication data for the {@see sampleClientId}
+     * and fed it back to {@see AuthenticationMethod::verify} (in {@see testSampleRequest}).
+     *
+     * We also made sure that the {@see otherClientKey} produces different results
+     * and is not valid with the same client id (in {@see testMismatchOnDifferentClient}).
+     *
+     * But we haven't actually tested the other client key(s) against verify().
+     * That's what this method is for.
+     * (It's not strictly necessary except in case of authentication methods
+     * who support different kinds of client keys, like {@see BasicHashAuthenticationMethod} does).
+     *
+     * @dataProvider differentAuthenticationData
+     * @dataProvider customDifferentAuthenticationData
+     * @depends testGetInstance
+     * @depends testSampleRequest
+     * @depends testMismatchOnDifferentClient
+     */
+    public function testOtherClientAuthentications($clientId, string $clientKey, AuthenticationMethod $method): void
+    {
+        $request = $this->buildRequest();
+        $ri = RequestInfo::fromPsr7($request);
+        $addHeaders = $method->authenticate($ri, $clientId, $clientKey);
+        $this->checkValidResult($request, $addHeaders, $method);
+    }
+
+    /**
      * Sets the method's known authentication headers to some "missing" value (NULL or the empty string) one by one,
      * then calls {@see AuthenticationMethod::verify} (via {@see checkValidResult})
      * and expects an {@see InvalidAuthenticationException}.

@@ -54,4 +54,13 @@ trait AuthenticationMethodTestProviders
         ['1111111111111111111111111111111111111111111111111111111111111111'],  // looks like sha256
     ]; }
 
+    public function differentAuthenticationData(): array { return [
+        // sampleClientId() is already tested in testSampleRequest(),
+        // but there's no explicit test for otherClientId() yet.
+        // This dataProvider is used in testOtherClientAuthentications()
+        // alongside customDifferentAuthenticationData.
+        // Syntax: [clientId, clientKey], ...
+        [self::otherClientId(), self::otherClientKey()],
+    ]; }
+
 }
