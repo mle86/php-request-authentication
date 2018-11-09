@@ -70,6 +70,25 @@ class RequestVerifier
     }
 
     /**
+     * Reads the PHP globals (`$_SERVER` and `php://stdin`)
+     * to read the current request (using {@see RequestInfo::fromGlobals})
+     * and checks the contained authentication token data.
+     *
+     * SIDE EFFECT: This will open, read, rewind, and close `php://stdin`.
+     *
+     * @return string  Returns the client identification string (from {@see AuthenticationMethod::getClientId()}) on success.
+     * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
+     * @throws InvalidAuthenticationException  on incorrect authentication header(s).
+     * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
+     */
+    public function verifyGlobals(): string
+    {
+        $ri = RequestInfo::fromGlobals();
+        $this->method->verify($ri, $this->keys);
+        return $this->method->getClientId($ri);
+    }
+
+    /**
      * Returns a GuzzleHttp middleware handler
      * that will verify authentication data in all requests
      * according to the constructor settings.

@@ -35,6 +35,12 @@ Wraps an [AuthenticationMethod] instance to verify inbound request authenticatio
     Takes a Symfony HttpFoundation Request instance
     and checks the contained authentication token data.
 
+* <code><b>verifyGlobals</b> (): string</code>  
+     Reads the PHP globals (`$_SERVER` and `php://stdin`)
+     to read the current request (using <code>[RequestInfo]::fromGlobals()</code>)
+     and checks the contained authentication token data.  
+     _Side Effect:_ This will open, read, rewind, and close `php://stdin`.
+
 **Return values:**
 
 On success, all verification methods
