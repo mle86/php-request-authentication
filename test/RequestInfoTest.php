@@ -68,7 +68,7 @@ class RequestInfoTest extends TestCase
     /**
      * @depends testCreateInstance
      */
-    public function testInvalidInput()
+    public function testInvalidInput(): void
     {
         // Header values must be scalar.
         $this->assertException(InvalidArgumentException::class, function() {

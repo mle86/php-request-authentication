@@ -36,7 +36,7 @@ class BasicAuthenticationMethodTest extends TestCase
         $this->checkKnownValues($method);
     }
 
-    protected function checkKnownValues(AuthenticationMethod $method)
+    protected function checkKnownValues(AuthenticationMethod $method): void
     {
         $request = new Request(
             'PUT', 'http://basic.test.localhost/foo',

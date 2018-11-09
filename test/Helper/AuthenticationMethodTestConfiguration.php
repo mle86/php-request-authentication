@@ -113,7 +113,7 @@ trait AuthenticationMethodTestConfiguration
      * @param AuthenticationMethod $method  The instance returned by {@see testGetInstance()}.
      * @param array $originalAddHeaders     The array returned by {@see testSampleRequest()}.
      */
-    protected function otherTests(AuthenticationMethod $method, array $originalAddHeaders)
+    protected function otherTests(AuthenticationMethod $method, array $originalAddHeaders): void
     {
     }
 

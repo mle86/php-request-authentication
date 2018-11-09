@@ -71,7 +71,7 @@ class PublicKeyMethodTest extends TestCase
         PublicKeyMethod::CLIENT_ID_HEADER,
     ]; }
 
-    protected function otherTests(AuthenticationMethod $method, array $originalAddHeaders)
+    protected function otherTests(AuthenticationMethod $method, array $originalAddHeaders): void
     {
         $this->checkRepeatedPayloadHeader($method, $this->applyHeaders($this->buildRequest(), $originalAddHeaders),
             'Content-Type');

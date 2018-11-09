@@ -61,7 +61,7 @@ class MethodStackTest extends TestCase
      *
      * @depends testInstantiation
      */
-    public function testAuthenticate(MethodStack $ab)
+    public function testAuthenticate(MethodStack $ab): void
     {
         $emptyRequest = $this->buildRequest();
 
@@ -80,7 +80,7 @@ class MethodStackTest extends TestCase
     /**
      * @depends testInstantiation
      */
-    public function testVerify(MethodStack $ab)
+    public function testVerify(MethodStack $ab): void
     {
         $emptyRequest = $this->buildRequest();
 
@@ -113,7 +113,7 @@ class MethodStackTest extends TestCase
      * @depends testInstantiation
      * @depends testVerify
      */
-    public function testGetClientId(MethodStack $ab)
+    public function testGetClientId(MethodStack $ab): void
     {
         $baseRequest = $this->buildRequest();
 

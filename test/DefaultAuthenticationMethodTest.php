@@ -35,7 +35,7 @@ class DefaultAuthenticationMethodTest extends TestCase
     ]; }
 
 
-    protected function otherTests(AuthenticationMethod $method, array $originalAddHeaders)
+    protected function otherTests(AuthenticationMethod $method, array $originalAddHeaders): void
     {
         $this->checkMissingRequestId($method, $originalAddHeaders);
         $this->checkModifiedRequestId($method, $originalAddHeaders);
@@ -55,7 +55,7 @@ class DefaultAuthenticationMethodTest extends TestCase
         DefaultAuthenticationMethod::DEFAULT_CLIENT_ID_HEADER,
     ]; }
 
-    protected function checkMissingRequestId(AuthenticationMethod $method, array $originalAddHeaders)
+    protected function checkMissingRequestId(AuthenticationMethod $method, array $originalAddHeaders): void
     {
         $request = $this->buildRequest();
 
@@ -73,7 +73,7 @@ class DefaultAuthenticationMethodTest extends TestCase
         }
     }
 
-    protected function checkModifiedRequestId(AuthenticationMethod $method, array $originalAddHeaders)
+    protected function checkModifiedRequestId(AuthenticationMethod $method, array $originalAddHeaders): void
     {
         $request = $this->buildRequest();
 

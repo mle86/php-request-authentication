@@ -170,7 +170,7 @@ trait KeyRepositoryTests
      *
      * @param KeyRepository $repo  The instance returned by {@see testGetInstance()}.
      */
-    protected function otherTests(KeyRepository $repo)
+    protected function otherTests(KeyRepository $repo): void
     {
     }
 
