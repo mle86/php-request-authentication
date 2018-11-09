@@ -66,6 +66,12 @@ class RequestInfo
         unset($value);
     }
 
+    /**
+     * Builds a new instance from PHP's global variables
+     * (`$_SERVER` and the `php://input` pseudo-file).
+     *
+     * @return self
+     */
     public static function fromGlobals(): self
     {
         $scheme = strtolower($_SERVER['REQUEST_SCHEME']);
