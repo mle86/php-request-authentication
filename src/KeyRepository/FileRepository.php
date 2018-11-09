@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace mle86\RequestAuthentication\KeyRepository;
 
+use mle86\RequestAuthentication\Exception\InvalidArgumentException;
 use mle86\RequestAuthentication\Exception\RepositorySourceException;
 
 /**
@@ -85,8 +86,15 @@ class FileRepository extends KeyRepository
                 throw new RepositorySourceException("key repository malformed on line {$lineno}: '{$filename}'");
             }
 
-            // No need to validate clientId and clientId,
-            // the ArrayRepository constructor will do that.
+            // The ArrayRepository constructor also validated its input
+            // but it'd use another exception class and cannot include the line number.
+            try {
+                self::validateClientKey($parts[0]);
+                self::validateClientKey($parts[1]);
+            } catch (InvalidArgumentException $e) {
+                throw new RepositorySourceException("key repository malformed on line {$lineno}: '{$filename}'", 0, $e);
+            }
+
             $output[ $parts[0] ] = $parts[1];
         }
 
