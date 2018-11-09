@@ -9,6 +9,7 @@ for the client identification string
 contained within the request.
 
 A basic implementation is the [ArrayRepository] which simply wraps a <code>[clientId => clientSecret, …]</code> array.
+Another is the [FileRepository] which reads a `.htpasswd`-style file.
 More complex implementations may look up the client secret in a database or some other external system.
 
 [Exceptions]: Exceptions.md
@@ -16,6 +17,7 @@ More complex implementations may look up the client secret in a database or some
 [RequestAuthenticator]: Class_RequestAuthenticator.md
 [RequestVerifier]: Class_RequestVerifier.md
 [ArrayRepository]: Class_ArrayRepository.md
+[FileRepository]: Class_FileRepository.md
 
 
 ## Class Details

@@ -18,6 +18,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  * This class expects the KeyRepository to contain only hashed passwords
  * (in contrast to the simpler {@see BasicAuthenticationMethod}
  * which expects the repository to contain plaintext passwords).
+ * This works well with `.htpasswd` files and the {@see FileRepository}.
  *
  * The following hash formats are recognized:
  *  - Prefixes `$1$` (MD5),

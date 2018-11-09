@@ -18,6 +18,7 @@ use mle86\RequestAuthentication\Exception\UnknownClientIdException;
  * contained within the request.
  *
  * A basic implementation is the {@see ArrayRepository} which simply wraps a `[clientId => clientSecret, …]` array.
+ * Another is the {@see FileRepository} which reads a `.htpasswd`-style file.
  * More complex implementations may look up the client secret in a database or some other external system.
  */
 abstract class KeyRepository implements \ArrayAccess

@@ -45,3 +45,7 @@ All custom exceptions live in the `mle86\RequestAuthentication\Exception\` names
     Thrown by [KeyRepository] implementations
     in case of an unknown client ID.
 
+* `RepositorySourceException`  
+    Thrown by [KeyRepository] implementations
+    if their key source is faulty --
+    for example if the key file is malformed or does not exist.
