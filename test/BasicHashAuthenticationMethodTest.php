@@ -28,7 +28,7 @@ class BasicHashAuthenticationMethodTest extends TestCase
         // But we more client keys here to test
         // because their KeyRepository entries were build with different hashing methods!
         ['xc3', 'y6eDuQl6'],
-        ['xc4', 'exNJEw0y'],
+#       ['xc4', 'exNJEw0y'],
     ]; }
 
     protected function getTestingKeyRepository(): KeyRepository
@@ -45,8 +45,11 @@ class BasicHashAuthenticationMethodTest extends TestCase
                 // PhpHasher, crypt(EXT_DES):
                 'xc3' => '_00023cnQeSGjmIuQZsE',
 
-                // PhpHasher, password_hash(PASSWORD_ARGON2I):
-                'xc4' => '$argon2i$v=19$m=1024,t=2,p=2$em9nRzZyS2dyeTIxVFplaQ$0xOWGXs5ZjCnKiJ+/bxQJ3QZe8eouHwgL3fPt738KVU',
+                // Argon2i hashes are supported natively starting with PHP7.2.
+                // This is a PHP7.1 library
+                // so we cannot have this as part of our official tests yet.
+#               // PhpHasher, password_hash(PASSWORD_ARGON2I):
+#              'xc4' => '$argon2i$v=19$m=1024,t=2,p=2$em9nRzZyS2dyeTIxVFplaQ$0xOWGXs5ZjCnKiJ+/bxQJ3QZe8eouHwgL3fPt738KVU',
             ]);
     }
 
