@@ -22,7 +22,9 @@ use Symfony\Component\HttpFoundation\Request;
 class RequestVerifier
 {
 
+    /** @var AuthenticationMethod */
     private $method;
+    /** @var KeyRepository */
     private $keys;
 
     public function __construct(AuthenticationMethod $method, KeyRepository $keys)
@@ -47,9 +49,7 @@ class RequestVerifier
      */
     public function verify(RequestInterface $request): string
     {
-        $ri = RequestInfo::fromPsr7($request);
-        $this->method->verify($ri, $this->keys);
-        return $this->method->getClientId($ri);
+        return $this->verifyRequestInfo(RequestInfo::fromPsr7($request));
     }
 
     /**
@@ -64,9 +64,7 @@ class RequestVerifier
      */
     public function verifySymfonyRequest(Request $request): string
     {
-        $ri = RequestInfo::fromSymfonyRequest($request);
-        $this->method->verify($ri, $this->keys);
-        return $this->method->getClientId($ri);
+        return $this->verifyRequestInfo(RequestInfo::fromSymfonyRequest($request));
     }
 
     /**
@@ -83,9 +81,7 @@ class RequestVerifier
      */
     public function verifyGlobals(): string
     {
-        $ri = RequestInfo::fromGlobals();
-        $this->method->verify($ri, $this->keys);
-        return $this->method->getClientId($ri);
+        return $this->verifyRequestInfo(RequestInfo::fromGlobals());
     }
 
     /**
@@ -107,6 +103,13 @@ class RequestVerifier
             $this->verify($request);
             return $handler($request, $options);
         };
+    }
+
+
+    private function verifyRequestInfo(RequestInfo $ri): string
+    {
+        $this->method->verify($ri, $this->keys);
+        return $this->method->getClientId($ri);
     }
 
 }
