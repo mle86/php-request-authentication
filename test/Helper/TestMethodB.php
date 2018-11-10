@@ -9,7 +9,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
 
 /**
  * This AuthenticationMethod implementation
- * has a `X-Test-Signature` header with a random odd positive number
+ * has a `X-Test-Signature` header with a random odd positive number between 1000..1999
  * and a `X-Test-Client` header with the client id.
  *
  * The client secret is not used.
@@ -17,7 +17,8 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *
  * It is very similar to {@see TestMethodA}
  * which uses the same headers
- * but expects the signature value to be even.
+ * but expects the signature value to be even
+ * (but still in range 1000..1999).
  *
  * Besides the odd signature number, there's another difference:
  * it has a prefix in the client id header!
@@ -34,7 +35,7 @@ class TestMethodB implements AuthenticationMethod
     {
         return [
             self::CLIENT_HEADER    => self::CLIENT_PREFIX . $apiClientId,
-            self::SIGNATURE_HEADER => (2 * random_int(1, 1000)) + 1,
+            self::SIGNATURE_HEADER => (2 * random_int(500, 999)) + 1,  // 500..999 x2 +1 = 1001..1999 (odd)
         ];
     }
 
@@ -45,7 +46,7 @@ class TestMethodB implements AuthenticationMethod
         $sig = $request->getNonemptyHeaderValue(self::SIGNATURE_HEADER);
         $isOddInteger = (
             (is_int($sig) || ctype_digit($sig)) &&
-            $sig > 0 &&
+            $sig >= 1000 && $sig <= 1999 &&
             ($sig % 2) === 1);
         if (!$isOddInteger) {
             throw new InvalidAuthenticationException('invalid signature value');
