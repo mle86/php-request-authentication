@@ -3,11 +3,14 @@
 namespace mle86\RequestAuthentication;
 
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
+use mle86\RequestAuthentication\AuthenticationMethod\Feature\UsesRequestID;
 use mle86\RequestAuthentication\DTO\RequestInfo;
 use mle86\RequestAuthentication\Exception\CryptoErrorException;
+use mle86\RequestAuthentication\Exception\DuplicateRequestIDException;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
 use mle86\RequestAuthentication\Exception\MissingAuthenticationHeaderException;
 use mle86\RequestAuthentication\KeyRepository\KeyRepository;
+use mle86\RequestAuthentication\RequestIdList\RequestIdList;
 use Psr\Http\Message\RequestInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -26,11 +29,27 @@ class RequestVerifier
     private $method;
     /** @var KeyRepository */
     private $keys;
+    /** @var RequestIdList|null */
+    private $requestIdList;
 
     public function __construct(AuthenticationMethod $method, KeyRepository $keys)
     {
         $this->method = $method;
         $this->keys   = $keys;
+    }
+
+    /**
+     * Adds a {@see RequestIdList} instance to this RequestVerifier
+     * which will be used to ensure Request ID Uniqueness
+     * for all valid inbound requests.
+     *
+     * @param RequestIdList|null $requestIdList
+     * @return self
+     */
+    public function withRequestIdList(?RequestIdList $requestIdList): self
+    {
+        $this->requestIdList = $requestIdList;
+        return $this;
     }
 
 
@@ -46,6 +65,7 @@ class RequestVerifier
      * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
      * @throws InvalidAuthenticationException  on incorrect authentication header(s).
      * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
+     * @throws DuplicateRequestIDException  if the request was valid but contained an already-seen Request ID (requires {@see withRequestIdList}).
      */
     public function verify(RequestInterface $request): string
     {
@@ -61,6 +81,7 @@ class RequestVerifier
      * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
      * @throws InvalidAuthenticationException  on incorrect authentication header(s).
      * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
+     * @throws DuplicateRequestIDException  if the request was valid but contained an already-seen Request ID (requires {@see withRequestIdList}).
      */
     public function verifySymfonyRequest(Request $request): string
     {
@@ -78,6 +99,7 @@ class RequestVerifier
      * @throws MissingAuthenticationHeaderException  on missing or empty authentication header(s).
      * @throws InvalidAuthenticationException  on incorrect authentication header(s).
      * @throws CryptoErrorException  if there was a problem with a low-level cryptographic function.
+     * @throws DuplicateRequestIDException  if the request was valid but contained an already-seen Request ID (requires {@see withRequestIdList}).
      */
     public function verifyGlobals(): string
     {
@@ -109,7 +131,14 @@ class RequestVerifier
     private function verifyRequestInfo(RequestInfo $ri): string
     {
         $this->method->verify($ri, $this->keys);
-        return $this->method->getClientId($ri);
+
+        $clientId = $this->method->getClientId($ri);
+
+        if ($this->requestIdList && $this->method instanceof UsesRequestID) {
+            $this->requestIdList->put($this->method->getRequestId($ri));
+        }
+
+        return $clientId;
     }
 
 }

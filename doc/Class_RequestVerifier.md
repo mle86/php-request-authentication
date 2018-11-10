@@ -14,6 +14,7 @@ Wraps an [AuthenticationMethod] instance to verify inbound request authenticatio
 [RequestAuthenticator]: Class_RequestAuthenticator.md
 [RequestVerifier]: Class_RequestVerifier.md
 [RequestInfo]: Class_RequestInfo.md
+[RequestIdList]: Class_RequestIdList.md
 
 
 ## Class Details
@@ -25,6 +26,11 @@ Wraps an [AuthenticationMethod] instance to verify inbound request authenticatio
 ## Methods
 
 * **Constructor:** <code>\_\_construct ([AuthenticationMethod] $method, [KeyRepository] $keys)</code>
+
+* <code><b>withRequestIdList</b> (?[RequestIdList] $requestIdList): self</code>  
+    Adds a [RequestIdList] instance to this RequestVerifier
+    which will be used to ensure Request ID Uniqueness
+    for all valid inbound requests.  
 
 * <code><b>verify</b> (Psr\Http\Message\RequestInterface $request): string</code>  
     Takes a PSR-7 RequestInterface instance
@@ -52,4 +58,5 @@ as returned by <code>[AuthenticationMethod]::getClientId()</code>.
 * All verification methods throw a [MissingAuthenticationHeaderException][Exceptions] on missing or empty authentication header(s).
 * All verification methods throw a [InvalidAuthenticationException][Exceptions] on incorrect authentication header(s).
 * All verification methods throw a [CryptoErrorException][Exceptions] if there was a problem with a low-level cryptographic function.
+* All verification methods throw a [DuplicateRequestIDException][Exceptions] if the request was valid but contained an already-seen Request ID (requires `withRequestIdList()`).
 
