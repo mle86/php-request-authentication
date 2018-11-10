@@ -55,6 +55,11 @@ interface AuthenticationMethod
      * and verifies the request's authentication token
      * against that key and the request data.
      *
+     * If the class implements the {@see UsesRequestID} interface,
+     * this method must also ensure the existence and correct format
+     * of the Request ID header
+     * (but it need not ensure its uniqueness; that's a job for the {@see RequestIdList} classes).
+     *
      * @param RequestInfo $request  The request to verify.
      * @param KeyRepository $keys   The client keys available for authentication.
      * @return void  on success.

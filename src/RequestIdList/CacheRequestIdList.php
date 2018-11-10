@@ -66,7 +66,11 @@ class CacheRequestIdList implements RequestIdList
 
     private function cacheKey(string $requestId): string
     {
-        // There's no guarantees about the request id
+        // The HexRequestIDTrait generates only hex request ids
+        // (and verifies them to have that charset)
+        // which would be fine for cache keys.
+        // But implementors of other AuthenticationMethod classes
+        // may choose a different charset (e.g. UUIDs)
         // so we'd better hash it to avoid invalid cache keys.
         return $this->keyPrefix . hash($this->hashAlgo, $requestId);
     }

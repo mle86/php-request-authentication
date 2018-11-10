@@ -31,6 +31,7 @@ Wraps an [AuthenticationMethod] instance to verify inbound request authenticatio
     Adds a [RequestIdList] instance to this RequestVerifier
     which will be used to ensure Request ID Uniqueness
     for all valid inbound requests.  
+    See [Request IDs: Request Uniqueness](Request_IDs.md#request-uniqueness) for more information.
 
 * <code><b>verify</b> (Psr\Http\Message\RequestInterface $request): string</code>  
     Takes a PSR-7 RequestInterface instance

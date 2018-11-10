@@ -85,6 +85,7 @@ and the [KeyRepository] must return the client's public key.)
 ## More Documentation
 
 * [Usage Example with htpasswd file](doc/Example_htpasswd.md)
+* [Request IDs and Ensuring Request Uniqueness](doc/Request_IDs.md)
 
 
 [RequestAuthenticator]: doc/Class_RequestAuthenticator.md
