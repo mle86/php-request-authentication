@@ -143,6 +143,19 @@ class RequestVerifier
 
     private function verifyRequestId(RequestInfo $ri): void
     {
+        if ($this->method instanceof MethodStack) {
+            // Special case: the MethodStack class cannot implement the UsesRequestID interface
+            // because its behavior depends on the contained implementations.
+            // But it offers a conditional getRequestId method itself.
+            $lastRequestId = $this->method->getRequestId($ri);
+            if ($lastRequestId !== null) {
+                // The stack method responsible for this request
+                // was a UsesRequestID method!
+                $this->requestIdList->put($lastRequestId);
+            }
+            return;
+        }
+
         if (!($this->method instanceof UsesRequestID)) {
             return;
         }
