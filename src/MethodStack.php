@@ -3,6 +3,7 @@
 namespace mle86\RequestAuthentication;
 
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
+use mle86\RequestAuthentication\AuthenticationMethod\Feature\UsesRequestID;
 use mle86\RequestAuthentication\DTO\RequestInfo;
 use mle86\RequestAuthentication\Exception\CryptoErrorException;
 use mle86\RequestAuthentication\Exception\InvalidArgumentException;
@@ -30,7 +31,9 @@ class MethodStack implements AuthenticationMethod
     /** @var AuthenticationMethod[] */
     private $methods;
 
+    /** @var RequestInfo|null */
     private $lastRequest;
+    /** @var AuthenticationMethod|null */
     private $lastMethod;
 
     /**
@@ -160,6 +163,32 @@ class MethodStack implements AuthenticationMethod
                 return $method->getClientId($request);
             }
         )[1];
+    }
+
+    /**
+     * Calls {@see UsesRequestID::getRequestId()}
+     * on the method that has previously successfully verified {@see $request}.
+     *
+     * **⚠ NB:**
+     *   It is only safe to call this method if {@see verify()} has been called before _and_
+     *   if the last successful {@see verify()} call had the same request argument _and_
+     *   if the last successfull {@see verify()} call applied a {@see UsesRequestID}-implementing
+     *   AuthenticationMethod from the stack.
+     *   Otherwise, null is returned.
+     *   The {@see RequestVerifier} helper class does this correctly.
+     *
+     * @param RequestInfo $request
+     * @return string|null
+     */
+    public function getRequestId(RequestInfo $request): ?string
+    {
+        $lastRequest = $this->lastRequest;
+        $lastMethod  = $this->lastMethod;
+        if ($request === $lastRequest && $lastMethod instanceof UsesRequestID) {
+            return $lastMethod->getRequestId($lastRequest);
+        }
+
+        return null;
     }
 
     /**
