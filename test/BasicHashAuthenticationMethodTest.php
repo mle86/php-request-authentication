@@ -29,6 +29,7 @@ class BasicHashAuthenticationMethodTest extends TestCase
         // because their KeyRepository entries were build with different hashing methods!
         ['xc3', 'y6eDuQl6'],
 #       ['xc4', 'exNJEw0y'],
+        ['xc5', '18l8yYPt'],
     ]; }
 
     protected function getTestingKeyRepository(): KeyRepository
@@ -49,7 +50,9 @@ class BasicHashAuthenticationMethodTest extends TestCase
                 // This is a PHP7.1 library
                 // so we cannot have this as part of our official tests yet.
 #               // PhpHasher, password_hash(PASSWORD_ARGON2I):
-#              'xc4' => '$argon2i$v=19$m=1024,t=2,p=2$em9nRzZyS2dyeTIxVFplaQ$0xOWGXs5ZjCnKiJ+/bxQJ3QZe8eouHwgL3fPt738KVU',
+#               'xc4' => '$argon2i$v=19$m=1024,t=2,p=2$em9nRzZyS2dyeTIxVFplaQ$0xOWGXs5ZjCnKiJ+/bxQJ3QZe8eouHwgL3fPt738KVU',
+
+                'xc5' => '{SSHA}c3AdfAk6fme1xhqHb2iXu9g/BFo0eElY',
             ]);
     }
 

@@ -7,6 +7,7 @@ namespace mle86\RequestAuthentication\Tests;
 use mle86\RequestAuthentication\Crypto\Hasher;
 use mle86\RequestAuthentication\Crypto\HasherFactory;
 use mle86\RequestAuthentication\Crypto\PhpHash\PhpHasher;
+use mle86\RequestAuthentication\Crypto\Sha1Hash\SaltedSha1HtpasswdHasher;
 use mle86\RequestAuthentication\Crypto\Sha1Hash\Sha1HtpasswdHasher;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
 use PHPUnit\Framework\TestCase;
@@ -17,6 +18,7 @@ class HasherTest extends TestCase
     public static function knownHashers(): array { return [
         [new PhpHasher()],
         [new Sha1HtpasswdHasher()],
+        [new SaltedSha1HtpasswdHasher()],
     ]; }
 
     public static function correctPasswords(): array { return [

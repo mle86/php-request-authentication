@@ -3,6 +3,7 @@
 namespace mle86\RequestAuthentication\Crypto;
 
 use mle86\RequestAuthentication\Crypto\PhpHash\PhpHasher;
+use mle86\RequestAuthentication\Crypto\Sha1Hash\SaltedSha1HtpasswdHasher;
 use mle86\RequestAuthentication\Crypto\Sha1Hash\Sha1HtpasswdHasher;
 use mle86\RequestAuthentication\Exception\HashMethodNotImplementedException;
 use mle86\RequestAuthentication\Exception\HashMethodUnknownException;
@@ -43,6 +44,10 @@ class HasherFactory
 
         if (self::isPrefix($hash, [Sha1HtpasswdHasher::PREFIX])) {
             return new Sha1HtpasswdHasher();
+        }
+
+        if (self::isPrefix($hash, [SaltedSha1HtpasswdHasher::PREFIX])) {
+            return new SaltedSha1HtpasswdHasher();
         }
 
         if (self::isPrefix($hash, ['$apr1$'])) {

@@ -19,13 +19,12 @@ The following hash formats are recognized:
    `$6$` (SHA-512),
    and `$argon2i$` (Argon2 -- only on PHP7.2+)
    as returned by [crypt()] and [password_hash()].
- - Prefix
-   `{SHA}` (SHA-1) 
+ - Prefixes
+   `{SHA}` (SHA-1) and `{SSHA}` (salted SHA-1)
    as traditionally used in htpasswd files.
 
 ⚠ The following hash formats are _not yet recognized:_
  - Prefix `$apr1$` (APR1-MD5).
- - Prefix `{SSHA}` (salted SHA-1).
 
 [Exceptions]: Exceptions.md
 [KeyRepository]: Class_KeyRepository.md
