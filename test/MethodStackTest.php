@@ -14,6 +14,7 @@ use mle86\RequestAuthentication\Tests\Helper\AuthenticationMethodTestDefaults;
 use mle86\RequestAuthentication\Tests\Helper\AuthenticationMethodTestHelpers;
 use mle86\RequestAuthentication\Tests\Helper\TestMethodA;
 use mle86\RequestAuthentication\Tests\Helper\TestMethodB;
+use mle86\RequestAuthentication\Tests\Helper\TestMethodC;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 
@@ -144,6 +145,42 @@ class MethodStackTest extends TestCase
 
         $assertClientId($ab, $auth_b_headers, 'C.B');
         $assertClientId($ba, $auth_b_headers, 'C.B');
+    }
+
+    /**
+     * MethodStack delegates getRequestId() calls
+     * to the previously-successful stack method
+     * that verified the same request.
+     * Otherwise it returns null.
+     *
+     * @depends testInstantiation
+     * @depends testVerify
+     */
+    public function testRequestId(): void
+    {
+        $stack_abc = new MethodStack([
+            new TestMethodA(),
+            new TestMethodB(),
+            new TestMethodC(),
+        ]);
+
+        $emptyRequest = $this->buildRequest();
+        $auth_c_headers = (new TestMethodC())->authenticate(RequestInfo::fromPsr7($emptyRequest), 'C9101', 'CS');
+        $auth_c_request = $this->applyHeaders($emptyRequest, $auth_c_headers);
+        $auth_c_ri      = RequestInfo::fromPsr7($auth_c_request);
+
+        // This request now fulfils the requirements to be verified by TestMethodC.
+        // It also contains a Request-ID where TestMethodC _and_ TestMethodB expect it
+        // but which is malformed for TestMethodB --
+        // but since only TestMethodC should be used to validate this method,
+        // TestMethodB should never see/handle/return that request id, only TestMethodC should.
+
+        $stack_abc->verify($auth_c_ri, $this->getTestingKeyRepository());
+
+        $usedClientId  = (new TestMethodC())->getClientId($auth_c_ri);
+        $usedRequestId = (new TestMethodC())->getRequestId($auth_c_ri);
+        $this->assertSame($usedClientId,  $stack_abc->getClientId($auth_c_ri));
+        $this->assertSame($usedRequestId, $stack_abc->getRequestId($auth_c_ri));
     }
 
 }
