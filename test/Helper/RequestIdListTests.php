@@ -48,4 +48,24 @@ trait RequestIdListTests
         $this->assertTrue($list->contains($rqid));
     }
 
+    /**
+     * This is run after all other tests.
+     *
+     * @depends testGetInstance
+     * @depends testEmptyInstance
+     * @depends testPut
+     * @depends testPutAgain
+     */
+    final public function testOther(RequestIdList $list): void
+    {
+        $this->otherTests($list);
+    }
+
+    /**
+     * @param RequestIdList $list
+     */
+    protected function otherTests(RequestIdList $list): void
+    {
+    }
+
 }

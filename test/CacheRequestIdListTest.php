@@ -12,13 +12,34 @@ class CacheRequestIdListTest extends TestCase
 {
     use RequestIdListTests;
 
-    public function testGetInstance(): RequestIdList
+    private const CACHE_KEY_PREFIX = '_test';
+
+    private static $cache;
+    private static function getCache(): MemoryCache
     {
-        $memCache  = new MemoryCache();
-        $cacheList = new CacheRequestIdList($memCache, '_test_');
-        return $cacheList;
+        return (self::$cache ?? (self::$cache =
+                new MemoryCache()
+        ));
     }
 
-    # TODO: test cache key usage
+    public function testGetInstance(): RequestIdList
+    {
+        return new CacheRequestIdList(self::getCache(), self::CACHE_KEY_PREFIX);
+    }
+
+
+    protected function otherTests(): void
+    {
+        $this->checkCacheKeys();
+    }
+
+    protected function checkCacheKeys(): void
+    {
+        $regex = '/^' . preg_quote(self::CACHE_KEY_PREFIX, '/') . '.+/';
+        foreach (self::getCache()->getAllKeys() as $cacheKey) {
+            $this->assertRegExp($regex, $cacheKey);
+        }
+    }
+
 
 }

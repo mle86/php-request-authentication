@@ -79,4 +79,23 @@ class MemoryCache implements CacheInterface
         return true;
     }
 
+
+    /**
+     * Not part of the PSR-16 CacheInterface!
+     *
+     * @return string[]
+     */
+    public function getAllKeys(): array
+    {
+        $keys = [];
+        foreach (array_keys($this->cache) as $key) {
+            if (!$this->has($key)) {
+                // skip expired entries
+                continue;
+            }
+            $keys[] = $key;
+        }
+        return $keys;
+    }
+
 }
