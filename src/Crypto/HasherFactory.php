@@ -17,7 +17,7 @@ use function substr, strlen;
  *  - Hashes created by {@see password_hash()}.
  *  - Hashes created by {@see crypt()}.
  *  - Hashes created by any {@see Hasher} class included in this library.
- *  - SHA1 htpasswd hashes ("`{SHA1}`" prefix).
+ *  - SHA1 htpasswd hashes ("`{SHA}`").
  */
 class HasherFactory
 {
