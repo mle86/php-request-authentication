@@ -134,11 +134,21 @@ class RequestVerifier
 
         $clientId = $this->method->getClientId($ri);
 
-        if ($this->requestIdList && $this->method instanceof UsesRequestID) {
-            $this->requestIdList->put($this->method->getRequestId($ri));
+        if ($this->requestIdList) {
+            $this->verifyRequestId($ri);
         }
 
         return $clientId;
+    }
+
+    private function verifyRequestId(RequestInfo $ri): void
+    {
+        if (!($this->method instanceof UsesRequestID)) {
+            return;
+        }
+
+        // This method supports Request IDs, ensure it's present and unique:
+        $this->requestIdList->put($this->method->getRequestId($ri));
     }
 
 }
