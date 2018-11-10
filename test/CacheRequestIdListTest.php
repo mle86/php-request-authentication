@@ -17,9 +17,12 @@ class CacheRequestIdListTest extends TestCase
     private static $cache;
     private static function getCache(): MemoryCache
     {
-        return (self::$cache ?? (self::$cache =
-                new MemoryCache()
-        ));
+        if (!self::$cache) {
+            self::$cache = new MemoryCache();
+            self::$cache->set('myKey', 'myValue');
+        }
+
+        return self::$cache;
     }
 
     public function testGetInstance(): RequestIdList
@@ -35,7 +38,10 @@ class CacheRequestIdListTest extends TestCase
 
     protected function checkCacheKeys(): void
     {
-        $regex = '/^' . preg_quote(self::CACHE_KEY_PREFIX, '/') . '.+/';
+        $regex = '/^(myKey|' . preg_quote(self::CACHE_KEY_PREFIX, '/') . '.+)/';
+
+        $this->assertSame('myValue', self::getCache()->get('myKey'));
+
         foreach (self::getCache()->getAllKeys() as $cacheKey) {
             $this->assertRegExp($regex, $cacheKey);
         }
