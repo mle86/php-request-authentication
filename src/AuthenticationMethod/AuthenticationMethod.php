@@ -16,12 +16,13 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *  - **Authentication:**
  *    Using the {@see authenticate()} method,
  *    outbound requests can be authenticated.
- *    The method calculates the authentication token string
- *    and returns it as an additional header to add to the request before sending it.
+ *    The method calculates the authentication data for the request
+ *    (such as a signature or a id+secret header)
+ *    and returns it as additional headers to be added to the request before sending it.
  *
  *  - **Verification:**
  *    Using the {@see verify()} method,
- *    an inbound request's authentication token
+ *    an inbound request's authentication header(s)
  *    can be tested against the rest of the request data (including the client ID)
  *    and the locally-known list of acceptable client IDs and their API secrets.
  *

@@ -7,12 +7,13 @@ All implementations have two use cases:
  - **Authentication:**
    Using the `authenticate()` method,
    outbound requests can be authenticated.
-   The method calculates the authentication token string
-   and returns it as an additional header to add to the request before sending it.
+   The method calculates the authentication data for the request
+   (such as a signature or a id+secret header)
+   and returns it as additional headers to be added to the request before sending it.
 
  - **Verification:**
    Using the `verify()` method,
-   an inbound request's authentication token
+   an inbound request's authentication header(s)
    can be tested against the rest of the request data (including the client ID)
    and the locally-known list of acceptable client IDs and their API secrets.
 
@@ -39,7 +40,7 @@ in case you need it for authorization checking/rate limiting/logging.
 ## Class Details
 
 * Full interface name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>AuthenticationMethod</b></code>
-* Class file: [src/AuthenticationMethod/AuthenticationMethod.php](../src/AuthenticationMethod/AuthenticationMethod.php)
+* Interface file: [src/AuthenticationMethod/AuthenticationMethod.php](../src/AuthenticationMethod/AuthenticationMethod.php)
 
 
 ## Implementations
