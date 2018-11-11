@@ -83,11 +83,7 @@ class HaliteSigningPrivateKey implements SigningPrivateKey
     public static function generate(): self
     {
         $keyPair = KeyFactory::generateSignatureKeyPair();
-        try {
-            return self::fromKeyPair($keyPair);
-        } finally {
-            Sodium\memzero($keyPair);
-        }
+        return self::fromKeyPair($keyPair);
     }
 
     public function getEncodedForm(): string
