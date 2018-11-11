@@ -8,14 +8,14 @@ All implementations have two use cases:
    Using the `authenticate()` method,
    outbound requests can be authenticated.
    The method calculates the authentication data for the request
-   (such as a signature or a id+secret header)
+   (such as a signature or a id+key header)
    and returns it as additional headers to be added to the request before sending it.
 
  - **Verification:**
    Using the `verify()` method,
    an inbound request's authentication header(s)
    can be tested against the rest of the request data (including the client ID)
-   and the locally-known list of acceptable client IDs and their API secrets.
+   and the locally-known list of acceptable client IDs and their API keys/secrets.
 
 There's also a `getClientId()` method that just extracts the API client identification from a request
 in case you need it for authorization checking/rate limiting/logging.
@@ -54,14 +54,15 @@ in case you need it for authorization checking/rate limiting/logging.
 
 ## Methods
 
-* <code><b>authenticate</b> ([RequestInfo] $request, string $apiClientId, string $apiSecretKey): array</code>  
+* <code><b>authenticate</b> ([RequestInfo] $request, string $apiClientId, string $apiClientKey): array</code>  
     Calculates the authentication data for one request
     based on its headers, http method/host/uri, and request body.  
 	Returns an array of HTTP headers that must be added to the request before sending it:
 	  `[headerName => headerValue, …]`  
 	Throws a [CryptoErrorException][Exceptions] if there was a problem with a low-level cryptographic function.
 	* `$apiClientId`: The API client's identification which will be included in the output headers.
-	* `$apiSecretKey`: The client's secret key used to calculate the authentication token.
+	* `$apiClientKey`: The client's secret key used to calculate the authentication token.
+	    This might be a password, a private key, or a shared secret, depending on the class.
 
 * <code><b>verify</b> ([RequestInfo] $request, [KeyRepository] $keys): void</code>  
 	Verifies one request's authentication token.  

@@ -22,14 +22,14 @@ class RequestAuthenticator
 {
 
     private $apiClientId;
-    private $apiSecretKey;
+    private $apiClientKey;
     private $method;
 
-    public function __construct(AuthenticationMethod $method, string $apiClientId, string $apiSecretKey)
+    public function __construct(AuthenticationMethod $method, string $apiClientId, string $apiClientKey)
     {
         $this->method       = $method;
         $this->apiClientId  = $apiClientId;
-        $this->apiSecretKey = $apiSecretKey;
+        $this->apiClientKey = $apiClientKey;
     }
 
 
@@ -49,7 +49,7 @@ class RequestAuthenticator
     {
         $ri = RequestInfo::fromPsr7($request);
 
-        $addHeaders = $this->method->authenticate($ri, $this->apiClientId, $this->apiSecretKey);
+        $addHeaders = $this->method->authenticate($ri, $this->apiClientId, $this->apiClientKey);
         foreach ($addHeaders as $name => $value) {
             $request = $request->withHeader($name, $value);
         }
@@ -70,7 +70,7 @@ class RequestAuthenticator
         $request = clone $request;  // don't modify original
         $ri      = RequestInfo::fromSymfonyRequest($request);
 
-        $addHeaders = $this->method->authenticate($ri, $this->apiClientId, $this->apiSecretKey);
+        $addHeaders = $this->method->authenticate($ri, $this->apiClientId, $this->apiClientKey);
         $request->headers->add($addHeaders);
 
         return $request;

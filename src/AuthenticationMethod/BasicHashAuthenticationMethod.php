@@ -12,7 +12,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  * with hashed password storage.
  *
  * The Basic username is the $apiClientId,
- * the Basic password is the $apiSecretKey.
+ * the Basic password is the $apiClientKey.
  * A hashed form of the Basic password must also be returned by the KeyRepository.
  *
  * This class expects the KeyRepository to contain only hashed passwords

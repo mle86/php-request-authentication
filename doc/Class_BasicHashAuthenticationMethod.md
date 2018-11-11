@@ -4,7 +4,7 @@ Implements HTTP “Basic” authentication
 with hashed password storage.
 
  - The Basic username is the `$apiClientId`,
- - the Basic password is the `$apiSecretKey`.
+ - the Basic password is the `$apiClientKey`.
  - The Basic password must also be returned unchanged by the [KeyRepository].
 
 This class expects the KeyRepository to contain only hashed passwords

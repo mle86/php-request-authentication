@@ -11,7 +11,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  * Implements HTTP “Basic” authentication.
  *
  * The Basic username is the $apiClientId,
- * the Basic password is the $apiSecretKey.
+ * the Basic password is the $apiClientKey.
  * The Basic password must also be returned unchanged by the KeyRepository.
  *
  * If you want to store the Basic password in hashed form instead of plaintext passwords,
@@ -27,9 +27,9 @@ class BasicAuthenticationMethod implements AuthenticationMethod
 
     const HEADER = 'Authorization';
 
-    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiClientKey): array
     {
-        return [self::HEADER => 'Basic ' . base64_encode($apiClientId . ':' . $apiSecretKey)];
+        return [self::HEADER => 'Basic ' . base64_encode($apiClientId . ':' . $apiClientKey)];
     }
 
     public function verify(RequestInfo $request, KeyRepository $keys): void

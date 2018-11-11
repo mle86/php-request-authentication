@@ -23,7 +23,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *    the HTTP method and URI,
  *    the `Content-Type` header,
  *    and the used client ID.
- *    The client secret is used as the HMAC key.
+ *    The client key is used as the HMAC key.
  *    (See {@see calculateToken} and {@see DefaultDataTrait::signableRequestData} for more info.)
  *
  *  - Valid requests contain a `X-Request-ID` HTTP header
@@ -31,7 +31,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *    e.g. some random SHA256 value.
  *    That value should NOT be calculated from the request data.
  *
- *  - The client secret is used both for signing and for verifying.
+ *  - The secret client key is used both for signing and for verifying.
  *
  *  - The {@see authenticate} method will...
  *     - add a random `X-Request-ID` HTTP header (if there is none),
@@ -58,7 +58,7 @@ class DefaultAuthenticationMethod implements AuthenticationMethod, UsesRequestID
 
     const TOKEN_ALGO = 'sha256';
 
-    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiClientKey): array
     {
         $outputHeaders = [
             self::DEFAULT_CLIENT_ID_HEADER => $apiClientId,
@@ -69,17 +69,17 @@ class DefaultAuthenticationMethod implements AuthenticationMethod, UsesRequestID
         }
 
         $outputHeaders[self::DEFAULT_AUTH_TOKEN_HEADER] =
-            self::calculateToken($request, $apiSecretKey, $outputHeaders);
+            self::calculateToken($request, $apiClientKey, $outputHeaders);
 
         return $outputHeaders;
     }
 
-    private static function calculateToken(RequestInfo $request, string $apiSecretKey, array $extraHeaders = []): string
+    private static function calculateToken(RequestInfo $request, string $apiClientKey, array $extraHeaders = []): string
     {
         $useHeaders = [self::DEFAULT_CLIENT_ID_HEADER, self::DEFAULT_REQUEST_ID_HEADER];
         $data = self::signableRequestData($request, $useHeaders, $extraHeaders);
 
-        $token = hash_hmac(self::TOKEN_ALGO, $data, $apiSecretKey);
+        $token = hash_hmac(self::TOKEN_ALGO, $data, $apiClientKey);
         if ($token === '' || $token === null || $token === false || $token === '*') {
             throw new HashErrorException();
         }

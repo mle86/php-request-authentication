@@ -40,7 +40,7 @@ class TestMethodC implements AuthenticationMethod, UsesRequestID
     const CLIENT_PREFIX = TestMethodB::CLIENT_PREFIX;
     const REQUEST_ID_PREFIX = 'RIDPREFIX!';  // contains a "!" which won't pass TestMethodB::validateRequestId
 
-    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiClientKey): array
     {
         return [
             self::CLIENT_HEADER    => self::CLIENT_PREFIX . $apiClientId,

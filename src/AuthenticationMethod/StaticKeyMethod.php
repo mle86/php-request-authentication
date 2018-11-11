@@ -40,9 +40,9 @@ class StaticKeyMethod implements AuthenticationMethod
         $this->headerName = $headerName;
     }
 
-    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiClientKey): array
     {
-        return [$this->headerName => $apiSecretKey];
+        return [$this->headerName => $apiClientKey];
     }
 
     public function verify(RequestInfo $request, KeyRepository $keys): void

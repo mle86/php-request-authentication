@@ -69,14 +69,14 @@ class MethodStack implements AuthenticationMethod
      *
      * @param RequestInfo $request
      * @param string $apiClientId
-     * @param string $apiSecretKey
+     * @param string $apiClientKey
      * @return array
      * @throws CryptoErrorException
      */
-    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiClientKey): array
     {
         $method = reset($this->methods);
-        return $method->authenticate($request, $apiClientId, $apiSecretKey);
+        return $method->authenticate($request, $apiClientId, $apiClientKey);
     }
 
     /**

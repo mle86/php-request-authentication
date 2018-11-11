@@ -26,7 +26,7 @@ class TestMethodA implements AuthenticationMethod
     const SIGNATURE_HEADER = 'X-Test-Signature';
     const CLIENT_HEADER    = 'X-Test-Client';
 
-    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiClientKey): array
     {
         return [
             self::CLIENT_HEADER    => $apiClientId,

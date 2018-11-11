@@ -12,14 +12,14 @@ for basic hash authentication.
   the HTTP method and URI,
   the `Content-Type` header,
   and the used client ID.  
-  The client secret is used as the HMAC key.  
+  The client key is used as the HMAC key.  
 
 - Valid requests contain a `X-Request-ID` HTTP header
   containing a hexadecimal value (length: 32…100),
   e.g. some random SHA256 value.  
   That value should NOT be calculated from the request data.
 
-- The client secret is used both for signing and for verifying.
+- The secret client key is used both for signing and for verifying.
 
 - The `authenticate` method will...
    - add a random `X-Request-ID` HTTP header (if there is none),

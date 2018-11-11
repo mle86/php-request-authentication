@@ -37,7 +37,7 @@ class TestMethodB implements AuthenticationMethod, UsesRequestID
 
     const CLIENT_PREFIX = 'PREFIX!';
 
-    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiClientKey): array
     {
         return [
             self::CLIENT_HEADER    => self::CLIENT_PREFIX . $apiClientId,

@@ -59,7 +59,7 @@ class PublicKeyMethod implements AuthenticationMethod, UsesRequestID
     }
 
 
-    public function authenticate(RequestInfo $request, string $apiClientId, string $apiSecretKey): array
+    public function authenticate(RequestInfo $request, string $apiClientId, string $apiClientKey): array
     {
         $outputHeaders = [
             self::CLIENT_ID_HEADER => $apiClientId,
@@ -70,7 +70,7 @@ class PublicKeyMethod implements AuthenticationMethod, UsesRequestID
         }
 
         $signableMessage = self::signableRequestData($request, self::USE_HEADERS_FOR_SIGNATURE, $outputHeaders);
-        $signature       = $this->getSigner($apiSecretKey)->sign($signableMessage);
+        $signature       = $this->getSigner($apiClientKey)->sign($signableMessage);
         $outputHeaders[self::SIGNATURE_HEADER] = $signature;
 
         return $outputHeaders;
