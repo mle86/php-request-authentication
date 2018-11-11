@@ -20,14 +20,17 @@ class HaliteAdapterTest extends TestCase
 
     public function testKeyGeneration(): HaliteSigningPrivateKey
     {
+        // Two newly-generated keys should definitely be different:
         $priv1 = HaliteSigningPrivateKey::generate();
         $priv2 = HaliteSigningPrivateKey::generate();
         $this->assertNotEquals($priv1->getEncodedForm(), $priv2->getEncodedForm());
 
+        // ...and they should have different public keys as well:
         $pub1  = HaliteSigningPublicKey::fromPrivateKey($priv1);
         $pub2  = HaliteSigningPublicKey::fromPrivateKey($priv2);
         $this->assertNotEquals($pub1->getEncodedForm(), $pub2->getEncodedForm());
 
+        // But a public key, calculated from a private key, is deterministic:
         $pub11 = HaliteSigningPublicKey::fromPrivateKey($priv1);
         $this->assertEquals   ($pub1->getEncodedForm(), $pub11->getEncodedForm());
 

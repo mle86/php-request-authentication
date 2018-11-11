@@ -18,7 +18,7 @@ use function substr, strlen;
  *  - Hashes created by {@see password_hash()}.
  *  - Hashes created by {@see crypt()}.
  *  - Hashes created by any {@see Hasher} class included in this library.
- *  - SHA1 htpasswd hashes ("`{SHA}`").
+ *  - SHA1 htpasswd hashes ("`{SHA}`" and "`{SSHA}`").
  *  - APR1-MD5 htpasswd hashes ("`$apr1$`").
  */
 class HasherFactory
@@ -43,11 +43,11 @@ class HasherFactory
             return new PhpHasher();
         }
 
-        if (self::isPrefix($hash, [Sha1HtpasswdHasher::PREFIX])) {
+        if (self::isPrefix($hash, [Sha1HtpasswdHasher::PREFIX])) {  // {SHA}
             return new Sha1HtpasswdHasher();
         }
 
-        if (self::isPrefix($hash, [SaltedSha1HtpasswdHasher::PREFIX])) {
+        if (self::isPrefix($hash, [SaltedSha1HtpasswdHasher::PREFIX])) {  // {SSHA}
             return new SaltedSha1HtpasswdHasher();
         }
 
