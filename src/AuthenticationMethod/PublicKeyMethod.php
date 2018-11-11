@@ -33,7 +33,7 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  * must return the client's public key.
  * The client's private key should not be stored on the server side at all.
  *
- * @see https://github.com/paragonie/halite  This method assumes that the paragonie/halite cryptographic library is available in your project.
+ * @see https://packagist.org/packages/paragonie/halite This uses the paragonie/halite cryptographic library.
  */
 class PublicKeyMethod implements AuthenticationMethod, UsesRequestID
 {

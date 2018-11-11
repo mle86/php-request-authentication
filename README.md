@@ -30,7 +30,9 @@ Or insert this into your project's `composer.json` file:
 
 - The [PSR-7](https://www.php-fig.org/psr/psr-7/) interfaces ([psr/http-message](https://github.com/php-fig/http-message))
 - The [PSR-15](https://www.php-fig.org/psr/psr-15/) interfaces ([psr/http-server-middleware](https://github.com/php-fig/http-server-handler))
+
 - The [whitehat101/apr1-md5](https://packagist.org/packages/whitehat101/apr1-md5) package for `$apr1$` hash support in [BasicHashAuthenticationMethod]
+- The [paragonie/halite](https://packagist.org/packages/paragonie/halite) package for the [PublicKeyMethod] class
 
 
 ## Workflow
