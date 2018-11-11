@@ -28,7 +28,7 @@ class CacheRequestIdList implements RequestIdList
 
     /**
      * @param CacheInterface $psr16cache  The cache to use.
-     * @param string $cacheKeyPrefix      The cache key prefix to use.
+     * @param string $cacheKeyPrefix      The cache key prefix to use. Must not be empty.
      * @param int|\DateInterval|null $ttl The TTL to use (in seconds or as a DateInterval). Without this, the entries won't have a TTL at all!
      */
     public function __construct(CacheInterface $psr16cache, string $cacheKeyPrefix, $ttl = null)

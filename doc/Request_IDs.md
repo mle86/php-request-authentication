@@ -29,6 +29,7 @@ both the client side and the server side.
 [RequestVerifier]: Class_RequestVerifier.md
 [RequestInfo]: Class_RequestInfo.md
 [RequestIdList]: Class_RequestIdList.md
+[CacheRequestIdList]: Class_CacheRequestIdList.md
 [UsesRequestID]: ../src/AuthenticationMethod/Feature/UsesRequestID.php
 [HexRequestIDTrait]: ../src/AuthenticationMethod/Feature/HexRequestIDTrait.php
 
@@ -112,3 +113,6 @@ $clientId = $verifier->verifyGlobals();
 // contained a truly unique request ID
 // (if the $authenticationMethod is one of the UsesRequestID implementations).
 ```
+
+(This example uses the [CacheRequestIdList] class
+which uses a PSR-16 Cache to store already-seen Request IDs.)

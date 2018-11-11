@@ -23,6 +23,7 @@ and a usage example.
 
 [Exceptions]: Exceptions.md
 [RequestVerifier]: Class_RequestVerifier.md
+[CacheRequestIdList]: Class_CacheRequestIdList.md
 
 
 ## Class Details
@@ -32,6 +33,8 @@ and a usage example.
 
 
 ## Implementations
+
+* [CacheRequestIdList] class (takes a PSR-16 Cache instance)
 
 
 ## Methods
