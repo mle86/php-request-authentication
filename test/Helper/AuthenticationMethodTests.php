@@ -3,6 +3,7 @@
 namespace mle86\RequestAuthentication\Tests\Helper;
 
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
+use mle86\RequestAuthentication\AuthenticationMethod\Feature\UsesRequestID;
 use mle86\RequestAuthentication\DTO\RequestInfo;
 use mle86\RequestAuthentication\Exception\CryptoErrorException;
 use mle86\RequestAuthentication\Exception\InvalidArgumentException;
@@ -48,6 +49,33 @@ trait AuthenticationMethodTests
         $this->checkValidResult($request, $addHeaders, $method);
 
         return $addHeaders;
+    }
+
+    /**
+     * @depends testGetInstance
+     * @depends testSampleRequest
+     */
+    public function testAddRandomRequestId(AuthenticationMethod $method): void
+    {
+        if (!($method instanceof UsesRequestID)) {
+            // This test only works for methods that can actually generate and store Request IDs.
+            return;
+        }
+
+        $emptyRequest = $this->buildRequest([], false);
+        $emptyRi      = RequestInfo::fromPsr7($emptyRequest);
+
+        $addHeaders1  = $method->authenticate($emptyRi, self::sampleClientId(), self::sampleClientKey());
+        $addHeaders2  = $method->authenticate($emptyRi, self::sampleClientId(), self::sampleClientKey());
+        $this->assertNotEquals($addHeaders1, $addHeaders2,
+            "Repeated authenticate() calls resulted in the same headers -- we expected a random request id!");
+
+        $authenticatedRi1 = RequestInfo::fromPsr7($this->applyHeaders($emptyRequest, $addHeaders1));
+        $authenticatedRi2 = RequestInfo::fromPsr7($this->applyHeaders($emptyRequest, $addHeaders2));
+        $this->assertNotEquals(
+            $method->getRequestId($authenticatedRi1),
+            $method->getRequestId($authenticatedRi2),
+            "Repeated authenticate() calls resulted in different add headers but still the same request id!");
     }
 
     /**
