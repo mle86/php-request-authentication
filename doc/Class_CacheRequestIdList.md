@@ -2,10 +2,10 @@
 
 Cache Request ID List.
 
-See [RequestIdList] interface.
-
 Stores previously-seen Request IDs
-in a [PSR-16](https://www.php-fig.org/psr/psr-16/) cache
+in a [PSR-16](https://www.php-fig.org/psr/psr-16/) cache.
+
+See [RequestIdList] interface.
 
 The constructor requires setting a key prefix for the entries
 to avoid cluttering the cache's key namespace
@@ -29,5 +29,5 @@ The constructor supports setting a TTL for the entries.
 * <code><b>\_\_construct</b> ([CacheInterface](https://github.com/php-fig/simple-cache/blob/master/src/CacheInterface.php) $psr16Cache, string $cacheKeyPrefix, int|DateInterval $ttl = null)</code>  
     * `$psr16cache`: The cache to use.
     * `$cacheKeyPrefix`: The cache key prefix to use. Must not be empty.
-    * `$ttl`: The TTL to use (in seconds or as a DateInterval).
+    * `$ttl`: The TTL to use (in seconds or as a [DateInterval](https://secure.php.net/manual/class.dateinterval.php)).
         Without this, the entries won't have a TTL at all!
