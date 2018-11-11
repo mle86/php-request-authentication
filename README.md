@@ -79,6 +79,7 @@ and the [KeyRepository] must return the client's public key.)
 * [KeyRepository] base class:
     * [FileRepository] class,
     * [ArrayRepository] class.
+* [RequestIdList] interface
 * [Exception] classes.
 
 
@@ -101,3 +102,4 @@ and the [KeyRepository] must return the client's public key.)
 [FileRepository]: doc/Class_FileRepository.md
 [Exception]: doc/Exceptions.md
 [MethodStack]: doc/Class_MethodStack.md
+[RequestIdList]: doc/Class_RequestIdList.md

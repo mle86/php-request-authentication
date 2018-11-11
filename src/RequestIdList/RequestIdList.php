@@ -19,6 +19,11 @@ use mle86\RequestAuthentication\RequestVerifier;
  * that no two requests with the same request ID are processed,
  * e.g. to prevent replay attacks.
  *
+ * NB:
+ *  It's not recommended to use the interface methods directly.
+ *  Use the [RequestVerifier] helper class instead,
+ *  it has a `withRequestIdList()` setter.
+ *
  * @see RequestVerifier::withRequestIdList()  for easy request id verification.
  */
 interface RequestIdList
