@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace mle86\RequestAuthentication\Tests;
 
+use mle86\RequestAuthentication\Crypto\Apr1Hash\Apr1Hasher;
 use mle86\RequestAuthentication\Crypto\Hasher;
 use mle86\RequestAuthentication\Crypto\HasherFactory;
 use mle86\RequestAuthentication\Crypto\PhpHash\PhpHasher;
@@ -20,6 +21,7 @@ class HasherTest extends TestCase
         [new PhpHasher()],
         [new Sha1HtpasswdHasher()],
         [new SaltedSha1HtpasswdHasher()],
+        [new Apr1Hasher()],
     ]; }
 
     public static function correctPasswords(): array { return [

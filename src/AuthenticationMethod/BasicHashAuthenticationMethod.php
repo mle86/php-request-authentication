@@ -28,11 +28,10 @@ use mle86\RequestAuthentication\KeyRepository\KeyRepository;
  *    and `$argon2i$` (Argon2 -- only on PHP7.2+)
  *    as returned by {@see crypt()} and {@see password_hash()}.
  *  - Prefixes
- *    `{SHA}` (SHA-1) and `{SSHA}` (salted SHA-1)
+ *    `{SHA}` (SHA-1),
+ *    `{SSHA}` (salted SHA-1),
+ *    and `$apr1$` (APR1-MD5)
  *    as traditionally used in htpasswd files.
- *
- * ⚠ The following hash formats are _not yet recognized:_
- *  - Prefix `$apr1$` (APR1-MD5).
  */
 class BasicHashAuthenticationMethod extends BasicAuthenticationMethod
 {

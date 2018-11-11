@@ -2,10 +2,10 @@
 
 namespace mle86\RequestAuthentication\Crypto;
 
+use mle86\RequestAuthentication\Crypto\Apr1Hash\Apr1Hasher;
 use mle86\RequestAuthentication\Crypto\PhpHash\PhpHasher;
 use mle86\RequestAuthentication\Crypto\Sha1Hash\SaltedSha1HtpasswdHasher;
 use mle86\RequestAuthentication\Crypto\Sha1Hash\Sha1HtpasswdHasher;
-use mle86\RequestAuthentication\Exception\HashMethodNotImplementedException;
 use mle86\RequestAuthentication\Exception\HashMethodUnknownException;
 use function substr, strlen;
 
@@ -19,6 +19,7 @@ use function substr, strlen;
  *  - Hashes created by {@see crypt()}.
  *  - Hashes created by any {@see Hasher} class included in this library.
  *  - SHA1 htpasswd hashes ("`{SHA}`").
+ *  - APR1-MD5 htpasswd hashes ("`$apr1$`").
  */
 class HasherFactory
 {
@@ -50,9 +51,8 @@ class HasherFactory
             return new SaltedSha1HtpasswdHasher();
         }
 
-        if (self::isPrefix($hash, ['$apr1$'])) {
-            # TODO
-            throw HashMethodNotImplementedException::withDefaultMessage('APR1');
+        if (self::isPrefix($hash, [Apr1Hasher::PREFIX])) {  // $apr1$
+            return new Apr1Hasher();
         }
 
         throw HashMethodUnknownException::withDefaultMessage();
