@@ -9,11 +9,14 @@ use mle86\RequestAuthentication\Crypto\HasherFactory;
 use mle86\RequestAuthentication\Crypto\PhpHash\PhpHasher;
 use mle86\RequestAuthentication\Crypto\Sha1Hash\SaltedSha1HtpasswdHasher;
 use mle86\RequestAuthentication\Crypto\Sha1Hash\Sha1HtpasswdHasher;
+use mle86\RequestAuthentication\Exception\HashMethodUnknownException;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
+use mle86\RequestAuthentication\Tests\Helper\AssertException;
 use PHPUnit\Framework\TestCase;
 
 class HasherTest extends TestCase
 {
+    use AssertException;
 
     public static function knownHashers(): array { return [
         [new PhpHasher()],
@@ -80,6 +83,10 @@ class HasherTest extends TestCase
         $this->assertSame(
             get_class($hasher),
             get_class($hasherFromFactory));
+
+        $this->assertException(HashMethodUnknownException::class, function() use($factory) {
+            return $factory->getHasher('!~@89579948tziugf=');
+        });
     }
 
 

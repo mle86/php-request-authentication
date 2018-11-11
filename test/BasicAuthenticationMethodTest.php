@@ -25,6 +25,11 @@ class BasicAuthenticationMethodTest extends TestCase
         // base64_encode("U0000001:topSecret:2018") === "VTAwMDAwMDE6dG9wU2VjcmV0OjIwMTg="
     ]; }
 
+    public function customInvalidAuthenticationHeaderValues(): array { return [
+        // Valid Base64, but does not contain a ":"
+        ['Basic VTAwMDAwMDF0b3BTZWNyZXQyMDE4'],
+    ]; }
+
 
     public function testGetInstance(): AuthenticationMethod
     {

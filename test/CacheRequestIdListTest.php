@@ -30,6 +30,25 @@ class CacheRequestIdListTest extends TestCase
         return new CacheRequestIdList(self::getCache(), self::CACHE_KEY_PREFIX);
     }
 
+    /**
+     * @depends testGetInstance
+     */
+    public function testInvalidInstantiation(): void
+    {
+        $this->assertException(\InvalidArgumentException::class, function(){
+            // empty prefix
+            return new CacheRequestIdList(self::getCache(), '');
+        });
+        $this->assertException(\InvalidArgumentException::class, function(){
+            // negative ttl
+            return new CacheRequestIdList(self::getCache(), 'PREFIX_', -1);
+        });
+        $this->assertException(\InvalidArgumentException::class, function(){
+            // invalid ttl
+            return new CacheRequestIdList(self::getCache(), 'PREFIX_', '?!');
+        });
+    }
+
 
     protected function otherTests(): void
     {

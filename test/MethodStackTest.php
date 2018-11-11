@@ -37,6 +37,16 @@ class MethodStackTest extends TestCase
 
     /**
      * @depends testConstructor
+     */
+    public function testEmptyStack(): void
+    {
+        $this->assertException(\InvalidArgumentException::class, function() {
+            return new MethodStack([]);
+        });
+    }
+
+    /**
+     * @depends testConstructor
      * @return MethodStack  Returns a MethodStack of [TestMethodA, TestMethodB].
      */
     public function testInstantiation(): MethodStack
@@ -163,6 +173,8 @@ class MethodStackTest extends TestCase
             new TestMethodB(),
             new TestMethodC(),
         ]);
+
+        $this->assertNull($stack_abc->getRequestId(RequestInfo::fromPsr7($this->buildRequest())));
 
         $emptyRequest = $this->buildRequest();
         $auth_c_headers = (new TestMethodC())->authenticate(RequestInfo::fromPsr7($emptyRequest), 'C9101', 'CS');

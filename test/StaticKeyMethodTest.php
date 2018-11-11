@@ -40,4 +40,15 @@ class StaticKeyMethodTest extends TestCase
         return new StaticKeyMethod();
     }
 
+    /**
+     * @depends testGetInstance
+     */
+    public function testInvalidInstantiation(): void
+    {
+        $this->assertException(\InvalidArgumentException::class, function() {
+            // invalid header name
+            return new StaticKeyMethod('invalid!header ...');
+        });
+    }
+
 }
