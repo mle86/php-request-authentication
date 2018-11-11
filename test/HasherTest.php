@@ -11,12 +11,10 @@ use mle86\RequestAuthentication\Crypto\Sha1Hash\SaltedSha1HtpasswdHasher;
 use mle86\RequestAuthentication\Crypto\Sha1Hash\Sha1HtpasswdHasher;
 use mle86\RequestAuthentication\Exception\HashMethodUnknownException;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
-use mle86\RequestAuthentication\Tests\Helper\AssertException;
 use PHPUnit\Framework\TestCase;
 
 class HasherTest extends TestCase
 {
-    use AssertException;
 
     public static function knownHashers(): array { return [
         [new PhpHasher()],
@@ -32,6 +30,11 @@ class HasherTest extends TestCase
     public static function incorrectPasswords(): array { return [
         ['b10NA2PIUxUlH0IDLtJLMuZDHhYn3ysdv'],
         ['!'],
+    ]; }
+
+    public static function unknownHashFormats(): array { return [
+        // Invalid hashes should cause an exception
+        ['!~@89579948tziugf='],
     ]; }
 
     public static function hashersXcorrectPasswords(): array
@@ -83,10 +86,17 @@ class HasherTest extends TestCase
         $this->assertSame(
             get_class($hasher),
             get_class($hasherFromFactory));
+    }
 
-        $this->assertException(HashMethodUnknownException::class, function() use($factory) {
-            return $factory->getHasher('!~@89579948tziugf=');
-        });
+    /**
+     * @dataProvider unknownHashFormats
+     * @depends testHashFactoryInstance
+     * @depends testHashFactory
+     */
+    public function testHashFactoryUnknownFormat(string $unknownHash, HasherFactory $factory): void
+    {
+        $this->expectException(HashMethodUnknownException::class);
+        $factory->getHasher($unknownHash);
     }
 
 
