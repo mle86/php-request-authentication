@@ -76,6 +76,17 @@ class HasherTest extends TestCase
         $hasher->verify($incorrectPassword, $hash);
     }
 
+    /**
+     * @dataProvider knownHashers
+     */
+    public function testMalformedHash(Hasher $hasher): void
+    {
+        $this->assertFalse($hasher->test('',                     ''));
+        $this->assertFalse($hasher->test('',                     '!'));
+        $this->assertFalse($hasher->test('SnfoSEtTotpWC1JBYn9r', ''));
+        $this->assertFalse($hasher->test('SnfoSEtTotpWC1JBYn9r', '!'));
+    }
+
     public function testHashFactoryInstance(): HasherFactory
     {
         return new HasherFactory();
