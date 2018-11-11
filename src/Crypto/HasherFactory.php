@@ -31,7 +31,7 @@ class HasherFactory
             return new PhpHasher();
         }
 
-        if (self::isPrefix($hash, ['$1', '$2a$', '$2x$', '$2y$', '$5$', '$6$'])) {
+        if (self::isPrefix($hash, ['$1$', '$2a$', '$2x$', '$2y$', '$5$', '$6$'])) {
             // This hash was created by crypt().
             // The PhpHasher can handle them.
             return new PhpHasher();
