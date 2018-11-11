@@ -5,6 +5,7 @@ namespace mle86\RequestAuthentication\Tests\Helper;
 use mle86\RequestAuthentication\AuthenticationMethod\AuthenticationMethod;
 use mle86\RequestAuthentication\DTO\RequestInfo;
 use mle86\RequestAuthentication\Exception\CryptoErrorException;
+use mle86\RequestAuthentication\Exception\InvalidArgumentException;
 use mle86\RequestAuthentication\Exception\InvalidAuthenticationException;
 use mle86\RequestAuthentication\Exception\MissingAuthenticationHeaderException;
 use Psr\Http\Message\RequestInterface;
@@ -156,6 +157,58 @@ trait AuthenticationMethodTests
             "authenticate() result headers have been seen in an earlier modified input request!\n" .
             print_r($differentAddHeaders, true));
         $seenHeaders[$headerKey] = true;
+    }
+
+    /**
+     * We know that changing the client data results in different authentication headers
+     * (see {@see testMismatchOnDifferentClient})
+     * but we haven't actually checked if those different authentication headers
+     * cause verify() to throw exceptions (as it should).
+     *
+     * @depends testGetInstance
+     * @depends testMismatchOnDifferentClient
+     */
+    public function testVerificationFailure(AuthenticationMethod $method): void
+    {
+        $request = $this->buildRequest();
+        $ri = RequestInfo::fromPsr7($request);
+        $kr = $this->getTestingKeyRepository();
+
+        $fnAssertFailure = function(string $otherClientId, string $otherClientKey) use($request, $ri, $method, $kr): void {
+            try {
+                $addHeaders = $method->authenticate($ri, $otherClientId, $otherClientKey);
+            } catch (InvalidArgumentException $e) {
+                // Something is wrong with our input data, at least according to this AuthenticationMethod.
+                return;
+            }
+
+            $authenticatedRequest = $this->applyHeaders($request, $addHeaders);
+            $authenticatedRi      = RequestInfo::fromPsr7($authenticatedRequest);
+
+            $this->assertException(
+                [InvalidAuthenticationException::class, MissingAuthenticationHeaderException::class],
+                function() use($method, $authenticatedRi, $kr) {
+                    $method->verify($authenticatedRi, $kr);
+            });
+        };
+
+        // Changing the client key must result in an authentication failure:
+        $fnAssertFailure(self::sampleClientId(), self::sampleClientKey() . '1');
+        $fnAssertFailure(self::sampleClientId(), '?');
+        $fnAssertFailure(self::sampleClientId(), '');
+        $fnAssertFailure(self::sampleClientId(), 'VyowmqITl+7+fU69Hzxuxl6kjUnbwSyIc0sv9qwi7rsPd/CPNw2nz/3ixpzw4+1dUNaIqASspJYoWdzCW+VMJA==');
+
+        // Changing both the client id and key must result in an authentication failure as well,
+        // assuming we're not accidentally trying a combination that's part of the KeyRepostory:
+        $fnAssertFailure(self::sampleClientId() . '1', self::sampleClientKey() . '1');
+        $fnAssertFailure(self::sampleClientId() . '1', '');
+
+        if ($this->methodOutputIncludesClientId()) {
+            // If the request contains the Client ID somewhere,
+            // then changes to that ID can be recognized by the verifier!
+            $fnAssertFailure(self::sampleClientId() . '1', self::sampleClientKey());
+            $fnAssertFailure('?', self::sampleClientKey());
+        }
     }
 
     /**
