@@ -32,6 +32,15 @@ class HasherTest extends TestCase
         ['!'],
     ]; }
 
+    public static function otherHashFormats(): array { return [
+        // Some Hasher classes can verify more than one hash format
+        // but testHashFactory will only test their default output format.
+        // [hash, correctPassword]
+        ['$1$YjQY3TxK$3c0vNGHVtHbBZmeG3WlSz1', 'S5Aa3gi9f'],  // $1$ == crypt(md5), PhpHasher
+        ['Yz3.F7/HvZke.',                      'r6EaXSyVL'],  // crypt(DES), PhpHasher
+        ['_001190A0X83g85l.2zo',               '1HVS02YWk'],  // crypt(EXT_DES), PhpHasher
+    ]; }
+
     public static function unknownHashFormats(): array { return [
         // Invalid hashes should cause an exception
         ['!~@89579948tziugf='],
@@ -86,6 +95,22 @@ class HasherTest extends TestCase
         $this->assertSame(
             get_class($hasher),
             get_class($hasherFromFactory));
+    }
+
+    /**
+     * @dataProvider otherHashFormats
+     * @depends testHashFactoryInstance
+     * @depends testHashFactory
+     */
+    public function testHashFactoryOtherFormat(string $hash, string $correctPassword, HasherFactory $factory): void
+    {
+        $hasher = $factory->getHasher($hash);
+
+        $this->assertTrue ($hasher->test($correctPassword, $hash));
+
+        $this->assertFalse($hasher->test('CC5Vy790DNELN8uDJbAkLw', $hash));
+        $this->assertFalse($hasher->test('', $hash));
+        $this->assertFalse($hasher->test("\0" . $correctPassword, $hash));
     }
 
     /**
