@@ -29,6 +29,7 @@ is available in your project.
 [DefaultAuthenticationMethod]: Class_DefaultAuthenticationMethod.md
 [RequestAuthenticator]: Class_RequestAuthenticator.md
 [RequestVerifier]: Class_RequestVerifier.md
+[UsesRequestID]: ../src/AuthenticationMethod/Feature/UsesRequestID.php
 
 
 ## Requirements
@@ -46,6 +47,10 @@ composer require paragonie/halite
 
 * Full class name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>PublicKeyMethod</b></code>
 * Class file: [src/AuthenticationMethod/PublicKeyMethod.php](../src/AuthenticationMethod/PublicKeyMethod.php)
+* Inheritance:
+    * implements [AuthenticationMethod]
+    * implements [UsesRequestID]
+
 
 
 ## Constructor

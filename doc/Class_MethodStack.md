@@ -25,6 +25,8 @@ to the _first instance_ in the stack.
 
 * Full class name: <code>mle86\\RequestAuthentication\\<b>MethodStack</b></code>
 * Class file: [src/MethodStack.php](../src/MethodStack.php)
+* Inheritance:
+    * implements [AuthenticationMethod]
 
 
 ## Constructor

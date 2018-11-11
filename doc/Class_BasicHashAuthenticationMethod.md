@@ -42,6 +42,9 @@ The following hash formats are recognized:
 
 * Full class name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>BasicHashAuthenticationMethod</b></code>
 * Class file: [src/AuthenticationMethod/BasicHashAuthenticationMethod.php](../src/AuthenticationMethod/BasicHashAuthenticationMethod.php)
+* Inheritance:
+    * extends [BasicAuthenticationMethod]
+    * implements [AuthenticationMethod]
 
 
 ## Constructor

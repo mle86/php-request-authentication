@@ -26,6 +26,8 @@ it can probably do this better.
 
 * Full class name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>BasicAuthenticationMethod</b></code>
 * Class file: [src/AuthenticationMethod/BasicAuthenticationMethod.php](../src/AuthenticationMethod/BasicAuthenticationMethod.php)
+* Inheritance:
+    * implements [AuthenticationMethod]
 
 
 ## Constructor

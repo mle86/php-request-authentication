@@ -2,6 +2,8 @@
 
 Cache Request ID List.
 
+See [RequestIdList] interface.
+
 Stores previously-seen Request IDs
 in a [PSR-16](https://www.php-fig.org/psr/psr-16/) cache
 
@@ -11,11 +13,15 @@ with unpredictable entries.
 
 The constructor supports setting a TTL for the entries.
 
+[RequestIdList]: Class_RequestIdList.md
+
 
 ## Class Details
 
 * Full class name: <code>mle86\\RequestAuthentication\\RequestIdList\\<b>CacheRequestIdList</b></code>
 * Class file: [src/RequestIdList/CacheRequestIdList.php](../src/RequestIdList/CacheRequestIdList.php)
+* Inheritance:
+    * implements [RequestIdList]
 
 
 ## Constructor

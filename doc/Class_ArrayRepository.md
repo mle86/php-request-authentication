@@ -22,6 +22,8 @@ See [KeyRepository] interface.
 
 * Full class name: <code>mle86\\RequestAuthentication\\KeyRepository\\<b>ArrayRepository</b></code>
 * Class file: [src/KeyRepository/ArrayRepository.php](../src/KeyRepository/ArrayRepository.php)
+* Inheritance:
+    * implements [KeyRepository]
 
 
 ## Constructor

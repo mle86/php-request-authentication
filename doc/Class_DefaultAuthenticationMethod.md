@@ -40,12 +40,16 @@ for basic hash authentication.
 [RequestAuthenticator]: Class_RequestAuthenticator.md
 [RequestVerifier]: Class_RequestVerifier.md
 [RequestInfo]: Class_RequestInfo.md
+[UsesRequestID]: ../src/AuthenticationMethod/Feature/UsesRequestID.php
 
 
 ## Class Details
 
 * Full class name: <code>mle86\\RequestAuthentication\\AuthenticationMethod\\<b>DefaultAuthenticationMethod</b></code>
 * Class file: [src/AuthenticationMethod/DefaultAuthenticationMethod.php](../src/AuthenticationMethod/DefaultAuthenticationMethod.php)
+* Inheritance:
+    * implements [AuthenticationMethod]
+    * implements [UsesRequestID]
 
 
 ## Constructor

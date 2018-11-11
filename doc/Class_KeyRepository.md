@@ -18,17 +18,20 @@ More complex implementations may look up the client secret in a database or some
 [RequestVerifier]: Class_RequestVerifier.md
 [ArrayRepository]: Class_ArrayRepository.md
 [FileRepository]: Class_FileRepository.md
+[ArrayAccess]: https://php.net/manual/class.arrayaccess.php
 
 
 ## Class Details
 
 * Full class name: <code>mle86\\RequestAuthentication\\KeyRepository\\<b>KeyRepository</b></code>
 * Class file: [src/KeyRepository/KeyRepository.php](../src/KeyRepository/KeyRepository.php)
+* Inheritance:
+    * implements \\[ArrayAccess]
 
 
 ## Methods
 
-The class implements the native [`ArrayAccess`](http://php.net/manual/class.arrayaccess.php) interface:
+The class implements the native [ArrayAccess] interface:
 
 * <code>offsetExists ($clientId): bool</code>
 * <code>offsetGet ($clientId): string</code> – Returns the client key/secret/hash/password that belongs to one client ID.

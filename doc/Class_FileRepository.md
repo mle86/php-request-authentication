@@ -44,6 +44,8 @@ to use with a class like [PublicKeyMethod].
 
 * Full class name: <code>mle86\\RequestAuthentication\\KeyRepository\\<b>FileRepository</b></code>
 * Class file: [src/KeyRepository/FileRepository.php](../src/KeyRepository/FileRepository.php)
+* Inheritance:
+    * implements [KeyRepository]
 
 
 ## Constructor
