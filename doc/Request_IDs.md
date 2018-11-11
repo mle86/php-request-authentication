@@ -100,7 +100,7 @@ use mle86\RequestAuthentication\RequestIdList\CacheRequestIdList;
 # $keyRepository = ...
 # $myCache = PSR-16...
 
-$requestIdList = new CacheRequestIdList($myCache);
+$requestIdList = new CacheRequestIdList($myCache, 'PREFIX_');
 
 $verifier = (new RequestVerifier($authenticationMethod, $keyRepository))
     ->withRequestIdList($requestIdList);
